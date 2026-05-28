@@ -1,6 +1,6 @@
-# use.a.r.t — Protótipo React
+# use.a.r.t — protótipo de e-commerce próprio
 
-Protótipo de vitrine/e-commerce em React para a marca use.a.r.t.
+Protótipo React/Vite da loja use.a.r.t com catálogo real, carrinho, checkout simulado, métodos de entrega, formas de pagamento e painel admin demonstrativo.
 
 ## Rodar localmente
 
@@ -9,33 +9,26 @@ npm install
 npm run dev
 ```
 
-Abra a URL exibida no terminal.
-
-## Build
+## Build de produção
 
 ```bash
 npm run build
-npm run preview
 ```
 
 ## Deploy no Render
 
-1. Suba este projeto para um repositório no GitHub.
-2. No Render, clique em **New +** > **Static Site**.
-3. Conecte o repositório.
-4. Configure:
-   - **Build Command:** `npm install && npm run build`
-   - **Publish Directory:** `dist`
-5. Clique em **Create Static Site**.
+- Tipo: Static Site
+- Build Command: `npm install && npm run build`
+- Publish Directory: `dist`
 
-## Painel administrativo do protótipo
+## Admin demo
 
-No topo do site, clique no ícone de usuário.
+Clique no ícone de usuário no topo.
 
-Senha do protótipo: `useart2026`
+Senha: `useart2026`
 
-O painel salva produtos no `localStorage` do navegador. Isso serve para demonstração visual. Para produção real, o próximo passo é trocar esse armazenamento por Supabase/PostgreSQL + autenticação segura.
+Observação: o admin é somente demonstrativo e salva dados no `localStorage`. Em produção, substituir por backend real com autenticação, banco e storage.
 
-## Observação de segurança
+## Checkout
 
-Este protótipo não processa pagamento. Os botões de compra apontam para a loja atual na Nuvemshop, mantendo o checkout fora do protótipo.
+O fluxo de checkout é visual/simulado. Em produção, deve ser integrado a gateway de pagamento por backend seguro.

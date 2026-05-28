@@ -2,86 +2,205 @@ import React, { useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
-const STORE_URL = 'https://useartoficial.lojavirtualnuvem.com.br/';
-const INSTAGRAM_URL = 'https://www.instagram.com/use.a.r.t/';
 const ADMIN_PASSWORD = 'useart2026';
+
+const productImages = {
+  hybridBrown: '/assets/products/hybrid-art-marrom.jpg',
+  hybridBrownAlt: '/assets/products/hybrid-art-marrom-alt.jpg',
+  hybridBrownBack: '/assets/products/camiseta-marrom-costas.jpg',
+  hybridWhite: '/assets/products/hybrid-art-branca.jpg',
+  hybridWhiteCenter: '/assets/products/hybrid-central-branca.jpg',
+  whiteBack: '/assets/products/camiseta-branca-costas.jpg',
+  hybridBlack: '/assets/products/hybrid-art-preta.jpg',
+  hybridBlackAlt: '/assets/products/hybrid-art-preta-alt.jpg',
+  blackBack: '/assets/products/camiseta-preta-costas.jpg',
+  signatureBlack: '/assets/products/solid-assinatura-masculina-preta.jpg',
+  signatureWhite: '/assets/products/solid-assinatura-feminina-branca.jpg',
+  signatureBrown: '/assets/products/solid-assinatura-marrom.jpg',
+};
 
 const defaultProducts = [
   {
-    id: 'hybrid-art',
+    id: 'camiseta-hybrid',
+    name: 'Camiseta Hybrid',
+    line: 'Essencial',
+    price: 45,
+    installment: '10x de R$5,43',
+    category: 'Masculino',
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.hybridBrownAlt,
+    gallery: [productImages.hybridBrownAlt, productImages.hybridBrownBack, productImages.hybridBlackAlt, productImages.hybridWhite],
+    description: 'Camiseta essencial com visual limpo, tecido confortável e proposta minimalista para uso diário.',
+  },
+  {
+    id: 'camiseta-hybrid-art',
     name: 'Camiseta Hybrid Art',
     line: 'Logo lateral',
-    price: 'R$45,00',
+    price: 45,
     installment: '10x de R$5,43',
-    colorName: 'Marrom / Preto / Branco',
-    shirt: '#5b371a',
-    logo: 'side',
     category: 'Masculino',
-    isFeatured: true,
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.hybridBrown,
+    gallery: [productImages.hybridBrown, productImages.hybridBlack, productImages.hybridWhite, productImages.hybridBrownBack],
+    description: 'Modelo com aplicação lateral da logo use.a.r.t. Uma peça direta, urbana e fácil de combinar.',
   },
   {
-    id: 'hybrid-central',
+    id: 'camiseta-hybrid-art-central',
     name: 'Camiseta Hybrid Art Central',
     line: 'Logo central',
-    price: 'R$45,00',
+    price: 45,
     installment: '10x de R$5,43',
-    colorName: 'Branco / Preto / Marrom',
-    shirt: '#f5f4f0',
-    logo: 'center',
     category: 'Unissex',
-    isFeatured: true,
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.hybridWhiteCenter,
+    gallery: [productImages.hybridWhiteCenter, productImages.whiteBack, productImages.hybridBlackAlt, productImages.hybridBrown],
+    description: 'Camiseta com logo central. Boa para apresentar a identidade da marca com presença e equilíbrio.',
   },
   {
-    id: 'solid-masculina',
+    id: 'camiseta-hybrid-assinatura',
+    name: 'Camiseta Hybrid Assinatura',
+    line: 'Assinatura lateral',
+    price: 50,
+    installment: '12x de R$5,09',
+    category: 'Masculino',
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.signatureBlack,
+    gallery: [productImages.signatureBlack, productImages.signatureBrown, productImages.signatureWhite],
+    description: 'Versão com assinatura lateral Art. Visual discreto e premium dentro da linha.',
+  },
+  {
+    id: 'camiseta-solid-masculina',
     name: 'Camiseta Solid Masculina',
     line: 'Básica lisa',
-    price: 'R$50,00',
+    price: 50,
     installment: '12x de R$5,09',
-    colorName: 'Preto / Branco / Marrom',
-    shirt: '#111111',
-    logo: 'none',
     category: 'Masculino',
-    isFeatured: false,
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.hybridBlackAlt,
+    gallery: [productImages.hybridBlackAlt, productImages.blackBack, productImages.hybridBrownAlt, productImages.hybridWhite],
+    description: 'Camiseta lisa para quem prefere uma base neutra, confortável e versátil.',
   },
   {
-    id: 'solid-feminina',
+    id: 'camiseta-solid-feminina',
     name: 'Camiseta Solid Feminina',
     line: 'Básica feminina',
-    price: 'R$50,00',
+    price: 50,
     installment: '12x de R$5,09',
-    colorName: 'Preto / Branco',
-    shirt: '#050505',
-    logo: 'none',
     category: 'Feminino',
-    isFeatured: false,
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.signatureWhite,
+    gallery: [productImages.signatureWhite, productImages.hybridWhite, productImages.whiteBack],
+    description: 'Modelagem feminina com visual clean e proposta confortável para a rotina.',
   },
   {
-    id: 'assinatura-masculina',
+    id: 'camiseta-solid-assinatura-masculina',
     name: 'Camiseta Solid Assinatura Masculina',
     line: 'Assinatura lateral',
-    price: 'R$50,00',
+    price: 50,
     installment: '12x de R$5,09',
-    colorName: 'Preto / Branco / Marrom',
-    shirt: '#171717',
-    logo: 'signature',
     category: 'Masculino',
-    isFeatured: true,
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.signatureBlack,
+    gallery: [productImages.signatureBlack, productImages.signatureBrown, productImages.signatureWhite],
+    description: 'Camiseta masculina com assinatura Art aplicada de forma sutil e elegante.',
   },
   {
-    id: 'assinatura-feminina',
+    id: 'camiseta-solid-assinatura-feminina',
     name: 'Camiseta Solid Assinatura Feminina',
     line: 'Assinatura lateral',
-    price: 'R$50,00',
+    price: 50,
     installment: '12x de R$5,09',
-    colorName: 'Branco / Preto',
-    shirt: '#f5f4f0',
-    logo: 'signature-dark',
     category: 'Feminino',
-    isFeatured: false,
+    colors: [
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Preto', value: '#050505' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.signatureWhite,
+    gallery: [productImages.signatureWhite, productImages.signatureBlack, productImages.signatureBrown],
+    description: 'Versão feminina da linha assinatura, pensada para manter conforto e identidade visual.',
+  },
+  {
+    id: 'selecao-art-kit-3',
+    name: 'Seleção Art Kit 3 Camisetas',
+    line: 'Kit especial',
+    price: 114.9,
+    installment: '2x de R$57,45 sem juros',
+    category: 'Kit',
+    colors: [
+      { name: 'Mix de cores', value: '#111111' },
+      { name: 'Branco', value: '#f4f4f1' },
+      { name: 'Marrom', value: '#5b371a' },
+    ],
+    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    image: productImages.hybridBlack,
+    gallery: [productImages.hybridBlack, productImages.hybridBrown, productImages.hybridWhiteCenter],
+    description: 'Kit para experimentar a marca com mais possibilidades de uso no dia a dia.',
   },
 ];
 
-const storageKey = 'use-art-products-v1';
+const shippingOptions = [
+  { id: 'retirada-art', name: 'Retirada ART', detail: 'Retirada combinada com a loja', price: 0, eta: 'sexta-feira 29/05' },
+  { id: 'sedex-promocional', name: 'Correios - SEDEX Promocional', detail: 'Envio a domicílio', price: 11.91, eta: 'sexta-feira 29/05' },
+  { id: 'jadlog-package', name: 'JADLOG PACKAGE Promocional', detail: 'Envio a domicílio', price: 18.46, eta: 'terça-feira 02/06' },
+  { id: 'nuvem-pac', name: 'Nuvem Envio Correios PAC', detail: 'Envio a domicílio', price: 24.75, eta: 'quinta-feira 18/06' },
+  { id: 'jadlog-rapido', name: 'Nuvem Envio - Jadlog Rápido', detail: 'Envio a domicílio', price: 21.54, eta: 'quinta-feira 18/06' },
+  { id: 'pac-promocional', name: 'Correios - PAC Promocional', detail: 'Envio a domicílio', price: 18.71, eta: 'quinta-feira 04/06' },
+  { id: 'sedex-nuvem', name: 'Nuvem Envio Correios SEDEX', detail: 'Envio a domicílio', price: 17.66, eta: 'sexta-feira 12/06' },
+  { id: 'jadlog-economico', name: 'Nuvem Envio - Jadlog Econômico', detail: 'Envio a domicílio', price: 15.47, eta: 'sexta-feira 19/06' },
+];
+
+const paymentMethods = [
+  { id: 'credito', name: 'Cartão de crédito', detail: 'Visa, Mastercard, Elo, Hipercard, American Express e outros' },
+  { id: 'pix', name: 'Pix', detail: 'Pagamento rápido com confirmação quase imediata' },
+  { id: 'boleto', name: 'Boleto bancário', detail: 'Compensação em até 3 dias úteis' },
+  { id: 'mercado-pago', name: 'Mercado Pago', detail: 'Carteira digital e meios parceiros' },
+  { id: 'linha-credito', name: 'Linha de Crédito Mercado Pago', detail: 'Sujeito à aprovação do provedor' },
+];
+
+const storageKey = 'use-art-products-real-v4';
+
+function money(value) {
+  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function safeId() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
 
 function loadProducts() {
   try {
@@ -100,13 +219,14 @@ function saveProducts(products) {
 
 function Icon({ name }) {
   const props = { viewBox: '0 0 24 24', fill: 'none', 'aria-hidden': true };
-  if (name === 'menu') return <svg {...props}><path d="M4 7h16M4 12h11M4 17h7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
   if (name === 'bag') return <svg {...props}><path d="M6.5 8h11l-.8 12H7.3L6.5 8Z" stroke="currentColor" strokeWidth="1.8"/><path d="M9 9V7.3C9 5.5 10.3 4 12 4s3 1.5 3 3.3V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
   if (name === 'user') return <svg {...props}><circle cx="12" cy="8" r="3.1" stroke="currentColor" strokeWidth="1.8"/><path d="M6.8 19c.9-2.1 2.8-3.4 5.2-3.4s4.3 1.3 5.2 3.4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
-  if (name === 'heart') return <svg {...props}><path d="M12 20s-7.5-4.3-7.5-10.1c0-2.5 1.9-4.4 4.3-4.4 1.4 0 2.6.7 3.2 1.8.6-1.1 1.8-1.8 3.2-1.8 2.4 0 4.3 1.9 4.3 4.4C19.5 15.7 12 20 12 20Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/></svg>;
   if (name === 'search') return <svg {...props}><circle cx="10.8" cy="10.8" r="5.8" stroke="currentColor" strokeWidth="1.8"/><path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
   if (name === 'arrow') return <svg {...props}><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>;
   if (name === 'x') return <svg {...props}><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
+  if (name === 'trash') return <svg {...props}><path d="M5 7h14M10 11v6M14 11v6M8 7l1-3h6l1 3M7 7l1 13h8l1-13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+  if (name === 'minus') return <svg {...props}><path d="M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
+  if (name === 'plus') return <svg {...props}><path d="M12 6v12M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
   return null;
 }
 
@@ -114,37 +234,30 @@ function Logo({ className = '' }) {
   return <img className={`logo ${className}`} src="/assets/use-art-logo.jpg" alt="use.a.r.t" />;
 }
 
-function LogoSvg({ cut = '#f4f2ed' }) {
-  return (
-    <svg viewBox="0 0 120 120" aria-hidden="true">
-      <path d="M10 92L64 22L52 92H10Z" fill="currentColor" />
-      <path d="M66 22L110 92H72L60 54L66 22Z" fill="currentColor" />
-      <path d="M54 54L89 46L81 32L62 37L54 54Z" fill={cut} />
-    </svg>
-  );
-}
-
-function ExternalLink({ href, children, className = '' }) {
-  return <a href={href} target="_blank" rel="noopener noreferrer" className={className}>{children}</a>;
-}
-
-function Header({ onAdminClick }) {
+function Header({ cartCount, onCartClick, onAdminClick }) {
   return (
     <header className="site-header">
+      <div className="top-promo" aria-label="Cupom de primeira compra">
+        <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
+        <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
+        <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
+        <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
+      </div>
       <div className="header-inner">
         <div className="header-left">
-          <button className="icon-button ghost" type="button" aria-label="Abrir menu"><Icon name="menu" /></button>
+          <a href="#inicio" className="header-logo" aria-label="Voltar ao início"><Logo /></a>
           <nav>
             <a href="#inicio">Início</a>
             <a href="#produtos">Produtos</a>
-            <a href="#conceito">Conceito</a>
           </nav>
         </div>
-        <a href="#inicio" className="header-logo" aria-label="Voltar ao início"><Logo /></a>
         <div className="header-actions">
-          <button className="icon-button" type="button" aria-label="Favoritos"><Icon name="heart" /></button>
-          <ExternalLink href={STORE_URL} className="cart-pill">Comprar</ExternalLink>
-          <button className="icon-button" type="button" aria-label="Sacola"><Icon name="bag" /></button>
+          <div className="header-search"><input placeholder="O que você está buscando?" /><Icon name="search" /></div>
+          <a href="#produtos" className="cart-pill">Comprar</a>
+          <button className="icon-button cart-button" type="button" aria-label="Sacola" onClick={onCartClick}>
+            <Icon name="bag" />
+            {cartCount > 0 && <span>{cartCount}</span>}
+          </button>
           <button className="icon-button" type="button" aria-label="Admin" onClick={onAdminClick}><Icon name="user" /></button>
         </div>
       </div>
@@ -152,51 +265,15 @@ function Header({ onAdminClick }) {
   );
 }
 
-function ShirtMockup({ product, hero = false, compact = false }) {
-  const light = ['#f5f4f0', '#f4f4f1', '#f6f6f3', '#ffffff'].includes(product.shirt);
-  const logoColor = light || product.logo === 'signature-dark' ? '#111111' : '#ffffff';
-  const cut = product.shirt;
-  return (
-    <div className={`shirt-stage ${hero ? 'hero-shirt' : ''} ${compact ? 'compact-shirt' : ''}`}>
-      <svg className="shirt-svg" viewBox="0 0 420 500" role="img" aria-label={product.name}>
-        <ellipse cx="210" cy="452" rx="112" ry="16" fill={light ? 'rgba(0,0,0,.16)' : 'rgba(0,0,0,.35)'} />
-        <path d="M128 94C146 76 174 66 210 66C246 66 274 76 292 94L369 134L330 213L292 196V415C256 431 164 431 128 415V196L90 213L51 134L128 94Z" fill={product.shirt} />
-        <path d="M176 77C185 93 196 101 210 101C224 101 235 93 244 77" fill="none" stroke={light ? '#c9c8c2' : '#292929'} strokeWidth="7" strokeLinecap="round" />
-        <path d="M128 94C146 76 174 66 210 66C246 66 274 76 292 94" fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="3" />
-        <path d="M160 102C149 147 145 247 159 396" stroke={light ? 'rgba(0,0,0,.055)' : 'rgba(255,255,255,.06)'} strokeWidth="9" strokeLinecap="round" />
-        <path d="M245 102C259 162 264 283 250 400" stroke={light ? 'rgba(0,0,0,.055)' : 'rgba(255,255,255,.06)'} strokeWidth="8" strokeLinecap="round" />
-        {product.logo === 'center' && <g transform="translate(184 154)" color={logoColor}><foreignObject width="54" height="54"><div className="shirt-logo-svg"><LogoSvg cut={cut}/></div></foreignObject></g>}
-        {product.logo === 'side' && <g transform="translate(252 142)" color={logoColor}><foreignObject width="50" height="50"><div className="shirt-logo-svg"><LogoSvg cut={cut}/></div></foreignObject></g>}
-        {(product.logo === 'signature' || product.logo === 'signature-dark') && <g transform="translate(250 135)"><path d="M0 30C15 8 29 7 21 26C17 38 13 45 25 33C39 17 49 14 43 32C39 45 52 30 61 25" fill="none" stroke={logoColor} strokeWidth="4" strokeLinecap="round"/><path d="M7 37C23 39 42 40 64 38" fill="none" stroke={logoColor} strokeWidth="2" strokeLinecap="round" opacity=".65"/></g>}
-      </svg>
-    </div>
-  );
-}
-
 function Hero({ products }) {
-  const main = products.find((item) => item.id === 'hybrid-central') || products[0];
+  const main = products.find((item) => item.id === 'camiseta-hybrid-art-central') || products[0];
   return (
     <section id="inicio" className="hero-section">
-      <div className="hero-copy">
-        <p className="eyebrow">use.a.r.t oficial</p>
-        <h1>Vista seu movimento</h1>
-        <p className="hero-text">Camisetas minimalistas para quem busca conforto, presença e identidade na rotina.</p>
-        <div className="hero-actions">
-          <ExternalLink href={STORE_URL} className="primary-link">Comprar agora <Icon name="arrow" /></ExternalLink>
-          <a href="#produtos" className="secondary-link">Ver produtos</a>
-        </div>
-      </div>
-      <div className="hero-visual">
-        <div className="orb" />
-        <ShirtMockup product={main} hero />
-      </div>
-      <div className="hero-panel">
-        <p className="eyebrow">Drop inicial</p>
-        <h2>Hybrid Art Central</h2>
-        <p>Logo central, base clara e visual limpo. Uma peça que apresenta a marca com atitude sem perder simplicidade.</p>
-        <div className="hero-line"><span>Compra segura</span><strong>+</strong></div>
-        <div className="hero-line"><span>10% off na primeira compra</span><strong>+</strong></div>
-        <div className="hero-line"><span>Atendimento direto</span><strong>+</strong></div>
+      <div className="hero-media"><img src={main.image} alt={main.name} /></div>
+      <div className="hero-overlay">
+        <p>Nova coleção</p>
+        <h1>Conforto em movimento</h1>
+        <a href="#produtos" className="hero-button">Quero conhecer</a>
       </div>
     </section>
   );
@@ -204,17 +281,20 @@ function Hero({ products }) {
 
 function ProductCard({ product, onOpen }) {
   return (
-    <article className="product-card">
-      <button type="button" className="product-image" onClick={() => onOpen(product)}>
-        <ShirtMockup product={product} compact />
-        <span>Até 5% off</span>
-      </button>
+    <article className="product-card" onClick={() => onOpen(product)}>
+      <div className="product-image">
+        <img src={product.image} alt={product.name} />
+        <span>Até 5% off comprando em quantidade</span>
+      </div>
       <div className="product-info">
         <p>{product.line}</p>
-        <div className="product-title-row"><h3>{product.name}</h3><strong>{product.price}</strong></div>
+        <div className="product-title-row">
+          <h3>{product.name}</h3>
+          <strong>{money(product.price)}</strong>
+        </div>
         <small>{product.installment}</small>
         <div className="color-dots">
-          <i style={{ background: '#f4f4f1' }} /><i style={{ background: '#050505' }} /><i style={{ background: '#5b371a' }} />
+          {product.colors.map((color) => <i key={color.name} style={{ background: color.value }} title={color.name} />)}
         </div>
       </div>
     </article>
@@ -222,116 +302,387 @@ function ProductCard({ product, onOpen }) {
 }
 
 function ProductsSection({ products, onOpen }) {
+  const [filter, setFilter] = useState('Todos');
   const [query, setQuery] = useState('');
-  const filtered = useMemo(() => products.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()) || item.category.toLowerCase().includes(query.toLowerCase())), [products, query]);
+  const [sort, setSort] = useState('az');
+  const filters = ['Todos', 'Masculino', 'Feminino', 'Unissex', 'Kit'];
+
+  const visible = useMemo(() => {
+    return products
+      .filter((product) => filter === 'Todos' || product.category === filter)
+      .filter((product) => product.name.toLowerCase().includes(query.toLowerCase()))
+      .sort((a, b) => {
+        if (sort === 'price-asc') return a.price - b.price;
+        if (sort === 'price-desc') return b.price - a.price;
+        return a.name.localeCompare(b.name);
+      });
+  }, [products, filter, query, sort]);
+
   return (
     <section id="produtos" className="products-section">
-      <aside className="filters">
-        <h2>Filtros</h2>
-        <h3>Tamanho</h3>
-        <div className="size-grid">{['PP','P','M','G','GG','XG'].map((size) => <button key={size}>{size}</button>)}</div>
-        {['Disponibilidade', 'Categoria', 'Cores', 'Preço'].map((item) => <div className="filter-line" key={item}><span>{item}</span><b>›</b></div>)}
-      </aside>
-      <div className="catalog">
-        <div className="catalog-top">
-          <div><p>Início / Produtos</p><h2>Produtos</h2><div className="search"><Icon name="search" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar" /></div></div>
-          <div className="chips">{['Novo','Camisetas','Hybrid','Solid','Assinatura','Mais vendidos'].map((chip) => <button key={chip}>{chip}</button>)}</div>
+      <div className="catalog-top">
+        <div>
+          <p>Início / Produtos</p>
+          <h2>Produtos</h2>
+          <div className="category-tabs">
+            {filters.map((item) => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>{item}</button>)}
+          </div>
         </div>
-        <div className="product-grid">{filtered.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} />)}</div>
+        <div className="catalog-controls">
+          <label className="search"><Icon name="search" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar" /></label>
+          <select value={sort} onChange={(event) => setSort(event.target.value)}>
+            <option value="az">A-Z</option>
+            <option value="price-asc">Menor preço</option>
+            <option value="price-desc">Maior preço</option>
+          </select>
+        </div>
+      </div>
+      <div className="product-grid">
+        {visible.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} />)}
       </div>
     </section>
   );
 }
 
-function DetailModal({ product, onClose }) {
+function ProductModal({ product, onClose, onAddToCart }) {
+  const [image, setImage] = useState(product?.gallery?.[0] || product?.image);
+  const [color, setColor] = useState(product?.colors?.[0]);
+  const [size, setSize] = useState(product?.sizes?.[1] || product?.sizes?.[0]);
+
   if (!product) return null;
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <section className="detail-modal" onClick={(event) => event.stopPropagation()}>
+      <div className="detail-modal" onClick={(event) => event.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
-        <div className="detail-image"><ShirtMockup product={product} hero /></div>
-        <div className="detail-content">
-          <p className="eyebrow">{product.category}</p>
-          <h2>{product.name}</h2>
-          <strong>{product.price}</strong>
-          <p>{product.installment}</p>
-          <p className="detail-description">Camiseta da linha {product.line.toLowerCase()}, pensada para uma rotina confortável com estética limpa e presença visual.</p>
-          <div className="option-label">Cores</div>
-          <div className="color-dots large"><i style={{ background: '#f4f4f1' }} /><i style={{ background: '#050505' }} /><i style={{ background: '#5b371a' }} /></div>
-          <div className="option-label">Tamanho</div>
-          <div className="size-grid detail-sizes">{['PP','P','M','G','GG'].map((size) => <button key={size}>{size}</button>)}</div>
-          <ExternalLink href={STORE_URL} className="primary-link full">Comprar na loja oficial</ExternalLink>
+        <div className="detail-image">
+          <img src={image} alt={product.name} />
+          <div className="thumb-row">
+            {product.gallery.map((item) => <button key={item} className={image === item ? 'active' : ''} onClick={() => setImage(item)}><img src={item} alt="Miniatura do produto" /></button>)}
+          </div>
         </div>
-      </section>
+        <div className="detail-content">
+          <p className="product-line-label">{product.line}</p>
+          <h2>{product.name}</h2>
+          <strong>{money(product.price)}</strong>
+          <p className="detail-description">{product.description}</p>
+          <p className="option-label">Cores</p>
+          <div className="color-options">
+            {product.colors.map((item) => <button key={item.name} title={item.name} className={color?.name === item.name ? 'active' : ''} style={{ background: item.value }} onClick={() => setColor(item)} />)}
+          </div>
+          <p className="option-label">Tamanho</p>
+          <div className="size-grid detail-sizes">
+            {product.sizes.map((item) => <button key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)}>{item}</button>)}
+          </div>
+          <div className="selected-summary"><i style={{ background: color?.value }} /> {color?.name} / {size}</div>
+          <button className="primary-link full" onClick={() => { onAddToCart(product, color, size); onClose(); }}>
+            Adicionar ao carrinho <Icon name="arrow" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
 
-function ConceptSection({ products }) {
+function CartDrawer({ cart, onClose, onRemove, onUpdateQuantity, onCheckout }) {
+  const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+
   return (
-    <section id="conceito" className="concept-section">
-      <div className="concept-copy"><p className="eyebrow">Conceito</p><h2>Conforto em movimento</h2><p>Uma página de entrada precisa criar desejo antes de mostrar catálogo. A vitrine apresenta a marca, os produtos reforçam a proposta e a compra segue em fluxo seguro.</p></div>
-      <div className="concept-grid">{products.slice(0,3).map((product) => <div className="concept-card" key={product.id}><ShirtMockup product={product} compact /></div>)}</div>
-    </section>
+    <div className="drawer-backdrop" onClick={onClose}>
+      <aside className="cart-drawer" onClick={(event) => event.stopPropagation()}>
+        <div className="drawer-head">
+          <div>
+            <p>use.a.r.t</p>
+            <h2>Sacola</h2>
+          </div>
+          <button onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        </div>
+        {cart.length === 0 ? (
+          <div className="empty-cart"><p>Sua sacola está vazia.</p><a href="#produtos" onClick={onClose}>Ver produtos</a></div>
+        ) : (
+          <>
+            <div className="cart-items">
+              {cart.map((item) => (
+                <div className="cart-item" key={item.key}>
+                  <img src={item.product.image} alt={item.product.name} />
+                  <div>
+                    <strong>{item.product.name}</strong>
+                    <span>{item.color.name} / {item.size}</span>
+                    <p>{money(item.product.price)}</p>
+                    <div className="quantity-box">
+                      <button onClick={() => onUpdateQuantity(item.key, item.quantity - 1)}><Icon name="minus" /></button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => onUpdateQuantity(item.key, item.quantity + 1)}><Icon name="plus" /></button>
+                    </div>
+                  </div>
+                  <button className="remove-item" onClick={() => onRemove(item.key)} aria-label="Remover"><Icon name="trash" /></button>
+                </div>
+              ))}
+            </div>
+            <div className="cart-total">
+              <span>Subtotal</span>
+              <strong>{money(subtotal)}</strong>
+            </div>
+            <button className="primary-link full" onClick={onCheckout}>Finalizar compra</button>
+          </>
+        )}
+      </aside>
+    </div>
   );
 }
 
-function AdminPanel({ products, setProducts, onClose }) {
+function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
+  const [step, setStep] = useState('contact');
+  const [customer, setCustomer] = useState({ email: '', phone: '', firstName: '', lastName: '', cep: '', address: '', city: '', state: 'MS' });
+  const [shipping, setShipping] = useState(shippingOptions[0]);
+  const [payment, setPayment] = useState(paymentMethods[0]);
+  const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const total = subtotal + shipping.price;
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="checkout-modal" onClick={(event) => event.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        <div className="checkout-main">
+          <button className="back-link" onClick={onBackToCart}>← Voltar para sacola</button>
+          <h2>Checkout</h2>
+          <div className="checkout-steps">
+            <span className={step === 'contact' ? 'active' : ''}>Carrinho</span>
+            <span className={step === 'shipping' ? 'active' : ''}>Entrega</span>
+            <span className={step === 'payment' ? 'active' : ''}>Pagamento</span>
+          </div>
+
+          {step === 'contact' && (
+            <div className="checkout-panel">
+              <h3>Dados de contato</h3>
+              <input placeholder="E-mail" value={customer.email} onChange={(event) => setCustomer({ ...customer, email: event.target.value })} />
+              <input placeholder="Telefone" value={customer.phone} onChange={(event) => setCustomer({ ...customer, phone: event.target.value })} />
+              <h3>Endereço de entrega</h3>
+              <div className="form-grid two"><input placeholder="Nome" value={customer.firstName} onChange={(event) => setCustomer({ ...customer, firstName: event.target.value })} /><input placeholder="Sobrenome" value={customer.lastName} onChange={(event) => setCustomer({ ...customer, lastName: event.target.value })} /></div>
+              <div className="form-grid two"><input placeholder="CEP" value={customer.cep} onChange={(event) => setCustomer({ ...customer, cep: event.target.value })} /><input placeholder="UF" value={customer.state} onChange={(event) => setCustomer({ ...customer, state: event.target.value })} /></div>
+              <input placeholder="Endereço" value={customer.address} onChange={(event) => setCustomer({ ...customer, address: event.target.value })} />
+              <input placeholder="Cidade" value={customer.city} onChange={(event) => setCustomer({ ...customer, city: event.target.value })} />
+              <button className="primary-link full" onClick={() => setStep('shipping')}>Ir para entrega <Icon name="arrow" /></button>
+            </div>
+          )}
+
+          {step === 'shipping' && (
+            <div className="checkout-panel">
+              <h3>Entrega</h3>
+              <div className="option-list">
+                {shippingOptions.map((option) => (
+                  <button key={option.id} className={shipping.id === option.id ? 'selected' : ''} onClick={() => setShipping(option)}>
+                    <span><strong>{option.name}</strong><small>{option.detail} · Chega {option.eta}</small></span>
+                    <b>{option.price === 0 ? 'Grátis' : money(option.price)}</b>
+                  </button>
+                ))}
+              </div>
+              <button className="primary-link full" onClick={() => setStep('payment')}>Ir para pagamento <Icon name="arrow" /></button>
+            </div>
+          )}
+
+          {step === 'payment' && (
+            <div className="checkout-panel">
+              <h3>Forma de pagamento</h3>
+              <div className="option-list payment-list">
+                {paymentMethods.map((method) => (
+                  <button key={method.id} className={payment.id === method.id ? 'selected' : ''} onClick={() => setPayment(method)}>
+                    <span><strong>{method.name}</strong><small>{method.detail}</small></span>
+                    <i>›</i>
+                  </button>
+                ))}
+              </div>
+              <div className="payment-note">
+                Demo visual: em produção, este botão chamaria o gateway de pagamento por backend seguro e registraria o pedido no banco.
+              </div>
+              <button className="primary-link full" onClick={() => onFinish({ customer, shipping, payment, total })}>Fazer pedido</button>
+            </div>
+          )}
+        </div>
+
+        <aside className="order-summary">
+          <h3>Seu pedido</h3>
+          {cart.map((item) => (
+            <div className="summary-item" key={item.key}>
+              <img src={item.product.image} alt={item.product.name} />
+              <div><strong>{item.product.name}</strong><span>{item.color.name} / {item.size} × {item.quantity}</span></div>
+              <b>{money(item.product.price * item.quantity)}</b>
+            </div>
+          ))}
+          <div className="coupon-field">Adicionar cupom de desconto</div>
+          <div className="summary-row"><span>Subtotal</span><b>{money(subtotal)}</b></div>
+          <div className="summary-row"><span>Frete</span><b>{shipping.price === 0 ? 'Grátis' : money(shipping.price)}</b></div>
+          <div className="summary-total"><span>Total</span><b>{money(total)}</b></div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
+function SuccessModal({ order, onClose }) {
+  if (!order) return null;
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="success-modal" onClick={(event) => event.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        <Logo />
+        <p>Pedido simulado criado</p>
+        <h2>Obrigado por comprar na use.a.r.t</h2>
+        <span>Entrega: {order.shipping.name}</span>
+        <span>Pagamento: {order.payment.name}</span>
+        <strong>Total: {money(order.total)}</strong>
+        <button className="primary-link" onClick={onClose}>Voltar para loja</button>
+      </div>
+    </div>
+  );
+}
+
+function AdminModal({ products, setProducts, onClose }) {
   const [logged, setLogged] = useState(false);
   const [password, setPassword] = useState('');
-  const [form, setForm] = useState({ name: '', line: '', price: '', installment: '', category: 'Masculino', shirt: '#111111', logo: 'none', colorName: 'Preto / Branco' });
+  const [form, setForm] = useState({ name: '', line: '', price: '', installment: '', category: 'Masculino', image: productImages.hybridBrown });
+  const [preview, setPreview] = useState(null);
 
-  function login(event) {
-    event.preventDefault();
-    if (password === ADMIN_PASSWORD) setLogged(true);
-    else alert('Senha do protótipo: useart2026');
-  }
-
-  function addProduct(event) {
-    event.preventDefault();
-    const product = { ...form, id: `${Date.now()}`, colors: ['#f4f4f1', '#050505', '#5b371a'], isFeatured: false };
-    const next = [product, ...products];
+  function addProduct() {
+    if (!form.name || !form.price) return;
+    const newProduct = {
+      id: safeId(),
+      name: form.name,
+      line: form.line || 'Nova peça',
+      price: Number(String(form.price).replace(',', '.')) || 0,
+      installment: form.installment || 'Consulte parcelas',
+      category: form.category,
+      colors: [{ name: 'Branco', value: '#f4f4f1' }, { name: 'Preto', value: '#050505' }],
+      sizes: ['PP', 'P', 'M', 'G', 'GG'],
+      image: preview || form.image,
+      gallery: [preview || form.image],
+      description: 'Produto cadastrado no painel administrativo da demo.',
+    };
+    const next = [...products, newProduct];
     setProducts(next);
     saveProducts(next);
-    setForm({ name: '', line: '', price: '', installment: '', category: 'Masculino', shirt: '#111111', logo: 'none', colorName: 'Preto / Branco' });
+    setForm({ name: '', line: '', price: '', installment: '', category: 'Masculino', image: productImages.hybridBrown });
+    setPreview(null);
   }
 
-  function resetProducts() {
+  function removeProduct(id) {
+    const next = products.filter((product) => product.id !== id);
+    setProducts(next);
+    saveProducts(next);
+  }
+
+  function restore() {
     setProducts(defaultProducts);
     saveProducts(defaultProducts);
   }
 
+  function handleUpload(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+  }
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <section className="admin-modal" onClick={(event) => event.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+      <div className="admin-modal" onClick={(event) => event.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}><Icon name="x" /></button>
         {!logged ? (
-          <form onSubmit={login} className="admin-login"><p className="eyebrow">Área administrativa</p><h2>Entrar no painel</h2><p>Protótipo local para demonstrar como ele poderia adicionar produtos. Senha: <strong>useart2026</strong></p><input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Senha"/><button className="primary-link full" type="submit">Entrar</button></form>
+          <div className="admin-login">
+            <h2>Admin demo</h2>
+            <p>Área demonstrativa para cadastrar produtos localmente. Senha da demo: useart2026.</p>
+            <input type="password" value={password} placeholder="Senha" onChange={(event) => setPassword(event.target.value)} />
+            <button className="primary-link" onClick={() => setLogged(password === ADMIN_PASSWORD)}>Entrar</button>
+          </div>
         ) : (
-          <div className="admin-grid"><form onSubmit={addProduct} className="admin-form"><p className="eyebrow">Novo produto</p><h2>Cadastrar peça</h2><input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Nome do produto" required/><input value={form.line} onChange={(e) => setForm({ ...form, line: e.target.value })} placeholder="Linha/modelo" required/><input value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="Preço" required/><input value={form.installment} onChange={(e) => setForm({ ...form, installment: e.target.value })} placeholder="Parcelamento"/><select value={form.logo} onChange={(e) => setForm({ ...form, logo: e.target.value })}><option value="none">Sem logo</option><option value="center">Logo central</option><option value="side">Logo lateral</option><option value="signature">Assinatura clara</option><option value="signature-dark">Assinatura escura</option></select><input type="color" value={form.shirt} onChange={(e) => setForm({ ...form, shirt: e.target.value })}/><button className="primary-link full" type="submit">Adicionar produto</button><button className="secondary-link full" type="button" onClick={resetProducts}>Restaurar padrão</button></form><div className="admin-list"><h2>Produtos ativos</h2>{products.map((product) => <div className="admin-item" key={product.id}><span>{product.name}</span><strong>{product.price}</strong></div>)}</div></div>
+          <div className="admin-grid">
+            <div className="admin-form">
+              <h2>Novo produto</h2>
+              <input placeholder="Nome" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />
+              <input placeholder="Linha" value={form.line} onChange={(event) => setForm({ ...form, line: event.target.value })} />
+              <input placeholder="Preço" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} />
+              <input placeholder="Parcelamento" value={form.installment} onChange={(event) => setForm({ ...form, installment: event.target.value })} />
+              <select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}><option>Masculino</option><option>Feminino</option><option>Unissex</option><option>Kit</option></select>
+              <label className="file-field">Enviar imagem<input type="file" accept="image/*" onChange={(event) => handleUpload(event.target.files?.[0])} /></label>
+              {preview && <div className="admin-preview"><img src={preview} alt="Prévia" /></div>}
+              <button className="primary-link full" onClick={addProduct}>Adicionar produto</button>
+              <button className="secondary-link full" onClick={restore}>Restaurar produtos reais</button>
+            </div>
+            <div className="admin-list">
+              <h2>Produtos</h2>
+              {products.map((product) => (
+                <div className="admin-item" key={product.id}>
+                  <img src={product.image} alt={product.name} />
+                  <div><span>{product.name}</span><strong>{money(product.price)}</strong></div>
+                  <button onClick={() => removeProduct(product.id)}>Remover</button>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
-      </section>
+      </div>
     </div>
+  );
+}
+
+function Footer() {
+  const methods = ['Visa', 'Master', 'Amex', 'Diners', 'Aura', 'Elo', 'Hipercard', 'Pix', 'Discover', 'Boleto', 'Mercado Pago'];
+  return (
+    <footer>
+      <div className="footer-top">
+        <div><Logo /><strong>use.a.r.t</strong><p>Art | Conforto em movimento</p></div>
+        <div className="footer-menu"><a href="#inicio">Início</a><a href="#produtos">Produtos</a><a href="mailto:use.art.contato@gmail.com">Contato</a></div>
+        <div><strong>Entre em contato</strong><p>use.art.contato@gmail.com</p><p>Campo Grande - MS</p></div>
+      </div>
+      <div className="payment-badges">{methods.map((method) => <span key={method}>{method}</span>)}</div>
+      <p className="copyright">Copyright ART - 54410257000140 - 2026. Todos os direitos reservados.</p>
+    </footer>
   );
 }
 
 function App() {
   const [products, setProducts] = useState(loadProducts);
-  const [detail, setDetail] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [successOrder, setSuccessOrder] = useState(null);
+
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  function addToCart(product, color, size) {
+    const key = `${product.id}-${color.name}-${size}`;
+    setCart((current) => {
+      const found = current.find((item) => item.key === key);
+      if (found) return current.map((item) => item.key === key ? { ...item, quantity: item.quantity + 1 } : item);
+      return [...current, { key, product, color, size, quantity: 1 }];
+    });
+    setCartOpen(true);
+  }
+
+  function updateQuantity(key, quantity) {
+    if (quantity <= 0) return setCart((current) => current.filter((item) => item.key !== key));
+    setCart((current) => current.map((item) => item.key === key ? { ...item, quantity } : item));
+  }
+
+  function finishOrder(order) {
+    setCheckoutOpen(false);
+    setCart([]);
+    setSuccessOrder(order);
+  }
 
   return (
     <div className="page-shell">
-      <Header onAdminClick={() => setAdminOpen(true)} />
-      <main>
-        <Hero products={products} />
-        <section className="proof-strip"><div><strong>01</strong><h3>Conforto diário</h3><p>Peças fáceis de usar, combinar e repetir.</p></div><div><strong>02</strong><h3>Identidade limpa</h3><p>Logo, assinatura e modelagens simples.</p></div><div><strong>03</strong><h3>Compra direta</h3><p>Vitrine autoral com compra pela loja oficial.</p></div></section>
-        <ProductsSection products={products} onOpen={setDetail} />
-        <ConceptSection products={products} />
-      </main>
-      <footer><div><Logo /><p>Art | Conforto em movimento</p></div><div><ExternalLink href={STORE_URL}>Comprar na loja</ExternalLink><ExternalLink href={INSTAGRAM_URL}>Instagram</ExternalLink></div></footer>
-      <DetailModal product={detail} onClose={() => setDetail(null)} />
-      {adminOpen && <AdminPanel products={products} setProducts={setProducts} onClose={() => setAdminOpen(false)} />}
+      <Header cartCount={cartCount} onCartClick={() => setCartOpen(true)} onAdminClick={() => setAdminOpen(true)} />
+      <Hero products={products} />
+      <ProductsSection products={products} onOpen={setSelected} />
+      <Footer />
+      {selected && <ProductModal product={selected} onClose={() => setSelected(null)} onAddToCart={addToCart} />}
+      {cartOpen && <CartDrawer cart={cart} onClose={() => setCartOpen(false)} onRemove={(key) => setCart((current) => current.filter((item) => item.key !== key))} onUpdateQuantity={updateQuantity} onCheckout={() => { setCartOpen(false); setCheckoutOpen(true); }} />}
+      {checkoutOpen && <CheckoutModal cart={cart} onClose={() => setCheckoutOpen(false)} onBackToCart={() => { setCheckoutOpen(false); setCartOpen(true); }} onFinish={finishOrder} />}
+      {adminOpen && <AdminModal products={products} setProducts={setProducts} onClose={() => setAdminOpen(false)} />}
+      {successOrder && <SuccessModal order={successOrder} onClose={() => setSuccessOrder(null)} />}
     </div>
   );
 }
