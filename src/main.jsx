@@ -626,7 +626,21 @@ function AdminModal({ products, setProducts, onClose }) {
 }
 
 function Footer() {
-  const methods = ['Visa', 'Master', 'Amex', 'Diners', 'Aura', 'Elo', 'Hipercard', 'Pix', 'Discover', 'Boleto', 'Mercado Pago'];
+  const methods = [
+    { name: 'VISA', className: 'visa' },
+    { name: 'mastercard', className: 'master' },
+    { name: 'AMEX', className: 'amex' },
+    { name: 'Diners Club', className: 'diners' },
+    { name: 'Aura', className: 'aura' },
+    { name: 'Bradesco', className: 'bradesco' },
+    { name: 'elo', className: 'elo' },
+    { name: 'Hipercard', className: 'hiper' },
+    { name: 'PIX', className: 'pix' },
+    { name: 'Discover', className: 'discover' },
+    { name: 'Boleto', className: 'boleto' },
+    { name: 'Mercado Pago', className: 'mpago' },
+  ];
+
   return (
     <footer>
       <div className="footer-top">
@@ -634,7 +648,13 @@ function Footer() {
         <div className="footer-menu"><a href="#inicio">Início</a><a href="#produtos">Produtos</a><a href="mailto:use.art.contato@gmail.com">Contato</a></div>
         <div><strong>Entre em contato</strong><p>use.art.contato@gmail.com</p><p>Campo Grande - MS</p></div>
       </div>
-      <div className="payment-badges">{methods.map((method) => <span key={method}>{method}</span>)}</div>
+      <div className="payment-seals" aria-label="Formas de pagamento aceitas">
+        {methods.map((method) => (
+          <span key={method.name} className={`payment-seal ${method.className}`}>
+            {method.name}
+          </span>
+        ))}
+      </div>
       <p className="copyright">Copyright ART - 54410257000140 - 2026. Todos os direitos reservados.</p>
     </footer>
   );
