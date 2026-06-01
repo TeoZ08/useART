@@ -254,6 +254,7 @@ svg {
   height: calc(100% - 20px);
   object-fit: contain;
   object-position: center bottom;
+  background: transparent;
   filter: drop-shadow(0 34px 38px rgba(0, 0, 0, .5));
 }
 
@@ -534,6 +535,7 @@ svg {
   object-position: center;
   display: block;
   padding: 24px;
+  mix-blend-mode: multiply;
   transition: transform .35s ease;
   position: relative;
   z-index: 2;
@@ -636,12 +638,19 @@ svg {
   gap: 7px;
 }
 
-.color-dots i {
+.color-dots i,
+.color-dots button {
   display: block;
   width: 13px;
   height: 13px;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, .22);
+  padding: 0;
+  background-clip: padding-box;
+}
+
+.color-dots button.active {
+  box-shadow: 0 0 0 2px #efefed, 0 0 0 4px #111;
 }
 
 .empty-state {
@@ -972,7 +981,8 @@ footer {
   width: 100%;
   height: min(62vh, 640px);
   object-fit: contain;
-  background: #dededb;
+  background: transparent;
+  mix-blend-mode: multiply;
 }
 
 .thumb-row {
@@ -1227,8 +1237,9 @@ footer {
 .cart-item img {
   width: 82px;
   height: 82px;
-  object-fit: cover;
-  background: #ddd;
+  object-fit: contain;
+  background: #ededeb;
+  mix-blend-mode: multiply;
 }
 
 .cart-item strong {
@@ -1443,8 +1454,9 @@ footer {
 .summary-item img {
   width: 64px;
   height: 64px;
-  object-fit: cover;
-  background: #ddd;
+  object-fit: contain;
+  background: #ededeb;
+  mix-blend-mode: multiply;
 }
 
 .summary-item strong {

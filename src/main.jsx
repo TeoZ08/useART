@@ -6,7 +6,7 @@ const STORE_WHATSAPP = '556791691441';
 const ADMIN_PASSWORD = 'useart2026';
 
 const storageKeys = {
-  products: 'useart.products.v1',
+  products: 'useart.products.v2',
   legacyProducts: 'use-art-products-real-v4',
   cart: 'useart.cart.v1',
   orders: 'useart.orders.v1',
@@ -14,17 +14,24 @@ const storageKeys = {
 
 const productImages = {
   hybridBrown: '/assets/products/hybrid-art-marrom.jpg',
+  hybridBrownCutout: '/assets/products/cutouts/hybrid-art-marrom.png',
   hybridBrownAlt: '/assets/products/hybrid-art-marrom-alt.jpg',
+  hybridBrownAltCutout: '/assets/products/cutouts/hybrid-art-marrom-alt.png',
   hybridBrownBack: '/assets/products/camiseta-marrom-costas.jpg',
   hybridWhite: '/assets/products/hybrid-art-branca.jpg',
   hybridWhiteCenter: '/assets/products/hybrid-central-branca.jpg',
   whiteBack: '/assets/products/camiseta-branca-costas.jpg',
   hybridBlack: '/assets/products/hybrid-art-preta.jpg',
+  hybridBlackCutout: '/assets/products/cutouts/hybrid-art-preta.png',
   hybridBlackAlt: '/assets/products/hybrid-art-preta-alt.jpg',
+  hybridBlackAltCutout: '/assets/products/cutouts/hybrid-art-preta-alt.png',
   blackBack: '/assets/products/camiseta-preta-costas.jpg',
+  blackBackCutout: '/assets/products/cutouts/camiseta-preta-costas.png',
   signatureBlack: '/assets/products/solid-assinatura-masculina-preta.jpg',
+  signatureBlackCutout: '/assets/products/cutouts/solid-assinatura-masculina-preta.png',
   signatureWhite: '/assets/products/solid-assinatura-feminina-branca.jpg',
   signatureBrown: '/assets/products/solid-assinatura-marrom.jpg',
+  signatureBrownCutout: '/assets/products/cutouts/solid-assinatura-marrom.png',
 };
 
 const defaultColors = [
@@ -44,6 +51,16 @@ const colorLibrary = {
   'Mix de cores': '#111111',
 };
 
+function colorVariant(name, image, cutout = image, gallery = [image]) {
+  return {
+    name,
+    value: colorLibrary[name] || '#111111',
+    image,
+    cutout,
+    gallery,
+  };
+}
+
 const defaultProducts = [
   {
     id: 'camiseta-hybrid',
@@ -52,11 +69,17 @@ const defaultProducts = [
     price: 45,
     installment: '10x de R$5,43',
     category: 'Masculino',
-    colors: defaultColors,
+    categories: ['Masculino', 'Unissex'],
+    colors: [
+      colorVariant('Branco/off-white', productImages.hybridWhite, productImages.hybridWhite, [productImages.hybridWhite, productImages.whiteBack]),
+      colorVariant('Preto', productImages.hybridBlackAlt, productImages.hybridBlackAltCutout, [productImages.hybridBlackAlt, productImages.blackBack]),
+      colorVariant('Marrom', productImages.hybridBrownAlt, productImages.hybridBrownAltCutout, [productImages.hybridBrownAlt, productImages.hybridBrownBack]),
+    ],
     sizes: defaultSizes,
     active: true,
     image: productImages.hybridBrownAlt,
-    gallery: [productImages.hybridBrownAlt, productImages.hybridBrownBack, productImages.hybridBlackAlt, productImages.hybridWhite],
+    heroImage: productImages.hybridBrownAltCutout,
+    gallery: [productImages.hybridBrownAlt, productImages.hybridBrownBack],
     description: 'Camiseta essencial com visual limpo, tecido confortável e proposta minimalista para uso diário.',
   },
   {
@@ -66,11 +89,17 @@ const defaultProducts = [
     price: 45,
     installment: '10x de R$5,43',
     category: 'Masculino',
-    colors: defaultColors,
+    categories: ['Masculino', 'Unissex'],
+    colors: [
+      colorVariant('Branco/off-white', productImages.hybridWhite, productImages.hybridWhite, [productImages.hybridWhite, productImages.whiteBack]),
+      colorVariant('Preto', productImages.hybridBlack, productImages.hybridBlackCutout, [productImages.hybridBlack, productImages.blackBack]),
+      colorVariant('Marrom', productImages.hybridBrown, productImages.hybridBrownCutout, [productImages.hybridBrown, productImages.hybridBrownBack]),
+    ],
     sizes: defaultSizes,
     active: true,
     image: productImages.hybridBrown,
-    gallery: [productImages.hybridBrown, productImages.hybridBlack, productImages.hybridWhite, productImages.hybridBrownBack],
+    heroImage: productImages.hybridBrownCutout,
+    gallery: [productImages.hybridBrown, productImages.hybridBrownBack],
     description: 'Modelo com aplicação lateral da logo use.a.r.t. Uma peça direta, urbana e fácil de combinar.',
   },
   {
@@ -80,10 +109,16 @@ const defaultProducts = [
     price: 45,
     installment: '10x de R$5,43',
     category: 'Unissex',
-    colors: defaultColors,
+    categories: ['Unissex'],
+    colors: [
+      colorVariant('Branco/off-white', productImages.hybridWhiteCenter, productImages.hybridWhiteCenter, [productImages.hybridWhiteCenter, productImages.whiteBack]),
+      colorVariant('Preto', productImages.hybridBlackAlt, productImages.hybridBlackAltCutout, [productImages.hybridBlackAlt, productImages.blackBack]),
+      colorVariant('Marrom', productImages.hybridBrownAlt, productImages.hybridBrownAltCutout, [productImages.hybridBrownAlt, productImages.hybridBrownBack]),
+    ],
     sizes: defaultSizes,
     active: true,
     image: productImages.hybridWhiteCenter,
+    heroImage: productImages.hybridBrownAltCutout,
     gallery: [productImages.hybridWhiteCenter, productImages.whiteBack, productImages.hybridBlackAlt, productImages.hybridBrown],
     description: 'Camiseta com logo central. Boa para apresentar a identidade da marca com presença e equilíbrio.',
   },
@@ -94,68 +129,58 @@ const defaultProducts = [
     price: 50,
     installment: '12x de R$5,09',
     category: 'Masculino',
-    colors: defaultColors,
+    categories: ['Masculino', 'Unissex'],
+    colors: [
+      colorVariant('Branco/off-white', productImages.signatureWhite, productImages.signatureWhite, [productImages.signatureWhite, productImages.whiteBack]),
+      colorVariant('Preto', productImages.signatureBlack, productImages.signatureBlackCutout, [productImages.signatureBlack, productImages.blackBack]),
+      colorVariant('Marrom', productImages.signatureBrown, productImages.signatureBrownCutout, [productImages.signatureBrown, productImages.hybridBrownBack]),
+    ],
     sizes: defaultSizes,
     active: true,
     image: productImages.signatureBlack,
+    heroImage: productImages.signatureBlackCutout,
     gallery: [productImages.signatureBlack, productImages.signatureBrown, productImages.signatureWhite],
     description: 'Versão com assinatura lateral Art. Visual discreto e premium dentro da linha.',
   },
   {
-    id: 'camiseta-solid-masculina',
-    name: 'Camiseta Solid Masculina',
+    id: 'camiseta-solid',
+    name: 'Camiseta Solid',
     line: 'Básica lisa',
     price: 50,
     installment: '12x de R$5,09',
-    category: 'Masculino',
-    colors: defaultColors,
+    category: 'Unissex',
+    categories: ['Masculino', 'Feminino', 'Unissex'],
+    colors: [
+      colorVariant('Branco/off-white', productImages.signatureWhite, productImages.signatureWhite, [productImages.signatureWhite, productImages.whiteBack]),
+      colorVariant('Preto', productImages.hybridBlackAlt, productImages.hybridBlackAltCutout, [productImages.hybridBlackAlt, productImages.blackBack]),
+      colorVariant('Marrom', productImages.hybridBrownAlt, productImages.hybridBrownAltCutout, [productImages.hybridBrownAlt, productImages.hybridBrownBack]),
+    ],
     sizes: defaultSizes,
     active: true,
     image: productImages.hybridBlackAlt,
+    heroImage: productImages.hybridBlackAltCutout,
     gallery: [productImages.hybridBlackAlt, productImages.blackBack, productImages.hybridBrownAlt, productImages.hybridWhite],
-    description: 'Camiseta lisa para quem prefere uma base neutra, confortável e versátil.',
+    description: 'Camiseta lisa para quem prefere uma base neutra, confortável e versátil. Modelagem combinada no atendimento.',
   },
   {
-    id: 'camiseta-solid-feminina',
-    name: 'Camiseta Solid Feminina',
-    line: 'Básica feminina',
-    price: 50,
-    installment: '12x de R$5,09',
-    category: 'Feminino',
-    colors: [defaultColors[0], defaultColors[1]],
-    sizes: defaultSizes,
-    active: true,
-    image: productImages.signatureWhite,
-    gallery: [productImages.signatureWhite, productImages.hybridWhite, productImages.whiteBack],
-    description: 'Modelagem feminina com visual clean e proposta confortável para a rotina.',
-  },
-  {
-    id: 'camiseta-solid-assinatura-masculina',
-    name: 'Camiseta Solid Assinatura Masculina',
+    id: 'camiseta-solid-assinatura',
+    name: 'Camiseta Solid Assinatura',
     line: 'Assinatura lateral',
     price: 50,
     installment: '12x de R$5,09',
-    category: 'Masculino',
-    colors: defaultColors,
-    sizes: defaultSizes,
-    active: true,
-    image: productImages.signatureBlack,
-    gallery: [productImages.signatureBlack, productImages.signatureBrown, productImages.signatureWhite],
-    description: 'Camiseta masculina com assinatura Art aplicada de forma sutil e elegante.',
-  },
-  {
-    id: 'camiseta-solid-assinatura-feminina',
-    name: 'Camiseta Solid Assinatura Feminina',
-    line: 'Assinatura lateral',
-    price: 50,
-    installment: '12x de R$5,09',
-    category: 'Feminino',
-    colors: [defaultColors[0], defaultColors[1]],
+    category: 'Unissex',
+    categories: ['Masculino', 'Feminino', 'Unissex'],
+    colors: [
+      colorVariant('Branco/off-white', productImages.signatureWhite, productImages.signatureWhite, [productImages.signatureWhite, productImages.whiteBack]),
+      colorVariant('Preto', productImages.signatureBlack, productImages.signatureBlackCutout, [productImages.signatureBlack, productImages.blackBack]),
+      colorVariant('Marrom', productImages.signatureBrown, productImages.signatureBrownCutout, [productImages.signatureBrown, productImages.hybridBrownBack]),
+    ],
     sizes: defaultSizes,
     active: true,
     image: productImages.signatureWhite,
+    heroImage: productImages.signatureBlackCutout,
     gallery: [productImages.signatureWhite, productImages.signatureBlack, productImages.signatureBrown],
-    description: 'Versão feminina da linha assinatura, pensada para manter conforto e identidade visual.',
+    description: 'Linha assinatura com aplicação sutil da marca. A cor escolhida atualiza a foto do produto antes de adicionar ao carrinho.',
   },
   {
     id: 'selecao-art-kit-3',
@@ -164,14 +189,16 @@ const defaultProducts = [
     price: 114.9,
     installment: '2x de R$57,45 sem juros',
     category: 'Kit',
+    categories: ['Kit'],
     colors: [
-      { name: 'Mix de cores', value: '#111111' },
-      defaultColors[0],
-      defaultColors[2],
+      colorVariant('Mix de cores', productImages.hybridBlack, productImages.hybridBlackCutout, [productImages.hybridBlack, productImages.hybridBrown, productImages.hybridWhiteCenter]),
+      colorVariant('Branco/off-white', productImages.hybridWhiteCenter, productImages.hybridWhiteCenter, [productImages.hybridWhiteCenter, productImages.hybridWhite, productImages.whiteBack]),
+      colorVariant('Marrom', productImages.hybridBrown, productImages.hybridBrownCutout, [productImages.hybridBrown, productImages.hybridBrownAlt, productImages.hybridBrownBack]),
     ],
     sizes: defaultSizes,
     active: true,
     image: productImages.hybridBlack,
+    heroImage: productImages.hybridBlackCutout,
     gallery: [productImages.hybridBlack, productImages.hybridBrown, productImages.hybridWhiteCenter],
     description: 'Kit para experimentar a marca com mais possibilidades de uso no dia a dia.',
   },
@@ -253,23 +280,29 @@ function parseColors(value) {
 
 function normalizeProduct(product) {
   const image = product.image || productImages.hybridBrown;
+  const colors = Array.isArray(product.colors) && product.colors.length ? product.colors : defaultColors;
+  const gallery = Array.isArray(product.gallery) && product.gallery.length ? product.gallery : [image];
   return {
     ...product,
     line: product.line || 'use.a.r.t',
     price: Number(product.price) || 0,
     installment: product.installment || 'Consulte parcelas',
     category: product.category || 'Unissex',
-    colors: Array.isArray(product.colors) && product.colors.length ? product.colors : defaultColors,
+    categories: Array.isArray(product.categories) && product.categories.length
+      ? product.categories
+      : [product.category || 'Unissex'],
+    colors,
     sizes: Array.isArray(product.sizes) && product.sizes.length ? product.sizes : defaultSizes,
     active: product.active !== false,
     image,
-    gallery: Array.isArray(product.gallery) && product.gallery.length ? product.gallery : [image],
+    heroImage: product.heroImage || colors.find((color) => color.cutout)?.cutout || image,
+    gallery,
     description: product.description || 'Produto use.a.r.t com proposta minimalista, confortável e versátil.',
   };
 }
 
 function loadProducts() {
-  const saved = readStorage(storageKeys.products, null) || readStorage(storageKeys.legacyProducts, null);
+  const saved = readStorage(storageKeys.products, null);
   const source = Array.isArray(saved) && saved.length ? saved : defaultProducts;
   return source.map(normalizeProduct);
 }
@@ -292,9 +325,45 @@ function loadCart() {
       const size = item.size || product.sizes[0];
       const quantity = Math.max(1, Number(item.quantity) || 1);
       const key = item.key || `${product.id}-${color?.name || 'sem-cor'}-${size || 'sem-tamanho'}`;
-      return { key, product, color, size, quantity };
+      const image = item.image || imageForColor(product, color);
+      return { key, product, color, size, quantity, image };
     })
     .filter(Boolean);
+}
+
+function imageForColor(product, color) {
+  if (!product) return '';
+  const selected = color?.name
+    ? product.colors?.find((item) => item.name === color.name)
+    : null;
+  return selected?.image || product.image;
+}
+
+function cutoutForColor(product, colorName) {
+  const selected = colorName
+    ? product?.colors?.find((item) => item.name === colorName)
+    : product?.colors?.find((item) => item.cutout);
+  return selected?.cutout || selected?.image || product?.heroImage || product?.image;
+}
+
+function galleryForColor(product, color) {
+  const selected = color?.name
+    ? product.colors?.find((item) => item.name === color.name)
+    : null;
+  const first = imageForColor(product, color);
+  const gallery = selected?.gallery?.length ? selected.gallery : product.gallery;
+  return Array.from(new Set([first, ...(gallery || [])])).filter(Boolean);
+}
+
+function categoryLabel(product) {
+  if (product.category === 'Kit') return 'Kit';
+  if (product.categories?.includes('Masculino') && product.categories?.includes('Feminino')) return 'Unissex';
+  return product.category || product.categories?.[0] || 'Unissex';
+}
+
+function matchesCategory(product, filter) {
+  if (filter === 'Todos') return true;
+  return product.category === filter || product.categories?.includes(filter);
 }
 
 function formatOrderDate(date) {
@@ -510,9 +579,9 @@ function Header({ cartCount, onCartClick, onAdminClick, search, onSearchChange }
 }
 
 function Hero({ products }) {
-  const main = products.find((item) => item.id === 'camiseta-hybrid-art-central') || products[0];
-  const secondary = products.find((item) => item.id === 'camiseta-hybrid-art') || products[1] || main;
-  const tertiary = products.find((item) => item.id === 'camiseta-solid-assinatura-masculina') || products[2] || main;
+  const main = products.find((item) => item.id === 'camiseta-hybrid-art') || products[0];
+  const secondary = products.find((item) => item.id === 'camiseta-hybrid') || products[1] || main;
+  const tertiary = products.find((item) => item.id === 'camiseta-solid-assinatura') || products[2] || main;
 
   return (
     <section id="inicio" className="hero-section">
@@ -521,9 +590,9 @@ function Hero({ products }) {
         <span>use.a.r.t</span>
       </div>
       <div className="hero-product-stage" aria-hidden="true">
-        <img className="hero-shirt hero-shirt-secondary" src={secondary?.image || productImages.hybridBrown} alt="" />
-        <img className="hero-shirt hero-shirt-main" src={main?.image || productImages.hybridWhiteCenter} alt="" />
-        <img className="hero-shirt hero-shirt-tertiary" src={tertiary?.image || productImages.signatureBlack} alt="" />
+        <img className="hero-shirt hero-shirt-secondary" src={cutoutForColor(secondary, 'Preto') || productImages.hybridBlackCutout} alt="" />
+        <img className="hero-shirt hero-shirt-main" src={cutoutForColor(main, 'Marrom') || productImages.hybridBrownCutout} alt="" />
+        <img className="hero-shirt hero-shirt-tertiary" src={cutoutForColor(tertiary, 'Preto') || productImages.signatureBlackCutout} alt="" />
       </div>
       <div className="hero-overlay">
         <p>use.a.r.t / streetwear minimalista</p>
@@ -544,8 +613,16 @@ function Hero({ products }) {
 }
 
 function ProductCard({ product, onOpen }) {
+  const [previewColor, setPreviewColor] = useState(product.colors?.[0] || null);
+  const previewImage = imageForColor(product, previewColor);
+
   function openProduct() {
     onOpen(product);
+  }
+
+  function choosePreviewColor(event, color) {
+    event.stopPropagation();
+    setPreviewColor(color);
   }
 
   return (
@@ -557,11 +634,11 @@ function ProductCard({ product, onOpen }) {
     >
       <div className="product-image">
         <span className="product-watermark" aria-hidden="true">use.a.r.t</span>
-        <img src={product.image} alt={product.name} />
+        <img src={previewImage} alt={product.name} />
         {product.category === 'Kit' && <span className="product-badge">Kit</span>}
       </div>
       <div className="product-info">
-        <p>{product.line} / {product.category}</p>
+        <p>{product.line} / {categoryLabel(product)}</p>
         <div className="product-title-row">
           <h3>{product.name}</h3>
           <strong>{money(product.price)}</strong>
@@ -569,7 +646,17 @@ function ProductCard({ product, onOpen }) {
         <small>{product.installment}</small>
         <div className="card-bottom">
           <div className="color-dots" aria-label="Cores disponíveis">
-            {product.colors.map((color) => <i key={color.name} style={{ background: color.value }} title={color.name} />)}
+            {product.colors.map((color) => (
+              <button
+                key={color.name}
+                type="button"
+                className={previewColor?.name === color.name ? 'active' : ''}
+                style={{ background: color.value }}
+                title={color.name}
+                aria-label={`Ver ${product.name} na cor ${color.name}`}
+                onClick={(event) => choosePreviewColor(event, color)}
+              />
+            ))}
           </div>
           <button type="button">Ver produto</button>
         </div>
@@ -586,7 +673,7 @@ function ProductsSection({ products, query, onQueryChange, onOpen }) {
   const visible = useMemo(() => {
     return products
       .filter((product) => product.active !== false)
-      .filter((product) => filter === 'Todos' || product.category === filter)
+      .filter((product) => matchesCategory(product, filter))
       .filter((product) => product.name.toLowerCase().includes(query.toLowerCase()))
       .sort((a, b) => {
         if (sort === 'price-asc') return a.price - b.price;
@@ -634,13 +721,14 @@ function ProductsSection({ products, query, onQueryChange, onOpen }) {
 }
 
 function ProductModal({ product, onClose, onAddToCart }) {
-  const [image, setImage] = useState(product?.gallery?.[0] || product?.image);
+  const [image, setImage] = useState(imageForColor(product, null));
   const [color, setColor] = useState(null);
   const [size, setSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState('');
 
   if (!product) return null;
+  const activeGallery = galleryForColor(product, color);
 
   function changeQuantity(nextQuantity) {
     setQuantity(Math.max(1, Number(nextQuantity) || 1));
@@ -666,7 +754,7 @@ function ProductModal({ product, onClose, onAddToCart }) {
         <div className="detail-image">
           <img src={image} alt={product.name} />
           <div className="thumb-row">
-            {product.gallery.map((item) => (
+            {activeGallery.map((item) => (
               <button key={item} type="button" className={image === item ? 'active' : ''} onClick={() => setImage(item)}>
                 <img src={item} alt="Miniatura do produto" />
               </button>
@@ -690,7 +778,7 @@ function ProductModal({ product, onClose, onAddToCart }) {
                 aria-label={`Selecionar cor ${item.name}`}
                 className={color?.name === item.name ? 'active' : ''}
                 style={{ background: item.value }}
-                onClick={() => { setColor(item); setError(''); }}
+                onClick={() => { setColor(item); setImage(imageForColor(product, item)); setError(''); }}
               />
             ))}
           </div>
@@ -746,7 +834,7 @@ function CartDrawer({ cart, onClose, onRemove, onClear, onUpdateQuantity, onChec
             <div className="cart-items">
               {cart.map((item) => (
                 <div className="cart-item" key={item.key}>
-                  <img src={item.product.image} alt={item.product.name} />
+                  <img src={item.image || imageForColor(item.product, item.color)} alt={item.product.name} />
                   <div>
                     <strong>{item.product.name}</strong>
                     <span>{item.color.name} / {item.size}</span>
@@ -952,7 +1040,7 @@ function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
           <h3>Seu pedido</h3>
           {cart.map((item) => (
             <div className="summary-item" key={item.key}>
-              <img src={item.product.image} alt={item.product.name} />
+              <img src={item.image || imageForColor(item.product, item.color)} alt={item.product.name} />
               <div><strong>{item.product.name}</strong><span>{item.color.name} / {item.size} x {item.quantity}</span></div>
               <b>{money(item.product.price * item.quantity)}</b>
             </div>
@@ -1211,12 +1299,13 @@ function App() {
   function addToCart(product, color, size, quantity = 1) {
     const finalQuantity = Math.max(1, Number(quantity) || 1);
     const key = `${product.id}-${color?.name || 'sem-cor'}-${size || 'sem-tamanho'}`;
+    const image = imageForColor(product, color);
     setCart((current) => {
       const found = current.find((item) => item.key === key);
       if (found) {
-        return current.map((item) => (item.key === key ? { ...item, quantity: item.quantity + finalQuantity } : item));
+        return current.map((item) => (item.key === key ? { ...item, image, quantity: item.quantity + finalQuantity } : item));
       }
-      return [...current, { key, product, color, size, quantity: finalQuantity }];
+      return [...current, { key, product, color, size, quantity: finalQuantity, image }];
     });
     setCartOpen(true);
   }
