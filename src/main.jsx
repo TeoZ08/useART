@@ -197,18 +197,18 @@ const paymentMethods = [
 ];
 
 const paymentSeals = [
-  { name: 'VISA', className: 'visa' },
-  { name: 'mastercard', className: 'master' },
-  { name: 'AMEX', className: 'amex' },
-  { name: 'Diners Club', className: 'diners' },
-  { name: 'Aura', className: 'aura' },
-  { name: 'Bradesco', className: 'bradesco' },
-  { name: 'elo', className: 'elo' },
-  { name: 'Hipercard', className: 'hiper' },
-  { name: 'PIX', className: 'pix' },
-  { name: 'Discover', className: 'discover' },
-  { name: 'Boleto', className: 'boleto' },
-  { name: 'Mercado Pago', className: 'mpago' },
+  { id: 'visa', label: 'Visa' },
+  { id: 'mastercard', label: 'Mastercard' },
+  { id: 'amex', label: 'American Express' },
+  { id: 'diners', label: 'Diners Club' },
+  { id: 'aura', label: 'Aura' },
+  { id: 'bradesco', label: 'Bradesco' },
+  { id: 'elo', label: 'Elo' },
+  { id: 'hipercard', label: 'Hipercard' },
+  { id: 'pix', label: 'Pix' },
+  { id: 'discover', label: 'Discover' },
+  { id: 'boleto', label: 'Boleto' },
+  { id: 'mercado-pago', label: 'Mercado Pago' },
 ];
 
 function money(value) {
@@ -385,6 +385,86 @@ function Logo({ className = '' }) {
   return <img className={`logo ${className}`} src="/assets/use-art-logo.jpg" alt="use.a.r.t" />;
 }
 
+function PaymentSeal({ method }) {
+  if (method.id === 'visa') {
+    return <span className="payment-seal payment-visa" title={method.label} aria-label={method.label}>VISA</span>;
+  }
+
+  if (method.id === 'mastercard') {
+    return (
+      <span className="payment-seal payment-mastercard" title={method.label} aria-label={method.label}>
+        <i /><b>mastercard</b>
+      </span>
+    );
+  }
+
+  if (method.id === 'amex') {
+    return <span className="payment-seal payment-amex" title={method.label} aria-label={method.label}>AMEX</span>;
+  }
+
+  if (method.id === 'diners') {
+    return (
+      <span className="payment-seal payment-diners" title={method.label} aria-label={method.label}>
+        <i /><b>Diners Club</b>
+      </span>
+    );
+  }
+
+  if (method.id === 'aura') {
+    return <span className="payment-seal payment-aura" title={method.label} aria-label={method.label}>Aura</span>;
+  }
+
+  if (method.id === 'bradesco') {
+    return (
+      <span className="payment-seal payment-bradesco" title={method.label} aria-label={method.label}>
+        <i />Bradesco
+      </span>
+    );
+  }
+
+  if (method.id === 'elo') {
+    return (
+      <span className="payment-seal payment-elo" title={method.label} aria-label={method.label}>
+        <i /><b>elo</b>
+      </span>
+    );
+  }
+
+  if (method.id === 'hipercard') {
+    return <span className="payment-seal payment-hipercard" title={method.label} aria-label={method.label}>Hipercard</span>;
+  }
+
+  if (method.id === 'pix') {
+    return (
+      <span className="payment-seal payment-pix" title={method.label} aria-label={method.label}>
+        <svg viewBox="0 0 36 24" aria-hidden="true">
+          <path d="M18 3.5 25.5 11c.8.8.8 2.2 0 3L18 21.5 10.5 14a2.1 2.1 0 0 1 0-3L18 3.5Z" fill="currentColor" />
+          <path d="m18 8 4 4-4 4-4-4 4-4Z" fill="#fff" />
+        </svg>
+        Pix
+      </span>
+    );
+  }
+
+  if (method.id === 'discover') {
+    return <span className="payment-seal payment-discover" title={method.label} aria-label={method.label}>Discover</span>;
+  }
+
+  if (method.id === 'boleto') {
+    return (
+      <span className="payment-seal payment-boleto" title={method.label} aria-label={method.label}>
+        <i />Boleto
+      </span>
+    );
+  }
+
+  return (
+    <span className="payment-seal payment-mercado-pago" title={method.label} aria-label={method.label}>
+      <i>mp</i><b>Mercado Pago</b>
+    </span>
+  );
+}
+
 function Header({ cartCount, onCartClick, onAdminClick, search, onSearchChange }) {
   function handleSubmit(event) {
     event.preventDefault();
@@ -431,17 +511,32 @@ function Header({ cartCount, onCartClick, onAdminClick, search, onSearchChange }
 
 function Hero({ products }) {
   const main = products.find((item) => item.id === 'camiseta-hybrid-art-central') || products[0];
+  const secondary = products.find((item) => item.id === 'camiseta-hybrid-art') || products[1] || main;
+  const tertiary = products.find((item) => item.id === 'camiseta-solid-assinatura-masculina') || products[2] || main;
 
   return (
     <section id="inicio" className="hero-section">
-      <div className="hero-media"><img src={main?.image || productImages.hybridWhiteCenter} alt={main?.name || 'Camiseta use.a.r.t'} /></div>
+      <div className="hero-brand-watermark" aria-hidden="true">
+        <Logo />
+        <span>use.a.r.t</span>
+      </div>
+      <div className="hero-product-stage" aria-hidden="true">
+        <img className="hero-shirt hero-shirt-secondary" src={secondary?.image || productImages.hybridBrown} alt="" />
+        <img className="hero-shirt hero-shirt-main" src={main?.image || productImages.hybridWhiteCenter} alt="" />
+        <img className="hero-shirt hero-shirt-tertiary" src={tertiary?.image || productImages.signatureBlack} alt="" />
+      </div>
       <div className="hero-overlay">
-        <p>Coleção use.a.r.t</p>
+        <p>use.a.r.t / streetwear minimalista</p>
         <h1>Vista seu movimento</h1>
         <span>Camisetas minimalistas para quem busca conforto, presença e identidade na rotina.</span>
         <div className="hero-actions">
           <a href="#produtos" className="hero-button primary">Ver produtos</a>
           <a href="#produtos" className="hero-button secondary">Comprar agora</a>
+        </div>
+        <div className="hero-meta" aria-label="Destaques da loja">
+          <span>Art | Conforto em movimento</span>
+          <span>PP ao XG</span>
+          <span>Retirada ART</span>
         </div>
       </div>
     </section>
@@ -461,8 +556,9 @@ function ProductCard({ product, onOpen }) {
       tabIndex="0"
     >
       <div className="product-image">
+        <span className="product-watermark" aria-hidden="true">use.a.r.t</span>
         <img src={product.image} alt={product.name} />
-        {product.category === 'Kit' && <span>Kit</span>}
+        {product.category === 'Kit' && <span className="product-badge">Kit</span>}
       </div>
       <div className="product-info">
         <p>{product.line} / {product.category}</p>
@@ -505,6 +601,7 @@ function ProductsSection({ products, query, onQueryChange, onOpen }) {
         <div>
           <p>Catálogo use.a.r.t</p>
           <h2>Produtos</h2>
+          <span className="catalog-subtitle">Peças reais da marca, com cor, tamanho e pedido direto pelo WhatsApp.</span>
           <div className="category-tabs">
             {filters.map((item) => (
               <button key={item} type="button" className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>
@@ -1088,11 +1185,7 @@ function Footer() {
         </div>
       </div>
       <div className="payment-seals" aria-label="Formas de pagamento aceitas">
-        {paymentSeals.map((method) => (
-          <span key={method.name} className={`payment-seal ${method.className}`}>
-            {method.name}
-          </span>
-        ))}
+        {paymentSeals.map((method) => <PaymentSeal key={method.id} method={method} />)}
       </div>
       <p className="copyright">Copyright ART - 54410257000140 - 2026. Todos os direitos reservados.</p>
     </footer>
