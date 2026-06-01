@@ -4,6 +4,7 @@ import './styles.css';
 
 const STORE_WHATSAPP = '556791691441';
 const ADMIN_PASSWORD = 'useart2026';
+const BRAND_MARK = '/assets/use-art-logo-black.png';
 
 const storageKeys = {
   products: 'useart.products.v2',
@@ -301,9 +302,27 @@ function normalizeProduct(product) {
   };
 }
 
+function isBrandAsset(value) {
+  return typeof value === 'string' && value.includes('/assets/use-art-logo');
+}
+
+function productUsesBrandAsset(product) {
+  if (!product) return false;
+  return isBrandAsset(product.image)
+    || isBrandAsset(product.heroImage)
+    || product.gallery?.some(isBrandAsset)
+    || product.colors?.some((color) => (
+      isBrandAsset(color.image)
+      || isBrandAsset(color.cutout)
+      || color.gallery?.some(isBrandAsset)
+    ));
+}
+
 function loadProducts() {
   const saved = readStorage(storageKeys.products, null);
-  const source = Array.isArray(saved) && saved.length ? saved : defaultProducts;
+  const source = Array.isArray(saved) && saved.length && !saved.some(productUsesBrandAsset)
+    ? saved
+    : defaultProducts;
   return source.map(normalizeProduct);
 }
 
@@ -318,14 +337,17 @@ function loadCart() {
   return saved
     .map((item) => {
       if (!item?.product) return null;
-      const product = normalizeProduct(item.product);
+      const cleanProduct = productUsesBrandAsset(item.product)
+        ? defaultProducts.find((product) => product.id === item.product.id) || item.product
+        : item.product;
+      const product = normalizeProduct(cleanProduct);
       const color = typeof item.color === 'string'
         ? { name: item.color, value: colorLibrary[item.color] || '#111111' }
         : item.color || product.colors[0];
       const size = item.size || product.sizes[0];
       const quantity = Math.max(1, Number(item.quantity) || 1);
       const key = item.key || `${product.id}-${color?.name || 'sem-cor'}-${size || 'sem-tamanho'}`;
-      const image = item.image || imageForColor(product, color);
+      const image = isBrandAsset(item.image) ? imageForColor(product, color) : item.image || imageForColor(product, color);
       return { key, product, color, size, quantity, image };
     })
     .filter(Boolean);
@@ -337,6 +359,12 @@ function imageForColor(product, color) {
     ? product.colors?.find((item) => item.name === color.name)
     : null;
   return selected?.image || product.image;
+}
+
+function randomProductColor(product) {
+  const colors = product?.colors || [];
+  if (!colors.length) return null;
+  return colors[Math.floor(Math.random() * colors.length)];
 }
 
 function cutoutForColor(product, colorName) {
@@ -451,7 +479,11 @@ function Icon({ name }) {
 }
 
 function Logo({ className = '' }) {
-  return <img className={`logo ${className}`} src="/assets/use-art-logo.jpg" alt="use.a.r.t" />;
+  return <img className={`logo ${className}`} src={BRAND_MARK} alt="use.a.r.t" />;
+}
+
+function BrandMark({ className = '' }) {
+  return <img className={`brand-mark ${className}`} src={BRAND_MARK} alt="" aria-hidden="true" />;
 }
 
 function PaymentSeal({ method }) {
@@ -613,7 +645,7 @@ function Hero({ products }) {
 }
 
 function ProductCard({ product, onOpen }) {
-  const [previewColor, setPreviewColor] = useState(product.colors?.[0] || null);
+  const [previewColor, setPreviewColor] = useState(() => randomProductColor(product));
   const previewImage = imageForColor(product, previewColor);
 
   function openProduct() {
@@ -687,7 +719,10 @@ function ProductsSection({ products, query, onQueryChange, onOpen }) {
       <div className="catalog-top">
         <div>
           <p>Catálogo use.a.r.t</p>
-          <h2>Produtos</h2>
+          <div className="catalog-heading">
+            <BrandMark className="catalog-brand-mark" />
+            <h2>Produtos</h2>
+          </div>
           <span className="catalog-subtitle">Peças reais da marca, com cor, tamanho e pedido direto pelo WhatsApp.</span>
           <div className="category-tabs">
             {filters.map((item) => (

@@ -48,9 +48,21 @@ svg {
 
 .logo {
   display: block;
-  width: 34px;
-  height: 34px;
-  object-fit: cover;
+  width: 42px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.brand-mark {
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.site-header .logo,
+footer .logo {
+  filter: invert(1);
 }
 
 .site-header {
@@ -218,10 +230,10 @@ svg {
 }
 
 .hero-brand-watermark .logo {
-  width: clamp(74px, 9vw, 144px);
-  height: clamp(74px, 9vw, 144px);
+  width: clamp(112px, 13vw, 206px);
+  height: clamp(74px, 9vw, 132px);
   opacity: .18;
-  filter: grayscale(1);
+  filter: invert(1);
 }
 
 .hero-product-stage {
@@ -414,6 +426,10 @@ svg {
   margin-bottom: 38px;
 }
 
+.catalog-top > div:first-child {
+  position: relative;
+}
+
 .catalog-top p {
   margin: 0 0 8px;
   font-size: 12px;
@@ -422,12 +438,30 @@ svg {
   font-weight: 800;
 }
 
+.catalog-heading {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+}
+
 .catalog-top h2 {
+  position: relative;
+  z-index: 1;
   margin: 0;
   font-size: 48px;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0;
+}
+
+.catalog-brand-mark {
+  position: absolute;
+  left: -34px;
+  top: -42px;
+  width: 150px;
+  height: 96px;
+  opacity: .06;
+  z-index: 0;
 }
 
 .catalog-subtitle {
@@ -1830,8 +1864,8 @@ footer {
   }
 
   .hero-brand-watermark .logo {
-    width: 56px;
-    height: 56px;
+    width: 74px;
+    height: 48px;
   }
 
   .hero-product-stage {
@@ -1872,6 +1906,13 @@ footer {
 
   .catalog-top h2 {
     font-size: 36px;
+  }
+
+  .catalog-brand-mark {
+    left: -22px;
+    top: -34px;
+    width: 112px;
+    height: 72px;
   }
 
   .catalog-subtitle {
