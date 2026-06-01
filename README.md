@@ -1,6 +1,6 @@
-# use.a.r.t — protótipo de e-commerce próprio
+# use.a.r.t - MVP de e-commerce próprio
 
-Protótipo React/Vite da loja use.a.r.t com catálogo real, carrinho, checkout simulado, métodos de entrega, formas de pagamento e painel admin demonstrativo.
+Loja React/Vite da use.a.r.t com catálogo real, seleção de cor e tamanho, carrinho persistente, checkout interno e finalização de pedido pelo WhatsApp da loja.
 
 ## Rodar localmente
 
@@ -20,15 +20,16 @@ npm run build
 - Tipo: Static Site
 - Build Command: `npm install && npm run build`
 - Publish Directory: `dist`
+- Node: `22`
 
-## Admin demo
+## Admin local
 
 Clique no ícone de usuário no topo.
 
 Senha: `useart2026`
 
-Observação: o admin é somente demonstrativo e salva dados no `localStorage`. Em produção, substituir por backend real com autenticação, banco e storage.
+O admin salva produtos no `localStorage` do navegador e serve apenas para manutenção local do catálogo neste MVP. Em produção, substitua por backend com autenticação, banco de dados e storage de imagens.
 
 ## Checkout
 
-O fluxo de checkout é visual/simulado. Em produção, deve ser integrado a gateway de pagamento por backend seguro.
+O cliente preenche contato, entrega e pagamento, revisa o pedido e finaliza pelo WhatsApp. A mensagem gerada inclui número do pedido, dados do cliente, endereço, itens, frete, pagamento e total.

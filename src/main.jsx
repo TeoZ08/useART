@@ -1,8 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
+const STORE_WHATSAPP = '556791691441';
 const ADMIN_PASSWORD = 'useart2026';
+
+const storageKeys = {
+  products: 'useart.products.v1',
+  legacyProducts: 'use-art-products-real-v4',
+  cart: 'useart.cart.v1',
+  orders: 'useart.orders.v1',
+};
 
 const productImages = {
   hybridBrown: '/assets/products/hybrid-art-marrom.jpg',
@@ -19,6 +27,23 @@ const productImages = {
   signatureBrown: '/assets/products/solid-assinatura-marrom.jpg',
 };
 
+const defaultColors = [
+  { name: 'Branco/off-white', value: '#f4f4f1' },
+  { name: 'Preto', value: '#050505' },
+  { name: 'Marrom', value: '#5b371a' },
+];
+
+const defaultSizes = ['PP', 'P', 'M', 'G', 'GG', 'XG'];
+
+const colorLibrary = {
+  'Branco/off-white': '#f4f4f1',
+  Branco: '#f4f4f1',
+  'Off-white': '#f4f4f1',
+  Preto: '#050505',
+  Marrom: '#5b371a',
+  'Mix de cores': '#111111',
+};
+
 const defaultProducts = [
   {
     id: 'camiseta-hybrid',
@@ -27,12 +52,9 @@ const defaultProducts = [
     price: 45,
     installment: '10x de R$5,43',
     category: 'Masculino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-      { name: 'Marrom', value: '#5b371a' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: defaultColors,
+    sizes: defaultSizes,
+    active: true,
     image: productImages.hybridBrownAlt,
     gallery: [productImages.hybridBrownAlt, productImages.hybridBrownBack, productImages.hybridBlackAlt, productImages.hybridWhite],
     description: 'Camiseta essencial com visual limpo, tecido confortável e proposta minimalista para uso diário.',
@@ -44,12 +66,9 @@ const defaultProducts = [
     price: 45,
     installment: '10x de R$5,43',
     category: 'Masculino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-      { name: 'Marrom', value: '#5b371a' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: defaultColors,
+    sizes: defaultSizes,
+    active: true,
     image: productImages.hybridBrown,
     gallery: [productImages.hybridBrown, productImages.hybridBlack, productImages.hybridWhite, productImages.hybridBrownBack],
     description: 'Modelo com aplicação lateral da logo use.a.r.t. Uma peça direta, urbana e fácil de combinar.',
@@ -61,12 +80,9 @@ const defaultProducts = [
     price: 45,
     installment: '10x de R$5,43',
     category: 'Unissex',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-      { name: 'Marrom', value: '#5b371a' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: defaultColors,
+    sizes: defaultSizes,
+    active: true,
     image: productImages.hybridWhiteCenter,
     gallery: [productImages.hybridWhiteCenter, productImages.whiteBack, productImages.hybridBlackAlt, productImages.hybridBrown],
     description: 'Camiseta com logo central. Boa para apresentar a identidade da marca com presença e equilíbrio.',
@@ -78,12 +94,9 @@ const defaultProducts = [
     price: 50,
     installment: '12x de R$5,09',
     category: 'Masculino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-      { name: 'Marrom', value: '#5b371a' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: defaultColors,
+    sizes: defaultSizes,
+    active: true,
     image: productImages.signatureBlack,
     gallery: [productImages.signatureBlack, productImages.signatureBrown, productImages.signatureWhite],
     description: 'Versão com assinatura lateral Art. Visual discreto e premium dentro da linha.',
@@ -95,12 +108,9 @@ const defaultProducts = [
     price: 50,
     installment: '12x de R$5,09',
     category: 'Masculino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-      { name: 'Marrom', value: '#5b371a' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: defaultColors,
+    sizes: defaultSizes,
+    active: true,
     image: productImages.hybridBlackAlt,
     gallery: [productImages.hybridBlackAlt, productImages.blackBack, productImages.hybridBrownAlt, productImages.hybridWhite],
     description: 'Camiseta lisa para quem prefere uma base neutra, confortável e versátil.',
@@ -112,11 +122,9 @@ const defaultProducts = [
     price: 50,
     installment: '12x de R$5,09',
     category: 'Feminino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: [defaultColors[0], defaultColors[1]],
+    sizes: defaultSizes,
+    active: true,
     image: productImages.signatureWhite,
     gallery: [productImages.signatureWhite, productImages.hybridWhite, productImages.whiteBack],
     description: 'Modelagem feminina com visual clean e proposta confortável para a rotina.',
@@ -128,12 +136,9 @@ const defaultProducts = [
     price: 50,
     installment: '12x de R$5,09',
     category: 'Masculino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-      { name: 'Marrom', value: '#5b371a' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: defaultColors,
+    sizes: defaultSizes,
+    active: true,
     image: productImages.signatureBlack,
     gallery: [productImages.signatureBlack, productImages.signatureBrown, productImages.signatureWhite],
     description: 'Camiseta masculina com assinatura Art aplicada de forma sutil e elegante.',
@@ -145,11 +150,9 @@ const defaultProducts = [
     price: 50,
     installment: '12x de R$5,09',
     category: 'Feminino',
-    colors: [
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Preto', value: '#050505' },
-    ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    colors: [defaultColors[0], defaultColors[1]],
+    sizes: defaultSizes,
+    active: true,
     image: productImages.signatureWhite,
     gallery: [productImages.signatureWhite, productImages.signatureBlack, productImages.signatureBrown],
     description: 'Versão feminina da linha assinatura, pensada para manter conforto e identidade visual.',
@@ -163,10 +166,11 @@ const defaultProducts = [
     category: 'Kit',
     colors: [
       { name: 'Mix de cores', value: '#111111' },
-      { name: 'Branco', value: '#f4f4f1' },
-      { name: 'Marrom', value: '#5b371a' },
+      defaultColors[0],
+      defaultColors[2],
     ],
-    sizes: ['PP', 'P', 'M', 'G', 'GG'],
+    sizes: defaultSizes,
+    active: true,
     image: productImages.hybridBlack,
     gallery: [productImages.hybridBlack, productImages.hybridBrown, productImages.hybridWhiteCenter],
     description: 'Kit para experimentar a marca com mais possibilidades de uso no dia a dia.',
@@ -174,59 +178,206 @@ const defaultProducts = [
 ];
 
 const shippingOptions = [
-  { id: 'retirada-art', name: 'Retirada ART', detail: 'Retirada combinada com a loja', price: 0, eta: 'sexta-feira 29/05' },
-  { id: 'sedex-promocional', name: 'Correios - SEDEX Promocional', detail: 'Envio a domicílio', price: 11.91, eta: 'sexta-feira 29/05' },
-  { id: 'jadlog-package', name: 'JADLOG PACKAGE Promocional', detail: 'Envio a domicílio', price: 18.46, eta: 'terça-feira 02/06' },
-  { id: 'nuvem-pac', name: 'Nuvem Envio Correios PAC', detail: 'Envio a domicílio', price: 24.75, eta: 'quinta-feira 18/06' },
-  { id: 'jadlog-rapido', name: 'Nuvem Envio - Jadlog Rápido', detail: 'Envio a domicílio', price: 21.54, eta: 'quinta-feira 18/06' },
-  { id: 'pac-promocional', name: 'Correios - PAC Promocional', detail: 'Envio a domicílio', price: 18.71, eta: 'quinta-feira 04/06' },
-  { id: 'sedex-nuvem', name: 'Nuvem Envio Correios SEDEX', detail: 'Envio a domicílio', price: 17.66, eta: 'sexta-feira 12/06' },
-  { id: 'jadlog-economico', name: 'Nuvem Envio - Jadlog Econômico', detail: 'Envio a domicílio', price: 15.47, eta: 'sexta-feira 19/06' },
+  { id: 'retirada-art', name: 'Retirada ART', detail: 'Retirada combinada com a loja', price: 0 },
+  { id: 'sedex-promocional', name: 'Correios SEDEX Promocional', detail: 'Envio a domicílio', price: 29.63 },
+  { id: 'jadlog-package', name: 'Jadlog Package Promocional', detail: 'Envio a domicílio', price: 35.95 },
+  { id: 'pac-promocional', name: 'Correios PAC Promocional', detail: 'Envio a domicílio', price: 41.83 },
+  { id: 'pac-economico', name: 'Correios PAC Econômico', detail: 'Envio a domicílio', price: 42.17 },
+  { id: 'jadlog-rapido', name: 'Jadlog Rápido', detail: 'Envio a domicílio', price: 45.04 },
+  { id: 'sedex-padrao', name: 'Correios SEDEX', detail: 'Envio a domicílio', price: 50 },
+  { id: 'jadlog-economico', name: 'Jadlog Econômico', detail: 'Envio a domicílio', price: 57.63 },
 ];
 
 const paymentMethods = [
+  { id: 'pix', name: 'Pix', detail: 'Pagamento rápido combinado no atendimento' },
   { id: 'credito', name: 'Cartão de crédito', detail: 'Visa, Mastercard, Elo, Hipercard, American Express e outros' },
-  { id: 'pix', name: 'Pix', detail: 'Pagamento rápido com confirmação quase imediata' },
-  { id: 'boleto', name: 'Boleto bancário', detail: 'Compensação em até 3 dias úteis' },
+  { id: 'boleto', name: 'Boleto bancário', detail: 'Dados enviados pela loja após a conferência' },
   { id: 'mercado-pago', name: 'Mercado Pago', detail: 'Carteira digital e meios parceiros' },
   { id: 'linha-credito', name: 'Linha de Crédito Mercado Pago', detail: 'Sujeito à aprovação do provedor' },
 ];
 
-const storageKey = 'use-art-products-real-v4';
+const paymentSeals = [
+  { name: 'VISA', className: 'visa' },
+  { name: 'mastercard', className: 'master' },
+  { name: 'AMEX', className: 'amex' },
+  { name: 'Diners Club', className: 'diners' },
+  { name: 'Aura', className: 'aura' },
+  { name: 'Bradesco', className: 'bradesco' },
+  { name: 'elo', className: 'elo' },
+  { name: 'Hipercard', className: 'hiper' },
+  { name: 'PIX', className: 'pix' },
+  { name: 'Discover', className: 'discover' },
+  { name: 'Boleto', className: 'boleto' },
+  { name: 'Mercado Pago', className: 'mpago' },
+];
 
 function money(value) {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  return Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
 function safeId() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
-function loadProducts() {
+function readStorage(key, fallback) {
   try {
-    const raw = localStorage.getItem(storageKey);
-    if (!raw) return defaultProducts;
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length ? parsed : defaultProducts;
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
   } catch {
-    return defaultProducts;
+    return fallback;
   }
 }
 
+function writeStorage(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Local persistence is helpful, but the storefront must continue working if storage is unavailable.
+  }
+}
+
+function parseList(value) {
+  return String(value || '')
+    .split(/[,;\n]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function parseColors(value) {
+  const names = parseList(value);
+  return (names.length ? names : defaultColors.map((color) => color.name)).map((name) => ({
+    name,
+    value: colorLibrary[name] || '#111111',
+  }));
+}
+
+function normalizeProduct(product) {
+  const image = product.image || productImages.hybridBrown;
+  return {
+    ...product,
+    line: product.line || 'use.a.r.t',
+    price: Number(product.price) || 0,
+    installment: product.installment || 'Consulte parcelas',
+    category: product.category || 'Unissex',
+    colors: Array.isArray(product.colors) && product.colors.length ? product.colors : defaultColors,
+    sizes: Array.isArray(product.sizes) && product.sizes.length ? product.sizes : defaultSizes,
+    active: product.active !== false,
+    image,
+    gallery: Array.isArray(product.gallery) && product.gallery.length ? product.gallery : [image],
+    description: product.description || 'Produto use.a.r.t com proposta minimalista, confortável e versátil.',
+  };
+}
+
+function loadProducts() {
+  const saved = readStorage(storageKeys.products, null) || readStorage(storageKeys.legacyProducts, null);
+  const source = Array.isArray(saved) && saved.length ? saved : defaultProducts;
+  return source.map(normalizeProduct);
+}
+
 function saveProducts(products) {
-  localStorage.setItem(storageKey, JSON.stringify(products));
+  writeStorage(storageKeys.products, products);
+}
+
+function loadCart() {
+  const saved = readStorage(storageKeys.cart, []);
+  if (!Array.isArray(saved)) return [];
+
+  return saved
+    .map((item) => {
+      if (!item?.product) return null;
+      const product = normalizeProduct(item.product);
+      const color = typeof item.color === 'string'
+        ? { name: item.color, value: colorLibrary[item.color] || '#111111' }
+        : item.color || product.colors[0];
+      const size = item.size || product.sizes[0];
+      const quantity = Math.max(1, Number(item.quantity) || 1);
+      const key = item.key || `${product.id}-${color?.name || 'sem-cor'}-${size || 'sem-tamanho'}`;
+      return { key, product, color, size, quantity };
+    })
+    .filter(Boolean);
+}
+
+function formatOrderDate(date) {
+  return date.toLocaleDateString('pt-BR');
+}
+
+function buildOrderId(date) {
+  const pad = (value) => String(value).padStart(2, '0');
+  return `USEART-${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}-${pad(date.getHours())}${pad(date.getMinutes())}${pad(date.getSeconds())}`;
+}
+
+function buildWhatsAppMessage(order) {
+  const addressLines = order.shipping.id === 'retirada-art'
+    ? ['Retirada ART: combinar horário e local no atendimento.']
+    : [
+        `CEP: ${order.address.cep}`,
+        `Rua: ${order.address.street}, ${order.address.number}`,
+        `Complemento: ${order.address.complement || '-'}`,
+        `Bairro: ${order.address.district}`,
+        `Cidade/UF: ${order.address.city} - ${order.address.state}`,
+      ];
+
+  const itemLines = order.items.flatMap((item, index) => [
+    `${index + 1}. ${item.quantity}x ${item.product.name}`,
+    `Cor: ${item.color.name}`,
+    `Tamanho: ${item.size}`,
+    `Valor unitário: ${money(item.product.price)}`,
+    `Subtotal: ${money(item.product.price * item.quantity)}`,
+    '',
+  ]);
+
+  return [
+    'Olá! Quero finalizar um pedido na use.a.r.t.',
+    '',
+    `Pedido: ${order.id}`,
+    `Data: ${formatOrderDate(new Date(order.createdAt))}`,
+    '',
+    'Cliente:',
+    `Nome: ${order.customer.name}`,
+    `WhatsApp: ${order.customer.phone}`,
+    `E-mail: ${order.customer.email}`,
+    '',
+    'Entrega:',
+    `Método: ${order.shipping.name}`,
+    `Frete: ${money(order.shipping.price)}`,
+    '',
+    'Endereço:',
+    ...addressLines,
+    '',
+    'Itens:',
+    ...itemLines,
+    'Pagamento:',
+    order.payment.name,
+    '',
+    'Resumo:',
+    `Subtotal produtos: ${money(order.subtotal)}`,
+    `Frete: ${money(order.shipping.price)}`,
+    `Total: ${money(order.total)}`,
+    '',
+    'Aguardo confirmação para pagamento e envio.',
+  ].join('\n');
+}
+
+function buildWhatsAppUrl(order) {
+  return `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(buildWhatsAppMessage(order))}`;
+}
+
+function saveOrder(order) {
+  const current = readStorage(storageKeys.orders, []);
+  const next = [order, ...(Array.isArray(current) ? current : [])].slice(0, 20);
+  writeStorage(storageKeys.orders, next);
 }
 
 function Icon({ name }) {
   const props = { viewBox: '0 0 24 24', fill: 'none', 'aria-hidden': true };
-  if (name === 'bag') return <svg {...props}><path d="M6.5 8h11l-.8 12H7.3L6.5 8Z" stroke="currentColor" strokeWidth="1.8"/><path d="M9 9V7.3C9 5.5 10.3 4 12 4s3 1.5 3 3.3V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
-  if (name === 'user') return <svg {...props}><circle cx="12" cy="8" r="3.1" stroke="currentColor" strokeWidth="1.8"/><path d="M6.8 19c.9-2.1 2.8-3.4 5.2-3.4s4.3 1.3 5.2 3.4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
-  if (name === 'search') return <svg {...props}><circle cx="10.8" cy="10.8" r="5.8" stroke="currentColor" strokeWidth="1.8"/><path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
-  if (name === 'arrow') return <svg {...props}><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-  if (name === 'x') return <svg {...props}><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
-  if (name === 'trash') return <svg {...props}><path d="M5 7h14M10 11v6M14 11v6M8 7l1-3h6l1 3M7 7l1 13h8l1-13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-  if (name === 'minus') return <svg {...props}><path d="M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
-  if (name === 'plus') return <svg {...props}><path d="M12 6v12M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>;
+  if (name === 'bag') return <svg {...props}><path d="M6.5 8h11l-.8 12H7.3L6.5 8Z" stroke="currentColor" strokeWidth="1.8" /><path d="M9 9V7.3C9 5.5 10.3 4 12 4s3 1.5 3 3.3V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
+  if (name === 'user') return <svg {...props}><circle cx="12" cy="8" r="3.1" stroke="currentColor" strokeWidth="1.8" /><path d="M6.8 19c.9-2.1 2.8-3.4 5.2-3.4s4.3 1.3 5.2 3.4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
+  if (name === 'search') return <svg {...props}><circle cx="10.8" cy="10.8" r="5.8" stroke="currentColor" strokeWidth="1.8" /><path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
+  if (name === 'arrow') return <svg {...props}><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  if (name === 'x') return <svg {...props}><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
+  if (name === 'trash') return <svg {...props}><path d="M5 7h14M10 11v6M14 11v6M8 7l1-3h6l1 3M7 7l1 13h8l1-13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  if (name === 'minus') return <svg {...props}><path d="M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
+  if (name === 'plus') return <svg {...props}><path d="M12 6v12M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>;
   return null;
 }
 
@@ -234,11 +385,15 @@ function Logo({ className = '' }) {
   return <img className={`logo ${className}`} src="/assets/use-art-logo.jpg" alt="use.a.r.t" />;
 }
 
-function Header({ cartCount, onCartClick, onAdminClick }) {
+function Header({ cartCount, onCartClick, onAdminClick, search, onSearchChange }) {
+  function handleSubmit(event) {
+    event.preventDefault();
+    document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <header className="site-header">
       <div className="top-promo" aria-label="Cupom de primeira compra">
-        <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
         <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
         <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
         <span>10% de desconto com o cupom: PRIMEIRACOMPRA</span>
@@ -249,16 +404,25 @@ function Header({ cartCount, onCartClick, onAdminClick }) {
           <nav>
             <a href="#inicio">Início</a>
             <a href="#produtos">Produtos</a>
+            <a href="#contato">Contato</a>
           </nav>
         </div>
         <div className="header-actions">
-          <div className="header-search"><input placeholder="O que você está buscando?" /><Icon name="search" /></div>
+          <form className="header-search" onSubmit={handleSubmit}>
+            <Icon name="search" />
+            <input
+              value={search}
+              onChange={(event) => onSearchChange(event.target.value)}
+              placeholder="Buscar camiseta"
+              aria-label="Buscar produtos"
+            />
+          </form>
           <a href="#produtos" className="cart-pill">Comprar</a>
-          <button className="icon-button cart-button" type="button" aria-label="Sacola" onClick={onCartClick}>
+          <button className="icon-button cart-button" type="button" aria-label="Abrir carrinho" onClick={onCartClick}>
             <Icon name="bag" />
             {cartCount > 0 && <span>{cartCount}</span>}
           </button>
-          <button className="icon-button" type="button" aria-label="Admin" onClick={onAdminClick}><Icon name="user" /></button>
+          <button className="icon-button" type="button" aria-label="Abrir admin" onClick={onAdminClick}><Icon name="user" /></button>
         </div>
       </div>
     </header>
@@ -267,48 +431,65 @@ function Header({ cartCount, onCartClick, onAdminClick }) {
 
 function Hero({ products }) {
   const main = products.find((item) => item.id === 'camiseta-hybrid-art-central') || products[0];
+
   return (
     <section id="inicio" className="hero-section">
-      <div className="hero-media"><img src={main.image} alt={main.name} /></div>
+      <div className="hero-media"><img src={main?.image || productImages.hybridWhiteCenter} alt={main?.name || 'Camiseta use.a.r.t'} /></div>
       <div className="hero-overlay">
-        <p>Nova coleção</p>
-        <h1>Conforto em movimento</h1>
-        <a href="#produtos" className="hero-button">Quero conhecer</a>
+        <p>Coleção use.a.r.t</p>
+        <h1>Vista seu movimento</h1>
+        <span>Camisetas minimalistas para quem busca conforto, presença e identidade na rotina.</span>
+        <div className="hero-actions">
+          <a href="#produtos" className="hero-button primary">Ver produtos</a>
+          <a href="#produtos" className="hero-button secondary">Comprar agora</a>
+        </div>
       </div>
     </section>
   );
 }
 
 function ProductCard({ product, onOpen }) {
+  function openProduct() {
+    onOpen(product);
+  }
+
   return (
-    <article className="product-card" onClick={() => onOpen(product)}>
+    <article
+      className="product-card"
+      onClick={openProduct}
+      onKeyDown={(event) => event.key === 'Enter' && openProduct()}
+      tabIndex="0"
+    >
       <div className="product-image">
         <img src={product.image} alt={product.name} />
-        <span>Até 5% off comprando em quantidade</span>
+        {product.category === 'Kit' && <span>Kit</span>}
       </div>
       <div className="product-info">
-        <p>{product.line}</p>
+        <p>{product.line} / {product.category}</p>
         <div className="product-title-row">
           <h3>{product.name}</h3>
           <strong>{money(product.price)}</strong>
         </div>
         <small>{product.installment}</small>
-        <div className="color-dots">
-          {product.colors.map((color) => <i key={color.name} style={{ background: color.value }} title={color.name} />)}
+        <div className="card-bottom">
+          <div className="color-dots" aria-label="Cores disponíveis">
+            {product.colors.map((color) => <i key={color.name} style={{ background: color.value }} title={color.name} />)}
+          </div>
+          <button type="button">Ver produto</button>
         </div>
       </div>
     </article>
   );
 }
 
-function ProductsSection({ products, onOpen }) {
+function ProductsSection({ products, query, onQueryChange, onOpen }) {
   const [filter, setFilter] = useState('Todos');
-  const [query, setQuery] = useState('');
   const [sort, setSort] = useState('az');
   const filters = ['Todos', 'Masculino', 'Feminino', 'Unissex', 'Kit'];
 
   const visible = useMemo(() => {
     return products
+      .filter((product) => product.active !== false)
       .filter((product) => filter === 'Todos' || product.category === filter)
       .filter((product) => product.name.toLowerCase().includes(query.toLowerCase()))
       .sort((a, b) => {
@@ -322,60 +503,124 @@ function ProductsSection({ products, onOpen }) {
     <section id="produtos" className="products-section">
       <div className="catalog-top">
         <div>
-          <p>Início / Produtos</p>
+          <p>Catálogo use.a.r.t</p>
           <h2>Produtos</h2>
           <div className="category-tabs">
-            {filters.map((item) => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>{item}</button>)}
+            {filters.map((item) => (
+              <button key={item} type="button" className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>
+                {item}
+              </button>
+            ))}
           </div>
         </div>
         <div className="catalog-controls">
-          <label className="search"><Icon name="search" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar" /></label>
-          <select value={sort} onChange={(event) => setSort(event.target.value)}>
+          <label className="search">
+            <Icon name="search" />
+            <input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Buscar por nome" />
+          </label>
+          <select value={sort} onChange={(event) => setSort(event.target.value)} aria-label="Ordenar produtos">
             <option value="az">A-Z</option>
             <option value="price-asc">Menor preço</option>
             <option value="price-desc">Maior preço</option>
           </select>
         </div>
       </div>
-      <div className="product-grid">
-        {visible.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} />)}
-      </div>
+      {visible.length ? (
+        <div className="product-grid">
+          {visible.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} />)}
+        </div>
+      ) : (
+        <div className="empty-state">Nenhum produto encontrado.</div>
+      )}
     </section>
   );
 }
 
 function ProductModal({ product, onClose, onAddToCart }) {
   const [image, setImage] = useState(product?.gallery?.[0] || product?.image);
-  const [color, setColor] = useState(product?.colors?.[0]);
-  const [size, setSize] = useState(product?.sizes?.[1] || product?.sizes?.[0]);
+  const [color, setColor] = useState(null);
+  const [size, setSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [error, setError] = useState('');
 
   if (!product) return null;
+
+  function changeQuantity(nextQuantity) {
+    setQuantity(Math.max(1, Number(nextQuantity) || 1));
+  }
+
+  function submit() {
+    if (product.colors?.length && !color) {
+      setError('Escolha uma cor para continuar.');
+      return;
+    }
+    if (product.sizes?.length && !size) {
+      setError('Escolha um tamanho para continuar.');
+      return;
+    }
+    onAddToCart(product, color, size, quantity);
+    onClose();
+  }
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="detail-modal" onClick={(event) => event.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        <button className="modal-close" type="button" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
         <div className="detail-image">
           <img src={image} alt={product.name} />
           <div className="thumb-row">
-            {product.gallery.map((item) => <button key={item} className={image === item ? 'active' : ''} onClick={() => setImage(item)}><img src={item} alt="Miniatura do produto" /></button>)}
+            {product.gallery.map((item) => (
+              <button key={item} type="button" className={image === item ? 'active' : ''} onClick={() => setImage(item)}>
+                <img src={item} alt="Miniatura do produto" />
+              </button>
+            ))}
           </div>
         </div>
         <div className="detail-content">
           <p className="product-line-label">{product.line}</p>
           <h2>{product.name}</h2>
           <strong>{money(product.price)}</strong>
+          <small className="installment-line">{product.installment}</small>
           <p className="detail-description">{product.description}</p>
-          <p className="option-label">Cores</p>
+
+          <p className="option-label">Cor</p>
           <div className="color-options">
-            {product.colors.map((item) => <button key={item.name} title={item.name} className={color?.name === item.name ? 'active' : ''} style={{ background: item.value }} onClick={() => setColor(item)} />)}
+            {product.colors.map((item) => (
+              <button
+                key={item.name}
+                type="button"
+                title={item.name}
+                aria-label={`Selecionar cor ${item.name}`}
+                className={color?.name === item.name ? 'active' : ''}
+                style={{ background: item.value }}
+                onClick={() => { setColor(item); setError(''); }}
+              />
+            ))}
           </div>
+
           <p className="option-label">Tamanho</p>
           <div className="size-grid detail-sizes">
-            {product.sizes.map((item) => <button key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)}>{item}</button>)}
+            {product.sizes.map((item) => (
+              <button key={item} type="button" className={size === item ? 'active' : ''} onClick={() => { setSize(item); setError(''); }}>
+                {item}
+              </button>
+            ))}
           </div>
-          <div className="selected-summary"><i style={{ background: color?.value }} /> {color?.name} / {size}</div>
-          <button className="primary-link full" onClick={() => { onAddToCart(product, color, size); onClose(); }}>
+
+          <p className="option-label">Quantidade</p>
+          <div className="quantity-box quantity-large">
+            <button type="button" onClick={() => changeQuantity(quantity - 1)} disabled={quantity <= 1}><Icon name="minus" /></button>
+            <span>{quantity}</span>
+            <button type="button" onClick={() => changeQuantity(quantity + 1)}><Icon name="plus" /></button>
+          </div>
+
+          <div className="selected-summary">
+            {color ? <i style={{ background: color.value }} /> : <i />}
+            {color?.name || 'Selecione a cor'} / {size || 'Selecione o tamanho'}
+          </div>
+
+          {error && <div className="form-error">{error}</div>}
+          <button className="primary-link full" type="button" onClick={submit}>
             Adicionar ao carrinho <Icon name="arrow" />
           </button>
         </div>
@@ -384,7 +629,7 @@ function ProductModal({ product, onClose, onAddToCart }) {
   );
 }
 
-function CartDrawer({ cart, onClose, onRemove, onUpdateQuantity, onCheckout }) {
+function CartDrawer({ cart, onClose, onRemove, onClear, onUpdateQuantity, onCheckout }) {
   const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
   return (
@@ -393,12 +638,12 @@ function CartDrawer({ cart, onClose, onRemove, onUpdateQuantity, onCheckout }) {
         <div className="drawer-head">
           <div>
             <p>use.a.r.t</p>
-            <h2>Sacola</h2>
+            <h2>Carrinho</h2>
           </div>
-          <button onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+          <button type="button" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
         </div>
         {cart.length === 0 ? (
-          <div className="empty-cart"><p>Sua sacola está vazia.</p><a href="#produtos" onClick={onClose}>Ver produtos</a></div>
+          <div className="empty-cart"><p>Seu carrinho está vazio.</p><a href="#produtos" onClick={onClose}>Ver produtos</a></div>
         ) : (
           <>
             <div className="cart-items">
@@ -410,12 +655,12 @@ function CartDrawer({ cart, onClose, onRemove, onUpdateQuantity, onCheckout }) {
                     <span>{item.color.name} / {item.size}</span>
                     <p>{money(item.product.price)}</p>
                     <div className="quantity-box">
-                      <button onClick={() => onUpdateQuantity(item.key, item.quantity - 1)}><Icon name="minus" /></button>
+                      <button type="button" onClick={() => onUpdateQuantity(item.key, item.quantity - 1)} disabled={item.quantity <= 1}><Icon name="minus" /></button>
                       <span>{item.quantity}</span>
-                      <button onClick={() => onUpdateQuantity(item.key, item.quantity + 1)}><Icon name="plus" /></button>
+                      <button type="button" onClick={() => onUpdateQuantity(item.key, item.quantity + 1)}><Icon name="plus" /></button>
                     </div>
                   </div>
-                  <button className="remove-item" onClick={() => onRemove(item.key)} aria-label="Remover"><Icon name="trash" /></button>
+                  <button className="remove-item" type="button" onClick={() => onRemove(item.key)} aria-label="Remover"><Icon name="trash" /></button>
                 </div>
               ))}
             </div>
@@ -423,7 +668,8 @@ function CartDrawer({ cart, onClose, onRemove, onUpdateQuantity, onCheckout }) {
               <span>Subtotal</span>
               <strong>{money(subtotal)}</strong>
             </div>
-            <button className="primary-link full" onClick={onCheckout}>Finalizar compra</button>
+            <button className="primary-link full" type="button" onClick={onCheckout}>Finalizar pedido</button>
+            <button className="secondary-link full" type="button" onClick={onClear}>Limpar carrinho</button>
           </>
         )}
       </aside>
@@ -433,36 +679,87 @@ function CartDrawer({ cart, onClose, onRemove, onUpdateQuantity, onCheckout }) {
 
 function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
   const [step, setStep] = useState('contact');
-  const [customer, setCustomer] = useState({ email: '', phone: '', firstName: '', lastName: '', cep: '', address: '', city: '', state: 'MS' });
+  const [customer, setCustomer] = useState({ name: '', phone: '', email: '' });
+  const [address, setAddress] = useState({ cep: '', street: '', number: '', complement: '', district: '', city: '', state: 'MS' });
   const [shipping, setShipping] = useState(shippingOptions[0]);
   const [payment, setPayment] = useState(paymentMethods[0]);
+  const [errors, setErrors] = useState({});
   const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const total = subtotal + shipping.price;
+  const needsAddress = shipping.id !== 'retirada-art';
+  const steps = [
+    { id: 'contact', label: 'Contato' },
+    { id: 'shipping', label: 'Entrega' },
+    { id: 'payment', label: 'Pagamento' },
+    { id: 'review', label: 'Revisão' },
+  ];
+
+  function updateCustomer(field, value) {
+    setCustomer((current) => ({ ...current, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: '' }));
+  }
+
+  function updateAddress(field, value) {
+    setAddress((current) => ({ ...current, [field]: value }));
+    setErrors((current) => ({ ...current, [field]: '' }));
+  }
+
+  function validateContact() {
+    const nextErrors = {};
+    if (!customer.name.trim()) nextErrors.name = 'Informe seu nome completo.';
+    if (!customer.phone.trim()) nextErrors.phone = 'Informe seu WhatsApp ou telefone.';
+    if (!customer.email.trim()) nextErrors.email = 'Informe seu e-mail.';
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  }
+
+  function validateShipping() {
+    const nextErrors = {};
+    if (needsAddress) {
+      if (!address.cep.trim()) nextErrors.cep = 'Informe o CEP.';
+      if (!address.street.trim()) nextErrors.street = 'Informe a rua.';
+      if (!address.number.trim()) nextErrors.number = 'Informe o número.';
+      if (!address.district.trim()) nextErrors.district = 'Informe o bairro.';
+      if (!address.city.trim()) nextErrors.city = 'Informe a cidade.';
+      if (!address.state.trim()) nextErrors.state = 'Informe o estado.';
+    }
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  }
+
+  function goToShipping() {
+    if (validateContact()) setStep('shipping');
+  }
+
+  function goToPayment() {
+    if (validateShipping()) setStep('payment');
+  }
+
+  function finish() {
+    onFinish({ customer, address, shipping, payment, subtotal, total });
+  }
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="checkout-modal" onClick={(event) => event.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        <button className="modal-close" type="button" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
         <div className="checkout-main">
-          <button className="back-link" onClick={onBackToCart}>← Voltar para sacola</button>
+          <button className="back-link" type="button" onClick={onBackToCart}>Voltar para o carrinho</button>
           <h2>Checkout</h2>
           <div className="checkout-steps">
-            <span className={step === 'contact' ? 'active' : ''}>Carrinho</span>
-            <span className={step === 'shipping' ? 'active' : ''}>Entrega</span>
-            <span className={step === 'payment' ? 'active' : ''}>Pagamento</span>
+            {steps.map((item) => <span key={item.id} className={step === item.id ? 'active' : ''}>{item.label}</span>)}
           </div>
 
           {step === 'contact' && (
             <div className="checkout-panel">
-              <h3>Dados de contato</h3>
-              <input placeholder="E-mail" value={customer.email} onChange={(event) => setCustomer({ ...customer, email: event.target.value })} />
-              <input placeholder="Telefone" value={customer.phone} onChange={(event) => setCustomer({ ...customer, phone: event.target.value })} />
-              <h3>Endereço de entrega</h3>
-              <div className="form-grid two"><input placeholder="Nome" value={customer.firstName} onChange={(event) => setCustomer({ ...customer, firstName: event.target.value })} /><input placeholder="Sobrenome" value={customer.lastName} onChange={(event) => setCustomer({ ...customer, lastName: event.target.value })} /></div>
-              <div className="form-grid two"><input placeholder="CEP" value={customer.cep} onChange={(event) => setCustomer({ ...customer, cep: event.target.value })} /><input placeholder="UF" value={customer.state} onChange={(event) => setCustomer({ ...customer, state: event.target.value })} /></div>
-              <input placeholder="Endereço" value={customer.address} onChange={(event) => setCustomer({ ...customer, address: event.target.value })} />
-              <input placeholder="Cidade" value={customer.city} onChange={(event) => setCustomer({ ...customer, city: event.target.value })} />
-              <button className="primary-link full" onClick={() => setStep('shipping')}>Ir para entrega <Icon name="arrow" /></button>
+              <h3>Contato</h3>
+              <input placeholder="Nome completo" value={customer.name} onChange={(event) => updateCustomer('name', event.target.value)} />
+              {errors.name && <div className="field-error">{errors.name}</div>}
+              <input placeholder="WhatsApp / telefone" value={customer.phone} onChange={(event) => updateCustomer('phone', event.target.value)} />
+              {errors.phone && <div className="field-error">{errors.phone}</div>}
+              <input placeholder="E-mail" value={customer.email} onChange={(event) => updateCustomer('email', event.target.value)} />
+              {errors.email && <div className="field-error">{errors.email}</div>}
+              <button className="primary-link full" type="button" onClick={goToShipping}>Ir para entrega <Icon name="arrow" /></button>
             </div>
           )}
 
@@ -471,13 +768,37 @@ function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
               <h3>Entrega</h3>
               <div className="option-list">
                 {shippingOptions.map((option) => (
-                  <button key={option.id} className={shipping.id === option.id ? 'selected' : ''} onClick={() => setShipping(option)}>
-                    <span><strong>{option.name}</strong><small>{option.detail} · Chega {option.eta}</small></span>
+                  <button key={option.id} type="button" className={shipping.id === option.id ? 'selected' : ''} onClick={() => { setShipping(option); setErrors({}); }}>
+                    <span><strong>{option.name}</strong><small>{option.detail}</small></span>
                     <b>{option.price === 0 ? 'Grátis' : money(option.price)}</b>
                   </button>
                 ))}
               </div>
-              <button className="primary-link full" onClick={() => setStep('payment')}>Ir para pagamento <Icon name="arrow" /></button>
+              <p className="checkout-note">O valor do frete entra no total e pode ser conferido com a loja antes do envio.</p>
+              {needsAddress ? (
+                <>
+                  <h3>Endereço</h3>
+                  <div className="form-grid two">
+                    <label><input placeholder="CEP" value={address.cep} onChange={(event) => updateAddress('cep', event.target.value)} />{errors.cep && <small>{errors.cep}</small>}</label>
+                    <label><input placeholder="Estado" value={address.state} onChange={(event) => updateAddress('state', event.target.value.toUpperCase())} />{errors.state && <small>{errors.state}</small>}</label>
+                  </div>
+                  <div className="form-grid two">
+                    <label><input placeholder="Rua" value={address.street} onChange={(event) => updateAddress('street', event.target.value)} />{errors.street && <small>{errors.street}</small>}</label>
+                    <label><input placeholder="Número" value={address.number} onChange={(event) => updateAddress('number', event.target.value)} />{errors.number && <small>{errors.number}</small>}</label>
+                  </div>
+                  <input placeholder="Complemento" value={address.complement} onChange={(event) => updateAddress('complement', event.target.value)} />
+                  <div className="form-grid two">
+                    <label><input placeholder="Bairro" value={address.district} onChange={(event) => updateAddress('district', event.target.value)} />{errors.district && <small>{errors.district}</small>}</label>
+                    <label><input placeholder="Cidade" value={address.city} onChange={(event) => updateAddress('city', event.target.value)} />{errors.city && <small>{errors.city}</small>}</label>
+                  </div>
+                </>
+              ) : (
+                <div className="pickup-box">Retirada combinada diretamente pelo WhatsApp da loja.</div>
+              )}
+              <div className="checkout-actions">
+                <button className="secondary-link" type="button" onClick={() => setStep('contact')}>Voltar</button>
+                <button className="primary-link" type="button" onClick={goToPayment}>Ir para pagamento <Icon name="arrow" /></button>
+              </div>
             </div>
           )}
 
@@ -486,16 +807,46 @@ function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
               <h3>Forma de pagamento</h3>
               <div className="option-list payment-list">
                 {paymentMethods.map((method) => (
-                  <button key={method.id} className={payment.id === method.id ? 'selected' : ''} onClick={() => setPayment(method)}>
+                  <button key={method.id} type="button" className={payment.id === method.id ? 'selected' : ''} onClick={() => setPayment(method)}>
                     <span><strong>{method.name}</strong><small>{method.detail}</small></span>
                     <i>›</i>
                   </button>
                 ))}
               </div>
-              <div className="payment-note">
-                Demo visual: em produção, este botão chamaria o gateway de pagamento por backend seguro e registraria o pedido no banco.
+              <p className="checkout-note">A loja confirma os dados do pedido e segue com a cobrança pelo atendimento.</p>
+              <div className="checkout-actions">
+                <button className="secondary-link" type="button" onClick={() => setStep('shipping')}>Voltar</button>
+                <button className="primary-link" type="button" onClick={() => setStep('review')}>Revisar pedido <Icon name="arrow" /></button>
               </div>
-              <button className="primary-link full" onClick={() => onFinish({ customer, shipping, payment, total })}>Fazer pedido</button>
+            </div>
+          )}
+
+          {step === 'review' && (
+            <div className="checkout-panel review-panel">
+              <h3>Revise seu pedido</h3>
+              <div className="review-block">
+                <strong>Cliente</strong>
+                <p>{customer.name}</p>
+                <p>{customer.phone}</p>
+                <p>{customer.email}</p>
+              </div>
+              <div className="review-block">
+                <strong>Entrega</strong>
+                <p>{shipping.name} - {shipping.price === 0 ? 'Grátis' : money(shipping.price)}</p>
+                {needsAddress ? (
+                  <p>{address.street}, {address.number} - {address.district}, {address.city}/{address.state}</p>
+                ) : (
+                  <p>Retirada ART combinada no atendimento.</p>
+                )}
+              </div>
+              <div className="review-block">
+                <strong>Pagamento</strong>
+                <p>{payment.name}</p>
+              </div>
+              <div className="checkout-actions">
+                <button className="secondary-link" type="button" onClick={() => setStep('payment')}>Voltar</button>
+                <button className="primary-link" type="button" onClick={finish}>Finalizar pedido pelo WhatsApp</button>
+              </div>
             </div>
           )}
         </div>
@@ -505,11 +856,10 @@ function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
           {cart.map((item) => (
             <div className="summary-item" key={item.key}>
               <img src={item.product.image} alt={item.product.name} />
-              <div><strong>{item.product.name}</strong><span>{item.color.name} / {item.size} × {item.quantity}</span></div>
+              <div><strong>{item.product.name}</strong><span>{item.color.name} / {item.size} x {item.quantity}</span></div>
               <b>{money(item.product.price * item.quantity)}</b>
             </div>
           ))}
-          <div className="coupon-field">Adicionar cupom de desconto</div>
           <div className="summary-row"><span>Subtotal</span><b>{money(subtotal)}</b></div>
           <div className="summary-row"><span>Frete</span><b>{shipping.price === 0 ? 'Grátis' : money(shipping.price)}</b></div>
           <div className="summary-total"><span>Total</span><b>{money(total)}</b></div>
@@ -521,48 +871,106 @@ function CheckoutModal({ cart, onClose, onBackToCart, onFinish }) {
 
 function SuccessModal({ order, onClose }) {
   if (!order) return null;
+
+  function openWhatsApp() {
+    window.open(order.whatsappUrl, '_blank', 'noopener,noreferrer');
+  }
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="success-modal" onClick={(event) => event.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
+        <button className="modal-close" type="button" onClick={onClose} aria-label="Fechar"><Icon name="x" /></button>
         <Logo />
-        <p>Pedido simulado criado</p>
+        <p>Pedido enviado para WhatsApp</p>
         <h2>Obrigado por comprar na use.a.r.t</h2>
+        <span>Pedido: {order.id}</span>
         <span>Entrega: {order.shipping.name}</span>
         <span>Pagamento: {order.payment.name}</span>
         <strong>Total: {money(order.total)}</strong>
-        <button className="primary-link" onClick={onClose}>Voltar para loja</button>
+        <button className="primary-link full" type="button" onClick={openWhatsApp}>Abrir WhatsApp novamente</button>
+        <button className="secondary-link full" type="button" onClick={onClose}>Continuar comprando</button>
       </div>
     </div>
   );
 }
 
+function emptyAdminForm() {
+  return {
+    name: '',
+    line: '',
+    price: '',
+    installment: '',
+    category: 'Masculino',
+    colors: 'Branco/off-white, Preto, Marrom',
+    sizes: 'PP, P, M, G, GG, XG',
+    description: '',
+    image: productImages.hybridBrown,
+    active: true,
+  };
+}
+
 function AdminModal({ products, setProducts, onClose }) {
   const [logged, setLogged] = useState(false);
   const [password, setPassword] = useState('');
-  const [form, setForm] = useState({ name: '', line: '', price: '', installment: '', category: 'Masculino', image: productImages.hybridBrown });
+  const [form, setForm] = useState(emptyAdminForm);
   const [preview, setPreview] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [formError, setFormError] = useState('');
 
-  function addProduct() {
-    if (!form.name || !form.price) return;
-    const newProduct = {
-      id: safeId(),
-      name: form.name,
-      line: form.line || 'Nova peça',
+  function resetForm() {
+    setForm(emptyAdminForm());
+    setPreview(null);
+    setEditingId(null);
+    setFormError('');
+  }
+
+  function saveProduct() {
+    if (!form.name.trim() || !form.price) {
+      setFormError('Informe nome e preço para salvar o produto.');
+      return;
+    }
+
+    const previous = products.find((product) => product.id === editingId);
+    const image = preview || form.image || previous?.image || productImages.hybridBrown;
+    const product = normalizeProduct({
+      id: editingId || safeId(),
+      name: form.name.trim(),
+      line: form.line.trim() || 'Nova peça',
       price: Number(String(form.price).replace(',', '.')) || 0,
-      installment: form.installment || 'Consulte parcelas',
+      installment: form.installment.trim() || 'Consulte parcelas',
       category: form.category,
-      colors: [{ name: 'Branco', value: '#f4f4f1' }, { name: 'Preto', value: '#050505' }],
-      sizes: ['PP', 'P', 'M', 'G', 'GG'],
-      image: preview || form.image,
-      gallery: [preview || form.image],
-      description: 'Produto cadastrado no painel administrativo da demo.',
-    };
-    const next = [...products, newProduct];
+      colors: parseColors(form.colors),
+      sizes: parseList(form.sizes).length ? parseList(form.sizes) : defaultSizes,
+      active: form.active,
+      image,
+      gallery: preview ? [image] : previous?.gallery?.length ? previous.gallery : [image],
+      description: form.description.trim() || 'Produto use.a.r.t cadastrado no painel local.',
+    });
+
+    const next = editingId
+      ? products.map((item) => (item.id === editingId ? product : item))
+      : [...products, product];
+
     setProducts(next);
     saveProducts(next);
-    setForm({ name: '', line: '', price: '', installment: '', category: 'Masculino', image: productImages.hybridBrown });
+    resetForm();
+  }
+
+  function startEdit(product) {
+    setEditingId(product.id);
     setPreview(null);
+    setForm({
+      name: product.name,
+      line: product.line,
+      price: String(product.price).replace('.', ','),
+      installment: product.installment,
+      category: product.category,
+      colors: product.colors.map((color) => color.name).join(', '),
+      sizes: product.sizes.join(', '),
+      description: product.description,
+      image: product.image,
+      active: product.active !== false,
+    });
   }
 
   function removeProduct(id) {
@@ -571,9 +979,16 @@ function AdminModal({ products, setProducts, onClose }) {
     saveProducts(next);
   }
 
+  function toggleProduct(id) {
+    const next = products.map((product) => (product.id === id ? { ...product, active: product.active === false } : product));
+    setProducts(next);
+    saveProducts(next);
+  }
+
   function restore() {
     setProducts(defaultProducts);
     saveProducts(defaultProducts);
+    resetForm();
   }
 
   function handleUpload(file) {
@@ -586,35 +1001,57 @@ function AdminModal({ products, setProducts, onClose }) {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="admin-modal" onClick={(event) => event.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}><Icon name="x" /></button>
+        <button className="modal-close" type="button" onClick={onClose}><Icon name="x" /></button>
         {!logged ? (
           <div className="admin-login">
-            <h2>Admin demo</h2>
-            <p>Área demonstrativa para cadastrar produtos localmente. Senha da demo: useart2026.</p>
+            <h2>Admin local</h2>
+            <p>Controle básico do catálogo salvo neste navegador. A senha local está no README do projeto.</p>
             <input type="password" value={password} placeholder="Senha" onChange={(event) => setPassword(event.target.value)} />
-            <button className="primary-link" onClick={() => setLogged(password === ADMIN_PASSWORD)}>Entrar</button>
+            <button className="primary-link" type="button" onClick={() => setLogged(password === ADMIN_PASSWORD)}>Entrar</button>
           </div>
         ) : (
           <div className="admin-grid">
             <div className="admin-form">
-              <h2>Novo produto</h2>
+              <h2>{editingId ? 'Editar produto' : 'Novo produto'}</h2>
               <input placeholder="Nome" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} />
               <input placeholder="Linha" value={form.line} onChange={(event) => setForm({ ...form, line: event.target.value })} />
               <input placeholder="Preço" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} />
               <input placeholder="Parcelamento" value={form.installment} onChange={(event) => setForm({ ...form, installment: event.target.value })} />
-              <select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}><option>Masculino</option><option>Feminino</option><option>Unissex</option><option>Kit</option></select>
+              <select value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}>
+                <option>Masculino</option>
+                <option>Feminino</option>
+                <option>Unissex</option>
+                <option>Kit</option>
+              </select>
+              <input placeholder="Cores disponíveis" value={form.colors} onChange={(event) => setForm({ ...form, colors: event.target.value })} />
+              <input placeholder="Tamanhos disponíveis" value={form.sizes} onChange={(event) => setForm({ ...form, sizes: event.target.value })} />
+              <textarea placeholder="Descrição curta" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} />
+              <label className="check-field">
+                <input type="checkbox" checked={form.active} onChange={(event) => setForm({ ...form, active: event.target.checked })} />
+                Produto ativo na loja
+              </label>
               <label className="file-field">Enviar imagem<input type="file" accept="image/*" onChange={(event) => handleUpload(event.target.files?.[0])} /></label>
-              {preview && <div className="admin-preview"><img src={preview} alt="Prévia" /></div>}
-              <button className="primary-link full" onClick={addProduct}>Adicionar produto</button>
-              <button className="secondary-link full" onClick={restore}>Restaurar produtos reais</button>
+              {(preview || form.image) && <div className="admin-preview"><img src={preview || form.image} alt="Prévia" /></div>}
+              {formError && <div className="form-error">{formError}</div>}
+              <button className="primary-link full" type="button" onClick={saveProduct}>{editingId ? 'Salvar alterações' : 'Adicionar produto'}</button>
+              {editingId && <button className="secondary-link full" type="button" onClick={resetForm}>Cancelar edição</button>}
+              <button className="secondary-link full" type="button" onClick={restore}>Restaurar catálogo padrão</button>
             </div>
             <div className="admin-list">
               <h2>Produtos</h2>
               {products.map((product) => (
                 <div className="admin-item" key={product.id}>
                   <img src={product.image} alt={product.name} />
-                  <div><span>{product.name}</span><strong>{money(product.price)}</strong></div>
-                  <button onClick={() => removeProduct(product.id)}>Remover</button>
+                  <div>
+                    <span>{product.name}</span>
+                    <strong>{money(product.price)}</strong>
+                    <small>{product.active === false ? 'Inativo' : 'Ativo'}</small>
+                  </div>
+                  <div className="admin-actions">
+                    <button type="button" onClick={() => startEdit(product)}>Editar</button>
+                    <button type="button" onClick={() => toggleProduct(product.id)}>{product.active === false ? 'Ativar' : 'Inativar'}</button>
+                    <button type="button" onClick={() => removeProduct(product.id)}>Remover</button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -626,30 +1063,32 @@ function AdminModal({ products, setProducts, onClose }) {
 }
 
 function Footer() {
-  const methods = [
-    { name: 'VISA', className: 'visa' },
-    { name: 'mastercard', className: 'master' },
-    { name: 'AMEX', className: 'amex' },
-    { name: 'Diners Club', className: 'diners' },
-    { name: 'Aura', className: 'aura' },
-    { name: 'Bradesco', className: 'bradesco' },
-    { name: 'elo', className: 'elo' },
-    { name: 'Hipercard', className: 'hiper' },
-    { name: 'PIX', className: 'pix' },
-    { name: 'Discover', className: 'discover' },
-    { name: 'Boleto', className: 'boleto' },
-    { name: 'Mercado Pago', className: 'mpago' },
-  ];
-
   return (
-    <footer>
+    <footer id="contato">
       <div className="footer-top">
-        <div><Logo /><strong>use.a.r.t</strong><p>Art | Conforto em movimento</p></div>
-        <div className="footer-menu"><a href="#inicio">Início</a><a href="#produtos">Produtos</a><a href="mailto:use.art.contato@gmail.com">Contato</a></div>
-        <div><strong>Entre em contato</strong><p>use.art.contato@gmail.com</p><p>Campo Grande - MS</p></div>
+        <div className="footer-brand">
+          <Logo />
+          <div>
+            <strong>use.a.r.t</strong>
+            <p>Art | Conforto em movimento</p>
+          </div>
+        </div>
+        <div className="footer-menu">
+          <a href="#inicio">Início</a>
+          <a href="#produtos">Produtos</a>
+          <a href={`https://wa.me/${STORE_WHATSAPP}`} target="_blank" rel="noreferrer">WhatsApp</a>
+          <a href="https://www.instagram.com/use.a.r.t/" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
+        <div className="footer-info">
+          <strong>Atendimento</strong>
+          <p>WhatsApp: +55 67 9169-1441</p>
+          <p>Campo Grande - MS</p>
+          <p>Retirada ART e envios por Correios/Jadlog</p>
+          <p>Compra conferida no atendimento antes do pagamento.</p>
+        </div>
       </div>
       <div className="payment-seals" aria-label="Formas de pagamento aceitas">
-        {methods.map((method) => (
+        {paymentSeals.map((method) => (
           <span key={method.name} className={`payment-seal ${method.className}`}>
             {method.name}
           </span>
@@ -663,44 +1102,86 @@ function Footer() {
 function App() {
   const [products, setProducts] = useState(loadProducts);
   const [selected, setSelected] = useState(null);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(loadCart);
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [successOrder, setSuccessOrder] = useState(null);
-
+  const [productQuery, setProductQuery] = useState('');
+  const activeProducts = useMemo(() => products.filter((product) => product.active !== false), [products]);
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  function addToCart(product, color, size) {
-    const key = `${product.id}-${color.name}-${size}`;
+  useEffect(() => {
+    writeStorage(storageKeys.cart, cart);
+  }, [cart]);
+
+  function addToCart(product, color, size, quantity = 1) {
+    const finalQuantity = Math.max(1, Number(quantity) || 1);
+    const key = `${product.id}-${color?.name || 'sem-cor'}-${size || 'sem-tamanho'}`;
     setCart((current) => {
       const found = current.find((item) => item.key === key);
-      if (found) return current.map((item) => item.key === key ? { ...item, quantity: item.quantity + 1 } : item);
-      return [...current, { key, product, color, size, quantity: 1 }];
+      if (found) {
+        return current.map((item) => (item.key === key ? { ...item, quantity: item.quantity + finalQuantity } : item));
+      }
+      return [...current, { key, product, color, size, quantity: finalQuantity }];
     });
     setCartOpen(true);
   }
 
   function updateQuantity(key, quantity) {
-    if (quantity <= 0) return setCart((current) => current.filter((item) => item.key !== key));
-    setCart((current) => current.map((item) => item.key === key ? { ...item, quantity } : item));
+    setCart((current) => current.map((item) => (item.key === key ? { ...item, quantity: Math.max(1, quantity) } : item)));
   }
 
-  function finishOrder(order) {
+  function finishOrder(orderDraft) {
+    if (!cart.length) return;
+    const createdAt = new Date();
+    const order = {
+      ...orderDraft,
+      id: buildOrderId(createdAt),
+      createdAt: createdAt.toISOString(),
+      items: cart,
+    };
+    const whatsappUrl = buildWhatsAppUrl(order);
+    const finalOrder = { ...order, whatsappUrl };
+
+    saveOrder(finalOrder);
     setCheckoutOpen(false);
     setCart([]);
-    setSuccessOrder(order);
+    setSuccessOrder(finalOrder);
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   }
 
   return (
     <div className="page-shell">
-      <Header cartCount={cartCount} onCartClick={() => setCartOpen(true)} onAdminClick={() => setAdminOpen(true)} />
-      <Hero products={products} />
-      <ProductsSection products={products} onOpen={setSelected} />
+      <Header
+        cartCount={cartCount}
+        onCartClick={() => setCartOpen(true)}
+        onAdminClick={() => setAdminOpen(true)}
+        search={productQuery}
+        onSearchChange={setProductQuery}
+      />
+      <Hero products={activeProducts} />
+      <ProductsSection products={products} query={productQuery} onQueryChange={setProductQuery} onOpen={setSelected} />
       <Footer />
       {selected && <ProductModal product={selected} onClose={() => setSelected(null)} onAddToCart={addToCart} />}
-      {cartOpen && <CartDrawer cart={cart} onClose={() => setCartOpen(false)} onRemove={(key) => setCart((current) => current.filter((item) => item.key !== key))} onUpdateQuantity={updateQuantity} onCheckout={() => { setCartOpen(false); setCheckoutOpen(true); }} />}
-      {checkoutOpen && <CheckoutModal cart={cart} onClose={() => setCheckoutOpen(false)} onBackToCart={() => { setCheckoutOpen(false); setCartOpen(true); }} onFinish={finishOrder} />}
+      {cartOpen && (
+        <CartDrawer
+          cart={cart}
+          onClose={() => setCartOpen(false)}
+          onRemove={(key) => setCart((current) => current.filter((item) => item.key !== key))}
+          onClear={() => setCart([])}
+          onUpdateQuantity={updateQuantity}
+          onCheckout={() => { setCartOpen(false); setCheckoutOpen(true); }}
+        />
+      )}
+      {checkoutOpen && (
+        <CheckoutModal
+          cart={cart}
+          onClose={() => setCheckoutOpen(false)}
+          onBackToCart={() => { setCheckoutOpen(false); setCartOpen(true); }}
+          onFinish={finishOrder}
+        />
+      )}
       {adminOpen && <AdminModal products={products} setProducts={setProducts} onClose={() => setAdminOpen(false)} />}
       {successOrder && <SuccessModal order={successOrder} onClose={() => setSuccessOrder(null)} />}
     </div>
