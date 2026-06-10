@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const STORE_WHATSAPP = '556791691441';
-const ADMIN_PASSWORD = 'useart2026';
+const ADMIN_DEMO_PASSWORD = import.meta.env.VITE_ADMIN_DEMO_PASSWORD || '';
 const BRAND_MARK = '/assets/use-art-logo-black.png';
 
 const storageKeys = {
@@ -1225,9 +1225,9 @@ function AdminModal({ products, setProducts, onClose }) {
         {!logged ? (
           <div className="admin-login">
             <h2>Admin local</h2>
-            <p>Controle básico do catálogo salvo neste navegador. A senha local está no README do projeto.</p>
+            <p>Controle básico do catálogo salvo neste navegador. Configure VITE_ADMIN_DEMO_PASSWORD para usar localmente; isso não é autenticação segura.</p>
             <input type="password" value={password} placeholder="Senha" onChange={(event) => setPassword(event.target.value)} />
-            <button className="primary-link" type="button" onClick={() => setLogged(password === ADMIN_PASSWORD)}>Entrar</button>
+            <button className="primary-link" type="button" onClick={() => setLogged(Boolean(ADMIN_DEMO_PASSWORD) && password === ADMIN_DEMO_PASSWORD)}>Entrar</button>
           </div>
         ) : (
           <div className="admin-grid">
