@@ -34,6 +34,7 @@
 - UI para componentes em `components/*` com CSS Modules e CSS global.
 - Checkout para uma página assistida e honesta.
 - Build configurado para exportação estática em `out`, compatível com Render Static Site.
+- Compatibilidade temporária: `postbuild` replica `out` em `dist` para evitar falha no serviço Render existente enquanto o dashboard não for atualizado para `out`.
 
 ## Assets importados em 18/06/2026
 
