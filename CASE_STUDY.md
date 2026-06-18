@@ -1,57 +1,62 @@
-# Case Study — use.a.r.t
+# Case Study — ART
 
 ## Problema
 
-A use.a.r.t precisava de uma vitrine própria para apresentar camisetas, organizar o carrinho e conduzir o pedido para atendimento sem depender de uma plataforma completa de e-commerce no primeiro MVP.
+A ART precisava evoluir de um MVP estático para uma base mais sustentável de loja própria, removendo simulações inseguras e preparando o caminho para backend, pagamento e frete reais.
 
 ## Público-alvo
 
-Clientes da loja interessados em comprar camisetas minimalistas com seleção de cor, tamanho, entrega e pagamento combinados no atendimento.
+Clientes da loja interessados em streetwear jovem, esportivo e funcional, com compra assistida pelo WhatsApp.
 
 ## Solução
 
-Foi criado um MVP estático em React/Vite com catálogo real, carrinho persistente, checkout interno e finalização pelo WhatsApp da loja.
+O projeto foi migrado para Next.js App Router com TypeScript, domínio separado e checkout assistido honesto. O catálogo foi reduzido às sete ofertas confirmadas e lacunas comerciais passaram a ser exibidas como pendências, não como dados inventados.
 
 ## Minha contribuição
 
-A confirmar no detalhe. Pelo código, o projeto inclui implementação de frontend, experiência de catálogo, carrinho, checkout, persistência local e documentação de limitações do MVP.
+Implementação de frontend, modelagem de domínio, carrinho, cupom transitório, frete honesto, mensagem WhatsApp, documentação de pendências e remoção do admin local inseguro.
 
 ## Stack
 
 - React
-- Vite
-- CSS
+- Next.js App Router
+- TypeScript
+- CSS Modules
 - localStorage
+- Vitest
+- Playwright
 - Render Static Site
 
 ## Arquitetura
 
-Aplicação frontend estática. Produtos, carrinho e pedidos recentes ficam no navegador via `localStorage`. A finalização gera uma mensagem estruturada para WhatsApp.
+Aplicação Next com UI, domínio, dados e integrações futuras separados. O carrinho permanece transitório no navegador, atrás de uma interface de repositório local. A finalização gera uma mensagem estruturada para WhatsApp sem confirmar pedido ou pagamento.
 
 ## Funcionalidades principais
 
 - Catálogo com busca, filtros e ordenação.
 - Variações por cor e tamanho.
+- Kit com três configurações independentes.
 - Carrinho persistente.
-- Checkout por etapas.
+- Checkout assistido.
 - Mensagem de pedido para WhatsApp.
-- Admin local de demonstração para manutenção do catálogo.
+- Páginas iniciais de privacidade, termos, trocas, entrega e contato.
 
 ## Decisões técnicas
 
-- Manter o MVP estático para reduzir custo e complexidade inicial.
-- Usar WhatsApp como canal final de conferência e pagamento.
-- Documentar explicitamente que o admin local não é autenticação real.
+- Não integrar Supabase ou Mercado Pago sem credenciais reais.
+- Usar WhatsApp como canal final de conferência.
+- Remover admin por variável pública.
+- Não inventar frete, prazo, imagens, composição ou política definitiva.
 
 ## Desafios
 
-- Criar fluxo de compra completo sem backend.
-- Evitar que a senha de demonstração fosse tratada como segredo real.
-- Manter a experiência comercial sem prometer segurança inexistente.
+- Migrar o monólito Vite para uma base modular sem perder a identidade visual aprovada.
+- Tratar lacunas comerciais com placeholders e documentação.
+- Manter uma experiência de compra clara sem prometer integrações inexistentes.
 
 ## Resultado atual
 
-MVP funcional de loja estática com catálogo, carrinho e checkout. A segurança administrativa segue limitada por design e precisa evoluir antes de uso em produção com dados sensíveis.
+Base de produção da Fase 1 com catálogo oficial, carrinho local, cupom transitório, checkout assistido e documentação para Fase 2.
 
 ## Demonstração
 
@@ -63,7 +68,7 @@ A confirmar.
 - Banco de dados para produtos e pedidos.
 - Storage para imagens.
 - Painel administrativo seguro.
-- Regras reais de frete, pagamento e status de pedido.
+- Regras reais de frete, pagamento, cupom e status de pedido.
 
 ## Como este projeto entra no portfólio
 

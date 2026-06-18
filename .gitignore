@@ -7,6 +7,8 @@ node_modules/
 dist/
 build/
 .vite/
+.next/
+out/
 
 # Environment variables
 .env
@@ -46,6 +48,8 @@ __pycache__/
 
 # Testing
 coverage/
+playwright-report/
+test-results/
 
 # Vercel / Netlify / Render
 .vercel/

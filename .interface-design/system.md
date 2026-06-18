@@ -2,15 +2,15 @@
 
 ## Intent
 
-Usuário: cliente de loja e responsável pela manutenção local do catálogo.
+Usuário: cliente de loja própria da ART e operação que receberá pedidos pelo WhatsApp.
 
-Tarefa principal: encontrar uma camiseta, escolher variação, montar carrinho e finalizar pedido pelo WhatsApp.
+Tarefa principal: encontrar uma peça, escolher variação, montar carrinho e preparar pedido pelo WhatsApp.
 
 Sensação desejada: simples, comercial, confiável e direta, sem aparência de demo.
 
 ## Domain
 
-Streetwear, camisetas, catálogo, variações, carrinho, checkout, WhatsApp, retirada, pagamento, marca própria.
+Streetwear, camisetas, moletom, kit, catálogo, variações, carrinho, checkout assistido, WhatsApp, retirada, pagamento, marca própria.
 
 ## Color World
 
@@ -22,12 +22,12 @@ Streetwear, camisetas, catálogo, variações, carrinho, checkout, WhatsApp, ret
 
 ## Signature
 
-Produto em destaque com recortes grandes, marca `use.a.r.t` em presença visual forte e checkout direto pelo WhatsApp.
+Produto em destaque com recortes grandes, marca `ART` em presença visual forte e checkout assistido pelo WhatsApp.
 
 ## Defaults a rejeitar
 
 - Layout genérico de marketplace com cards sem identidade; preferir presença de marca e produto real.
-- Admin local apresentado como seguro; preferir aviso honesto de MVP.
+- Admin local apresentado como seguro; preferir remoção da vitrine até existir backend.
 - Excesso de texto institucional; preferir fluxo de compra claro.
 
 ## Tokens e padrões atuais
@@ -47,11 +47,11 @@ Produto em destaque com recortes grandes, marca `use.a.r.t` em presença visual 
 
 ## Acessibilidade e responsividade
 
-- Manter labels/aria-labels em ícones de carrinho, busca, admin e fechar.
+- Manter labels/aria-labels em ícones de carrinho, links e controles de seleção.
 - Garantir contraste suficiente nos fundos escuros.
 - Preservar foco por teclado em cards e botões.
 - Evitar textos longos em botões no mobile.
 
 ## Limites
 
-Não alterar a identidade visual sem validação da marca. O admin local é apenas ferramenta de demonstração e manutenção do MVP estático.
+Não alterar a identidade visual sem validação da marca. O painel administrativo futuro depende de backend, autenticação real, banco e storage.

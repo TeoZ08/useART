@@ -1,0 +1,31 @@
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-16) 28px var(--space-20);
+}
+
+.content {
+  margin-top: var(--space-8);
+  display: grid;
+  gap: var(--space-6);
+  color: var(--color-ink-soft);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.content h2 {
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink);
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.content p {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--space-10) 18px var(--space-16);
+  }
+}
