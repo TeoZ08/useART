@@ -20,6 +20,8 @@ import styles from './ProductPurchasePanel.module.css';
 
 interface ProductPurchasePanelProps {
   product: CatalogProduct;
+  selectedColorId?: ProductColorId;
+  onColorChange?: (colorId: ProductColorId) => void;
 }
 
 interface KitPieceState {
@@ -30,10 +32,14 @@ interface KitPieceState {
 
 const pieceNumbers = [1, 2, 3] as const;
 
-export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
+export function ProductPurchasePanel({
+  product,
+  selectedColorId,
+  onColorChange,
+}: ProductPurchasePanelProps) {
   const firstColor = product.colors[0];
   const firstSize = product.sizes[0];
-  const [colorId, setColorId] = useState<ProductColorId>(firstColor.id);
+  const [localColorId, setLocalColorId] = useState<ProductColorId>(firstColor.id);
   const [size, setSize] = useState<ProductSize>(firstSize);
   const [quantity, setQuantity] = useState(1);
   const [kitPieces, setKitPieces] = useState<KitPieceState[]>(() =>
@@ -47,11 +53,17 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
 
   const colorOptions = product.colors;
   const applicationOptions = product.applications ?? KIT_APPLICATIONS;
+  const activeColorId = selectedColorId ?? localColorId;
 
   const canAdd = useMemo(
-    () => product.kind === 'kit' || Boolean(colorId && size),
-    [colorId, product.kind, size],
+    () => product.kind === 'kit' || Boolean(activeColorId && size),
+    [activeColorId, product.kind, size],
   );
+
+  function chooseColor(nextColorId: ProductColorId) {
+    setLocalColorId(nextColorId);
+    onColorChange?.(nextColorId);
+  }
 
   function updateKitPiece(index: number, patch: Partial<KitPieceState>) {
     setKitPieces((current) =>
@@ -77,7 +89,7 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
               ),
             ),
           )
-        : createSimpleSelection(colorId, size);
+        : createSimpleSelection(activeColorId, size);
 
     const current = localCartRepository.read();
     const item = createCartItem(product, selection, quantity);
@@ -151,11 +163,11 @@ export function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
                 <button
                   key={color.id}
                   type="button"
-                  className={colorId === color.id ? styles.selectedSwatch : ''}
+                  className={activeColorId === color.id ? styles.selectedSwatch : ''}
                   style={{ background: color.hex }}
                   title={color.name}
                   aria-label={`Selecionar cor ${color.name}`}
-                  onClick={() => setColorId(color.id)}
+                  onClick={() => chooseColor(color.id)}
                 />
               ))}
             </div>

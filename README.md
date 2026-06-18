@@ -26,7 +26,7 @@ Esta fase transforma o antigo MVP estático em uma base de produção honesta: s
 - localStorage
 - Vitest
 - Playwright
-- Vercel como destino futuro
+- Render Static Site
 
 ## Como rodar localmente
 
@@ -50,9 +50,13 @@ npm run test:e2e
 
 ## Deploy
 
-- Destino futuro: Vercel
+- Plataforma: Render
+- Tipo: Static Site
 - Build Command: `npm ci && npm run build`
+- Publish Directory: `out`
 - Node: `22`
+
+O Next.js está configurado com `output: 'export'`, `trailingSlash: true` e imagens não otimizadas no runtime para gerar uma saída estática compatível com Render.
 
 ## Segurança / Limitações
 

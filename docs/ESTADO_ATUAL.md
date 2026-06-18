@@ -11,6 +11,7 @@
 ## Preservado
 
 - Assets válidos em `public/assets`.
+- Assets antigos de produto foram mantidos no repositório para comparação e rollback, mas não são mais referenciados pelo catálogo tipado.
 - Identidade escura/minimalista, com preto, off-white, branco, cinza e apoio marrom.
 - Fluxos úteis de catálogo, seleção, carrinho e checkout via WhatsApp.
 - CNPJ, localização em Campo Grande/MS e handle `@use.a.r.t`.
@@ -32,6 +33,35 @@
 - Domínio para `domain/products`, `domain/cart`, `domain/coupon`, `domain/shipping` e `domain/orders`.
 - UI para componentes em `components/*` com CSS Modules e CSS global.
 - Checkout para uma página assistida e honesta.
+- Build configurado para exportação estática em `out`, compatível com Render Static Site.
+
+## Assets importados em 18/06/2026
+
+Origem: `useART_ASSETS_SEGUROS_PARA_CODEX.zip`.
+
+- `public/assets/products/hybrid-logo-lateral/branco.png` — Camiseta Híbrida com logo lateral, branco/off-white, imagem principal/galeria.
+- `public/assets/products/hybrid-logo-lateral/preto.png` — Camiseta Híbrida com logo lateral, preto, galeria.
+- `public/assets/products/hybrid-logo-lateral/marrom.png` — Camiseta Híbrida com logo lateral, marrom, galeria.
+- `public/assets/products/hybrid-logo-central/branco.png` — Camiseta Híbrida com logo central, branco/off-white, imagem principal/galeria.
+- `public/assets/products/hybrid-logo-central/preto.png` — Camiseta Híbrida com logo central, preto, galeria.
+- `public/assets/products/hybrid-logo-central/marrom.png` — Camiseta Híbrida com logo central, marrom, galeria.
+- `public/assets/products/hybrid-assinatura/branco.png` — Camiseta Híbrida com assinatura lateral, branco/off-white, imagem principal/galeria.
+- `public/assets/products/hybrid-assinatura/preto.png` — Camiseta Híbrida com assinatura lateral, preto, galeria.
+- `public/assets/products/hybrid-assinatura/marrom.png` — Camiseta Híbrida com assinatura lateral, marrom, galeria.
+- `public/assets/products/solid-assinatura/branco.png` — Camiseta Solid Masculina com assinatura lateral, branco/off-white, imagem principal/galeria.
+- `public/assets/products/solid-assinatura/preto.png` — Camiseta Solid Masculina com assinatura lateral, preto, galeria.
+- `public/assets/products/solid-assinatura/marrom.png` — Camiseta Solid Masculina com assinatura lateral, marrom, galeria.
+- `public/assets/products/solid-lisa/branco.png`, `preto.png`, `marrom.png` — peças lisas auditadas e importadas, mas não usadas no catálogo porque não correspondem à Solid com logo central.
+
+## Placeholders mantidos
+
+- Moletom ART: sem imagem no ZIP.
+- Kit Seleção: pasta sem composição final no ZIP.
+- Camiseta Solid Masculina com logo central: imagens lisas não foram usadas como se fossem logo central.
+
+## Assets antigos removidos
+
+- Nenhum asset antigo foi apagado nesta etapa.
 
 ## Bloqueios e limites
 

@@ -12,7 +12,7 @@ export function Hero() {
       </div>
       <div className={styles.productStage} aria-hidden="true">
         <Image
-          src="/assets/products/cutouts/hybrid-art-preta.png"
+          src="/assets/products/hybrid-logo-lateral/preto.png"
           width={650}
           height={780}
           alt=""
@@ -20,7 +20,7 @@ export function Hero() {
           priority
         />
         <Image
-          src="/assets/products/cutouts/hybrid-art-marrom.png"
+          src="/assets/products/hybrid-logo-lateral/marrom.png"
           width={650}
           height={780}
           alt=""
@@ -28,7 +28,7 @@ export function Hero() {
           priority
         />
         <Image
-          src="/assets/products/cutouts/solid-assinatura-masculina-preta.png"
+          src="/assets/products/solid-assinatura/preto.png"
           width={650}
           height={780}
           alt=""

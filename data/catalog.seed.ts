@@ -4,7 +4,7 @@ import {
   PRODUCT_COLORS,
   PRODUCT_SIZES,
 } from '@/domain/products/catalog';
-import type { CatalogProduct } from '@/types/commerce';
+import type { CatalogProduct, ProductColor } from '@/types/commerce';
 
 const onDemand = {
   mode: 'sob-encomenda',
@@ -24,12 +24,47 @@ const availableMedia = (src: string, alt: string) => ({
   alt,
 });
 
-const partialMedia = (src: string, alt: string, pendingReason: string) => ({
-  status: 'partial' as const,
-  src,
-  alt,
-  pendingReason,
-});
+const colorFile = {
+  'branco-off-white': 'branco',
+  preto: 'preto',
+  marrom: 'marrom',
+} as const;
+
+const colorMedia = (folder: string, altPrefix: string): readonly ProductColor[] =>
+  PRODUCT_COLORS.map((color) => ({
+    ...color,
+    media: availableMedia(
+      `/assets/products/${folder}/${colorFile[color.id]}.png`,
+      `${altPrefix} na cor ${color.name}`,
+    ),
+  }));
+
+const firstColorMedia = (colors: readonly ProductColor[]) => {
+  const media = colors[0]?.media;
+
+  if (!media) {
+    throw new Error('Produto com imagem por cor precisa ter mídia principal.');
+  }
+
+  return media;
+};
+
+const hybridLogoLateralColors = colorMedia(
+  'hybrid-logo-lateral',
+  'Camiseta Híbrida ART com logo lateral',
+);
+const hybridLogoCentralColors = colorMedia(
+  'hybrid-logo-central',
+  'Camiseta Híbrida ART com logo central',
+);
+const hybridAssinaturaColors = colorMedia(
+  'hybrid-assinatura',
+  'Camiseta Híbrida ART com assinatura lateral',
+);
+const solidAssinaturaColors = colorMedia(
+  'solid-assinatura',
+  'Camiseta Solid Masculina ART com assinatura lateral',
+);
 
 export const catalogSeed = [
   {
@@ -62,17 +97,10 @@ export const catalogSeed = [
     priceCents: 4500,
     description:
       'Camiseta Híbrida com logo lateral da ART. Peça streetwear jovem, esportiva e funcional.',
-    colors: PRODUCT_COLORS,
+    colors: hybridLogoLateralColors,
     sizes: PRODUCT_SIZES,
-    media: availableMedia(
-      '/assets/products/hybrid-art-preta.jpg',
-      'Camiseta Híbrida ART com logo lateral na cor preta',
-    ),
-    gallery: [
-      availableMedia('/assets/products/hybrid-art-preta.jpg', 'Logo lateral na cor preta'),
-      availableMedia('/assets/products/hybrid-art-marrom.jpg', 'Logo lateral na cor marrom'),
-      availableMedia('/assets/products/hybrid-art-branca.jpg', 'Logo lateral na cor branca'),
-    ],
+    media: firstColorMedia(hybridLogoLateralColors),
+    gallery: hybridLogoLateralColors.map((color) => color.media!),
     confirmedFacts: ['Proteção UV 30.', 'Preço confirmado: R$ 45,00.'],
     pendingFacts: ['Composição e cuidados oficiais.', 'Guia de medidas revisado.'],
     operation: onDemand,
@@ -89,23 +117,13 @@ export const catalogSeed = [
     kind: 'simple',
     priceCents: 4500,
     description:
-      'Camiseta Híbrida com logo central. A imagem disponível cobre a versão branca; demais variações devem ser confirmadas no atendimento.',
-    colors: PRODUCT_COLORS,
+      'Camiseta Híbrida com logo central. As imagens autorizadas cobrem as variações branco/off-white, preto e marrom.',
+    colors: hybridLogoCentralColors,
     sizes: PRODUCT_SIZES,
-    media: partialMedia(
-      '/assets/products/hybrid-central-branca.jpg',
-      'Camiseta Híbrida ART com logo central na cor branca',
-      'Imagens das demais cores ainda pendentes.',
-    ),
-    gallery: [
-      availableMedia('/assets/products/hybrid-central-branca.jpg', 'Logo central na cor branca'),
-    ],
+    media: firstColorMedia(hybridLogoCentralColors),
+    gallery: hybridLogoCentralColors.map((color) => color.media!),
     confirmedFacts: ['Proteção UV 30.', 'Preço confirmado: R$ 45,00.'],
-    pendingFacts: [
-      'Imagens por cor.',
-      'Composição e cuidados oficiais.',
-      'Guia de medidas revisado.',
-    ],
+    pendingFacts: ['Composição e cuidados oficiais.', 'Guia de medidas revisado.'],
     operation: onDemand,
     seo: {
       title: 'Camiseta Híbrida logo central ART',
@@ -120,20 +138,13 @@ export const catalogSeed = [
     kind: 'simple',
     priceCents: 4500,
     description:
-      'Camiseta Híbrida com assinatura lateral. A oferta está confirmada, mas a imagem específica do SKU ainda precisa ser validada.',
-    colors: PRODUCT_COLORS,
+      'Camiseta Híbrida com assinatura lateral. As imagens autorizadas cobrem as variações branco/off-white, preto e marrom.',
+    colors: hybridAssinaturaColors,
     sizes: PRODUCT_SIZES,
-    media: pendingMedia(
-      'Placeholder da Camiseta Híbrida com assinatura lateral',
-      'Imagem específica da Híbrida com assinatura lateral ainda pendente.',
-    ),
-    gallery: [],
+    media: firstColorMedia(hybridAssinaturaColors),
+    gallery: hybridAssinaturaColors.map((color) => color.media!),
     confirmedFacts: ['Proteção UV 30.', 'Preço confirmado: R$ 45,00.'],
-    pendingFacts: [
-      'Imagem do SKU.',
-      'Composição e cuidados oficiais.',
-      'Guia de medidas revisado.',
-    ],
+    pendingFacts: ['Composição e cuidados oficiais.', 'Guia de medidas revisado.'],
     operation: onDemand,
     seo: {
       title: 'Camiseta Híbrida assinatura lateral ART',
@@ -206,22 +217,10 @@ export const catalogSeed = [
     priceCents: 5000,
     description:
       'Camiseta Solid Masculina com assinatura lateral. Benefícios informados pelo fabricante serão mantidos como pendência até validação.',
-    colors: PRODUCT_COLORS,
+    colors: solidAssinaturaColors,
     sizes: PRODUCT_SIZES,
-    media: availableMedia(
-      '/assets/products/solid-assinatura-masculina-preta.jpg',
-      'Camiseta Solid Masculina com assinatura lateral na cor preta',
-    ),
-    gallery: [
-      availableMedia(
-        '/assets/products/solid-assinatura-masculina-preta.jpg',
-        'Assinatura lateral na cor preta',
-      ),
-      availableMedia(
-        '/assets/products/solid-assinatura-marrom.jpg',
-        'Assinatura lateral na cor marrom',
-      ),
-    ],
+    media: firstColorMedia(solidAssinaturaColors),
+    gallery: solidAssinaturaColors.map((color) => color.media!),
     confirmedFacts: ['Preço confirmado: R$ 50,00.'],
     pendingFacts: [
       'Benefícios documentados pelo fabricante.',

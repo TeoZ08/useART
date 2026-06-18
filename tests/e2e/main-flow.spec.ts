@@ -31,3 +31,49 @@ test('customer can prepare an assisted WhatsApp order', async ({ page }) => {
   await expect(page.getByTestId('prepared-message')).toBeVisible();
   expect(popup.url()).toContain('5567991691441');
 });
+
+test('customer can add Kit Selecao with three independent configurations', async ({ page }) => {
+  await page.goto('/produto/kit-selecao-3-camisetas/');
+
+  await page
+    .getByRole('group', { name: 'Peça 1' })
+    .getByLabel('Aplicação')
+    .selectOption('logo-lateral');
+  await page.getByRole('group', { name: 'Peça 1' }).getByLabel('Cor').selectOption('preto');
+  await page.getByRole('group', { name: 'Peça 1' }).getByLabel('Tamanho').selectOption('P');
+
+  await page
+    .getByRole('group', { name: 'Peça 2' })
+    .getByLabel('Aplicação')
+    .selectOption('logo-central');
+  await page
+    .getByRole('group', { name: 'Peça 2' })
+    .getByLabel('Cor')
+    .selectOption('branco-off-white');
+  await page.getByRole('group', { name: 'Peça 2' }).getByLabel('Tamanho').selectOption('M');
+
+  await page
+    .getByRole('group', { name: 'Peça 3' })
+    .getByLabel('Aplicação')
+    .selectOption('assinatura-lateral');
+  await page.getByRole('group', { name: 'Peça 3' }).getByLabel('Cor').selectOption('marrom');
+  await page.getByRole('group', { name: 'Peça 3' }).getByLabel('Tamanho').selectOption('G');
+
+  await page.getByTestId('add-to-cart').click();
+  await page.goto('/carrinho/');
+
+  await expect(page.getByText('Peça 1: Logo lateral, Preto, tamanho P')).toBeVisible();
+  await expect(page.getByText('Peça 2: Logo central, Branco/off-white, tamanho M')).toBeVisible();
+  await expect(page.getByText('Peça 3: Assinatura lateral, Marrom, tamanho G')).toBeVisible();
+});
+
+test('mobile storefront renders catalog entry points', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+
+  await expect(page.getByRole('heading', { name: 'ART', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: /Camiseta Híbrida - logo lateral/i }).first(),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Carrinho' })).toBeVisible();
+});

@@ -1,6 +1,12 @@
 import { applyCoupon } from '@/domain/coupon/coupon';
 import type { ShippingQuote } from '@/domain/shipping/shipping';
-import type { CartItem, CartItemSelection, CartTotals, CatalogProduct } from '@/types/commerce';
+import type {
+  CartItem,
+  CartItemSelection,
+  CartTotals,
+  CatalogProduct,
+  ProductMedia,
+} from '@/types/commerce';
 
 export function buildCartItemId(productSlug: string, selection: CartItemSelection): string {
   const selectionKey =
@@ -26,9 +32,17 @@ export function createCartItem(
     productName: product.name,
     unitPriceCents: product.priceCents,
     quantity: Math.max(1, quantity),
-    image: product.media,
+    image: imageForSelection(product, selection),
     selection,
   };
+}
+
+function imageForSelection(product: CatalogProduct, selection: CartItemSelection): ProductMedia {
+  if (selection.type === 'kit') {
+    return product.media;
+  }
+
+  return product.colors.find((color) => color.id === selection.colorId)?.media ?? product.media;
 }
 
 export function addCartItem(items: CartItem[], nextItem: CartItem): CartItem[] {

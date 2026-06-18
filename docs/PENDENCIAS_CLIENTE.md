@@ -6,7 +6,6 @@
 - Fotos do Moletom ART.
 - Imagem/composição do Kit Seleção.
 - Foto da Solid Masculina com logo central.
-- Foto específica da Híbrida com assinatura lateral.
 - Fotografias reais com pessoas.
 
 ## Produto
@@ -19,6 +18,14 @@
 - Peso do Moletom ART.
 - Benefícios da linha Solid com fonte do fabricante.
 - Regras de disponibilidade e pronta entrega.
+
+## Assets já recebidos e aplicados
+
+- Camiseta Híbrida com logo lateral: branco/off-white, preto e marrom.
+- Camiseta Híbrida com logo central: branco/off-white, preto e marrom.
+- Camiseta Híbrida com assinatura lateral: branco/off-white, preto e marrom.
+- Camiseta Solid Masculina com assinatura lateral: branco/off-white, preto e marrom.
+- Camisetas Solid lisas: importadas como `solid-lisa`, mas não usadas em produto oficial da vitrine.
 
 ## Comercial
 

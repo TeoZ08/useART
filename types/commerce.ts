@@ -12,6 +12,7 @@ export interface ProductColor {
   id: ProductColorId;
   name: string;
   hex: string;
+  media?: ProductMedia;
 }
 
 export interface ProductApplication {

@@ -49,6 +49,7 @@ tests/
 - Vitest cobre domínio.
 - Playwright cobre fluxo crítico de compra assistida.
 - `localStorage` permanece apenas como persistência transitória atrás de `CartRepository`.
+- Next.js exporta saída estática em `out` para manter compatibilidade com Render Static Site.
 
 ## Contratos preparados
 
@@ -57,6 +58,7 @@ tests/
 - `domain/coupon`: cupom centralizado e testável, com nota de validação server-side.
 - `AssistedOrder`: contrato inicial para pedido assistido, pronto para persistência futura.
 - `STORE_CONFIG`: contato e identidade centralizados.
+- `render.yaml`: Blueprint estático com `npm ci && npm run build` e `staticPublishPath: ./out`.
 
 ## Fase 2 recomendada
 

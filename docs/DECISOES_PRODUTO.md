@@ -29,8 +29,9 @@ O catálogo oficial da Fase 1 tem exatamente sete ofertas:
 ## Imagens
 
 - Produto sem imagem confirmada usa `imageStatus: pending` no domínio e placeholder visual.
-- Produto com imagem parcial usa `imageStatus: partial`.
-- Não foram usadas imagens de outro SKU para Moletom, Kit, Solid logo central ou Híbrida assinatura lateral.
+- Imagens por cor foram aplicadas somente aos SKUs correspondentes: Híbrida logo lateral, Híbrida logo central, Híbrida assinatura lateral e Solid assinatura lateral.
+- Não foram usadas imagens de outro SKU para Moletom, Kit ou Solid logo central.
+- As imagens lisas da pasta `Camiseta Solid` foram importadas como `solid-lisa`, mas não foram usadas como imagem da Solid com logo central.
 
 ## Kit Seleção
 
