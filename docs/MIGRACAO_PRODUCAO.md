@@ -50,6 +50,7 @@ tests/
 - Playwright cobre fluxo crítico de compra assistida.
 - `localStorage` permanece apenas como persistência transitória atrás de `CartRepository`.
 - Next.js exporta saída estática em `out` para manter compatibilidade com Render Static Site.
+- `postbuild` espelha `out` para `dist` apenas como compatibilidade temporária com o serviço Render existente, caso o dashboard ainda use o Publish Directory antigo.
 
 ## Contratos preparados
 

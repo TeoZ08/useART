@@ -58,6 +58,8 @@ npm run test:e2e
 
 O Next.js está configurado com `output: 'export'`, `trailingSlash: true` e imagens não otimizadas no runtime para gerar uma saída estática compatível com Render.
 
+O `postbuild` também espelha `out` para `dist` como compatibilidade temporária com o serviço Render existente, caso o dashboard ainda esteja com o Publish Directory antigo. A saída canônica nova é `out`.
+
 ## Segurança / Limitações
 
 - Não existe admin nesta fase.
