@@ -7,6 +7,7 @@ export type ProductApplicationId = 'logo-lateral' | 'logo-central' | 'assinatura
 export type ProductKind = 'simple' | 'kit';
 
 export type ProductImageStatus = 'available' | 'partial' | 'pending';
+export type CutoutStatus = 'available' | 'needs-review' | 'not-applicable';
 
 export interface ProductColor {
   id: ProductColorId;
@@ -25,6 +26,7 @@ export interface ProductMedia {
   alt: string;
   src?: string;
   pendingReason?: string;
+  cutoutStatus?: CutoutStatus;
 }
 
 export interface CatalogProduct {

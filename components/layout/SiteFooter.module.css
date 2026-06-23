@@ -1,42 +1,47 @@
 .footer {
   background: var(--color-ink);
-  color: var(--color-white);
-  padding: 56px 28px 44px;
+  color: var(--color-paper);
+  padding: var(--space-16) var(--gutter) var(--space-6);
 }
 
 .inner {
-  max-width: var(--page-max);
+  max-width: var(--content-max);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 0.7fr 1.2fr;
-  gap: var(--space-8);
+  grid-template-columns: 1.4fr 0.55fr 0.85fr 0.9fr;
+  gap: var(--space-10);
   align-items: start;
 }
 
 .brand {
-  display: flex;
-  gap: var(--space-4);
-  align-items: center;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
 }
 
 .logo {
-  width: 42px;
-  height: 28px;
+  width: 48px;
+  height: 32px;
   object-fit: contain;
   filter: invert(1);
 }
 
-.inner strong {
-  display: block;
-  font-size: 16px;
+.brand strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(74px, 10vw, 162px);
+  font-weight: 600;
+  line-height: 0.68;
+  letter-spacing: 0.02em;
 }
 
-.inner p,
+.brand p,
+.info,
+.operation,
 .copy {
   margin: 6px 0;
-  color: rgba(255, 255, 255, 0.66);
-  font-size: 12px;
-  line-height: 1.5;
+  color: rgba(250, 249, 246, 0.64);
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .menu {
@@ -44,26 +49,65 @@
   flex-direction: column;
   gap: var(--space-2);
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.info p:last-child {
-  color: rgba(255, 255, 255, 0.86);
+.info,
+.operation {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.info strong,
+.operation strong {
+  color: var(--color-paper);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.info a {
+  width: fit-content;
+}
+
+.info a:hover,
+.menu a:hover {
+  color: var(--color-paper);
+}
+
+.operation p {
+  margin: 0;
 }
 
 .copy {
-  max-width: var(--page-max);
-  margin: 34px auto 0;
-  text-align: center;
+  max-width: var(--content-max);
+  margin: var(--space-12) auto 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line-dark);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: 11px;
 }
 
 @media (max-width: 760px) {
   .footer {
-    padding: 44px 18px 34px;
+    padding-top: var(--space-12);
   }
 
   .inner {
     grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .brand strong {
+    font-size: 100px;
+  }
+
+  .copy {
+    flex-direction: column;
+    gap: 0;
   }
 }

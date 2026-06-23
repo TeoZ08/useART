@@ -33,5 +33,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  return <ProductDetailClient product={product} />;
+  return (
+    <ProductDetailClient
+      product={product}
+      relatedProducts={getProductSlugs()
+        .filter((candidateSlug) => candidateSlug !== product.slug)
+        .slice(0, 3)
+        .map((candidateSlug) => getProductBySlug(candidateSlug))
+        .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate))}
+    />
+  );
 }

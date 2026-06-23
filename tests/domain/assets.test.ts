@@ -25,19 +25,28 @@ describe('product assets', () => {
     }
   });
 
-  it('maps each image-backed SKU to its own folder', () => {
+  it('maps each image-backed SKU to its own originals and approved cutouts', () => {
     const expectedFolders = {
-      'camiseta-hibrida-logo-lateral': '/assets/products/hybrid-logo-lateral/',
-      'camiseta-hibrida-logo-central': '/assets/products/hybrid-logo-central/',
-      'camiseta-hibrida-assinatura-lateral': '/assets/products/hybrid-assinatura/',
-      'camiseta-solid-masculina-assinatura-lateral': '/assets/products/solid-assinatura/',
+      'camiseta-hibrida-logo-lateral': 'hybrid-logo-lateral',
+      'camiseta-hibrida-logo-central': 'hybrid-logo-central',
+      'camiseta-hibrida-assinatura-lateral': 'hybrid-assinatura',
+      'camiseta-solid-masculina-assinatura-lateral': 'solid-assinatura',
     } as const;
 
     for (const [slug, folder] of Object.entries(expectedFolders)) {
       const product = getProductBySlug(slug);
       expect(product).toBeDefined();
       expect(mediaSources(product!)).toHaveLength(3);
-      expect(mediaSources(product!).every((source) => source.startsWith(folder))).toBe(true);
+
+      const white = product!.colors.find((color) => color.id === 'branco-off-white')?.media;
+      expect(white?.src).toBe(`/assets/products/${folder}/branco.png`);
+      expect(white?.cutoutStatus).toBe('needs-review');
+
+      for (const colorId of ['preto', 'marrom'] as const) {
+        const media = product!.colors.find((color) => color.id === colorId)?.media;
+        expect(media?.src).toBe(`/assets/products/cutouts/${folder}-${colorId}.png`);
+        expect(media?.cutoutStatus).toBe('available');
+      }
     }
   });
 

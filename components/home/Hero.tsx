@@ -5,63 +5,48 @@ import styles from './Hero.module.css';
 
 export function Hero() {
   return (
-    <section className={styles.hero}>
-      <div className={styles.watermark} aria-hidden="true">
-        <Image src={STORE_CONFIG.logo.dark} width={220} height={148} alt="" />
-        <span>ART</span>
+    <section className={styles.hero} aria-labelledby="hero-title">
+      <div className={styles.gridLineOne} aria-hidden="true" />
+      <div className={styles.gridLineTwo} aria-hidden="true" />
+      <div className={styles.index} aria-label="Coleção 01">
+        <span>01</span>
+        <span>Movimento</span>
       </div>
-      <div className={styles.productStage} aria-hidden="true">
+      <div className={styles.productStage}>
         <Image
-          src="/assets/products/hybrid-logo-lateral/preto.png"
-          width={650}
-          height={780}
-          alt=""
-          className={styles.secondaryShirt}
-          priority
-        />
-        <Image
-          src="/assets/products/hybrid-logo-lateral/marrom.png"
-          width={650}
-          height={780}
-          alt=""
+          src="/assets/products/cutouts/hybrid-logo-lateral-preto.png"
+          width={2048}
+          height={2048}
+          alt="Camiseta Híbrida ART preta com logo lateral"
           className={styles.mainShirt}
-          priority
-        />
-        <Image
-          src="/assets/products/solid-assinatura/preto.png"
-          width={650}
-          height={780}
-          alt=""
-          className={styles.tertiaryShirt}
           priority
         />
       </div>
       <div className={styles.content}>
-        <p>{STORE_CONFIG.handle} / streetwear funcional</p>
-        <h1>{STORE_CONFIG.brandName}</h1>
-        <span>{STORE_CONFIG.slogan}</span>
+        <p className={styles.eyebrow}>{STORE_CONFIG.brandName} / Streetwear funcional</p>
+        <h1 id="hero-title">
+          Conforto <span>em movimento</span>
+        </h1>
+        <p className={styles.lead}>
+          Peças urbanas para acompanhar o seu ritmo, produzidas predominantemente sob encomenda.
+        </p>
         <div className={styles.actions}>
-          <Link href="#produtos" className="buttonPrimary">
-            Ver produtos
-          </Link>
-          <Link href="#produtos" className="buttonSecondary">
-            Comprar
+          <Link href="#colecao" className="buttonPrimary">
+            Explorar coleção
           </Link>
           <a
             href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`}
-            className={styles.whatsappLink}
+            className="textLink"
             target="_blank"
             rel="noreferrer"
           >
-            Falar no WhatsApp
+            Falar com a ART
           </a>
         </div>
-        <div className={styles.meta} aria-label="Destaques da loja">
-          <span>Sete ofertas oficiais</span>
-          <span>Pedido assistido</span>
-          <span>Campo Grande/MS</span>
-        </div>
       </div>
+      <p className={styles.productData}>
+        Híbrida / logo lateral <span>R$ 45,00</span>
+      </p>
     </section>
   );
 }

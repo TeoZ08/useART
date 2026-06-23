@@ -15,31 +15,40 @@ export function SiteFooter() {
             alt="ART"
             className={styles.logo}
           />
-          <div>
-            <strong>{STORE_CONFIG.brandName}</strong>
-            <p>{STORE_CONFIG.slogan}</p>
-            <p>{STORE_CONFIG.handle}</p>
-          </div>
+          <strong>{STORE_CONFIG.brandName}</strong>
+          <p>{STORE_CONFIG.slogan}</p>
         </div>
         <nav className={styles.menu} aria-label="Links de rodapé">
+          <Link href="/#colecao">Coleção</Link>
+          <Link href="/#produtos">Produtos</Link>
+          <Link href="/carrinho">Carrinho</Link>
+          <Link href="/contato">Contato</Link>
           <Link href="/privacidade">Privacidade</Link>
           <Link href="/termos">Termos</Link>
           <Link href="/trocas">Trocas</Link>
           <Link href="/entrega">Entrega</Link>
-          <Link href="/contato">Contato</Link>
         </nav>
         <div className={styles.info}>
-          <strong>Atendimento</strong>
-          <p>WhatsApp: {STORE_CONFIG.whatsappDisplay}</p>
-          <p>{STORE_CONFIG.location}</p>
+          <strong>Campo Grande/MS</strong>
+          <a href={STORE_CONFIG.instagramUrl} target="_blank" rel="noreferrer">
+            {STORE_CONFIG.handle}
+          </a>
+          <a href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`} target="_blank" rel="noreferrer">
+            WhatsApp: {STORE_CONFIG.whatsappDisplay}
+          </a>
           <p>CNPJ: {STORE_CONFIG.cnpj}</p>
-          <p>Pagamento, produção e envio são conferidos no atendimento.</p>
+        </div>
+        <div className={styles.operation}>
+          <strong>Pedido assistido</strong>
+          <p>Pagamento, produção e envio são conferidos pela ART antes da confirmação.</p>
         </div>
       </div>
-      <p className={styles.copy}>
-        Copyright {STORE_CONFIG.brandName} - {STORE_CONFIG.cnpj} - 2026. Todos os direitos
-        reservados.
-      </p>
+      <div className={styles.copy}>
+        <p>
+          ART - {STORE_CONFIG.location} - {STORE_CONFIG.cnpj}
+        </p>
+        <p>Copyright 2026. Todos os direitos reservados.</p>
+      </div>
     </footer>
   );
 }

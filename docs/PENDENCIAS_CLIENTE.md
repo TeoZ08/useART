@@ -7,6 +7,7 @@
 - Imagem/composição do Kit Seleção.
 - Foto da Solid Masculina com logo central.
 - Fotografias reais com pessoas.
+- Recorte manual revisado das variações branco/off-white; o recorte automático não atingiu qualidade aceitável sem erosão ou halo.
 
 ## Produto
 
@@ -26,6 +27,7 @@
 - Camiseta Híbrida com assinatura lateral: branco/off-white, preto e marrom.
 - Camiseta Solid Masculina com assinatura lateral: branco/off-white, preto e marrom.
 - Camisetas Solid lisas: importadas como `solid-lisa`, mas não usadas em produto oficial da vitrine.
+- Cutouts aprovados: preto e marrom das linhas Híbrida, Solid assinatura e referências Solid lisa. O inventário completo está em `docs/ASSET_INVENTORY.md`.
 
 ## Comercial
 

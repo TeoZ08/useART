@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
+import { Barlow_Condensed, Manrope } from 'next/font/google';
 import './globals.css';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { STORE_CONFIG } from '@/lib/config';
+
+const display = Barlow_Condensed({
+  subsets: ['latin'],
+  variable: '--font-display',
+  weight: ['400', '500', '600', '700'],
+});
+
+const interfaceFont = Manrope({
+  subsets: ['latin'],
+  variable: '--font-interface',
+  weight: ['400', '500', '600', '700', '800'],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://useart.local'),
@@ -19,7 +32,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth">
-      <body>
+      <body className={`${display.variable} ${interfaceFont.variable}`}>
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

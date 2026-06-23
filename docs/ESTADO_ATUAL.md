@@ -1,5 +1,16 @@
 # Estado atual da Fase 1
 
+## Redesign editorial - 23/06/2026
+
+- Branch de trabalho: `feat/redesign-editorial-premium`, criada a partir da `main` sincronizada em `412c48a`.
+- Direção: editorial técnico monocromático, com Barlow Condensed + Manrope, fundo papel, preto profundo e cinza mineral.
+- Home reconstruída com hero de uma peça recortada, Seleção 01, bloco técnico, Kit Seleção, catálogo, manifesto e operação de entrega.
+- Header recebeu navegação curta, contador de carrinho e menu mobile em `dialog` com Escape e foco inicial controlado.
+- Produto, Kit, carrinho, checkout e páginas legais foram alinhados ao novo sistema sem mudar regras comerciais.
+- Cutouts aprovados de preto e marrom foram vinculados às variações corretas; variantes brancas mantêm o original com `cutoutStatus: 'needs-review'`.
+- Capturas antes/depois, auditoria, inventário e revisão estão em `docs/design-review/`, `docs/AUDITORIA_VISUAL.md`, `docs/ASSET_INVENTORY.md` e `docs/DIRECAO_VISUAL.md`.
+- A CLI do Lighthouse não está disponível no ambiente. Não foi instalada como ferramenta global; build, lint, testes de domínio, E2E e revisão de viewport permanecem a evidência de qualidade executável.
+
 ## Auditoria inicial
 
 - Branch inicial: `main`.
