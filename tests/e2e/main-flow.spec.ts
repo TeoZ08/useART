@@ -1,13 +1,31 @@
 import { expect, test } from '@playwright/test';
 
+test('editorial home presents the collection with a single primary action', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(
+    page.getByRole('heading', { name: 'Conforto em movimento', exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Explorar coleção' })).toBeVisible();
+  await expect(
+    page.getByLabel('Conforto em movimento').getByRole('link', { name: 'Falar com a ART' }),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Peças para acompanhar o ritmo' })).toBeVisible();
+});
+
 test('customer can prepare an assisted WhatsApp order', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { name: 'ART', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Conforto em movimento', exact: true }),
+  ).toBeVisible();
   await page
     .getByRole('link', { name: /Camiseta Híbrida - logo lateral/i })
     .first()
     .click();
+  const blackSwatch = page.getByLabel('Selecionar cor Preto');
+  await blackSwatch.click();
+  await expect(blackSwatch).toHaveAttribute('aria-pressed', 'true');
   await page.getByTestId('add-to-cart').click();
   await expect(page.getByText('Produto adicionado ao carrinho.')).toBeVisible();
 
@@ -71,9 +89,19 @@ test('mobile storefront renders catalog entry points', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { name: 'ART', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Conforto em movimento', exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole('link', { name: /Camiseta Híbrida - logo lateral/i }).first(),
   ).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Carrinho' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Abrir carrinho' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Menu' }).click();
+  const menu = page.getByRole('dialog', { name: 'Menu principal' });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole('link', { name: 'Coleção' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(menu).not.toBeVisible();
+  await expect(page.getByRole('button', { name: 'Menu' })).toBeFocused();
 });

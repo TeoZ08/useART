@@ -6,6 +6,12 @@ Loja própria da ART com catálogo oficial, seleção de variações, carrinho l
 
 Esta fase transforma o antigo MVP estático em uma base de produção honesta: sem admin falso, sem frete simulado, sem meio de pagamento anunciado como integrado e sem credenciais fictícias.
 
+## Direção visual
+
+O storefront usa a direção **editorial técnico monocromático**: Barlow Condensed para narrativa e títulos, Manrope para interface, fundo papel quente, preto profundo e cinzas minerais. A home organiza campanha, seleção de produto, função, Kit, catálogo e operação de compra sem esconder regras comerciais.
+
+Os derivados transparentes aprovados vivem em `public/assets/products/cutouts/`. Preto e marrom são usados em hero, seleção, páginas de produto e Kit. Peças branco/off-white mantêm o original e `cutoutStatus: 'needs-review'` até receberem recorte manual de qualidade.
+
 ## Funcionalidades
 
 - Catálogo com exatamente sete ofertas comerciais confirmadas.
@@ -48,6 +54,17 @@ npm run build
 npm run test:e2e
 ```
 
+## Revisão visual
+
+Com o servidor local em execução, gere as capturas e a verificação de overflow:
+
+```bash
+npm run dev
+node scripts/design/capture-review.mjs
+```
+
+As capturas estão em `docs/design-review/before/` e `docs/design-review/after/`. A comparação está em `docs/design-review/REVIEW.md`.
+
 ## Deploy
 
 - Plataforma: Render
@@ -89,3 +106,4 @@ O cliente preenche contato e entrega, revisa itens, desconto, frete e total esti
 - Integrar Mercado Pago Checkout Pro com credenciais reais.
 - Implementar regras server-side de cupom, pedidos, frete e status.
 - Completar imagens, composição, medidas, políticas e textos jurídicos.
+- Finalizar o recorte manual das peças branco/off-white e receber fotografias reais com pessoas.
