@@ -23,7 +23,11 @@ export function ProductMediaFrame({
         : null;
 
   return (
-    <div className={compact ? styles.compactFrame : styles.frame}>
+    <div
+      className={`${compact ? styles.compactFrame : styles.frame} ${
+        media.cutoutStatus === 'available' ? styles.cutoutFrame : styles.studioFrame
+      }`}
+    >
       <span className={styles.watermark} aria-hidden="true">
         ART
       </span>
@@ -35,6 +39,7 @@ export function ProductMediaFrame({
           height={820}
           className={styles.image}
           priority={priority}
+          sizes={compact ? '(max-width: 680px) 100vw, 33vw' : '(max-width: 920px) 100vw, 56vw'}
         />
       ) : (
         <div className={styles.placeholder} role="img" aria-label={media.alt}>

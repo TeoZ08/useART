@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
 import { addCartItem, createCartItem } from '@/domain/cart/cart';
 import { localCartRepository } from '@/domain/cart/cartRepository';
 import {
@@ -14,6 +15,7 @@ import type {
   CatalogProduct,
   ProductApplicationId,
   ProductColorId,
+  ProductMedia,
   ProductSize,
 } from '@/types/commerce';
 import styles from './ProductPurchasePanel.module.css';
@@ -31,6 +33,38 @@ interface KitPieceState {
 }
 
 const pieceNumbers = [1, 2, 3] as const;
+
+const kitApplicationFolders = {
+  'logo-lateral': 'hybrid-logo-lateral',
+  'logo-central': 'hybrid-logo-central',
+  'assinatura-lateral': 'hybrid-assinatura',
+} as const;
+
+const kitColorFiles = {
+  'branco-off-white': 'branco',
+  preto: 'preto',
+  marrom: 'marrom',
+  'a-confirmar': 'branco',
+} as const;
+
+function mediaForKitPiece(
+  applicationId: ProductApplicationId,
+  colorId: ProductColorId,
+  colorName: string,
+): ProductMedia {
+  const folder = kitApplicationFolders[applicationId];
+  const color = kitColorFiles[colorId];
+  const cutoutAvailable = colorId === 'preto' || colorId === 'marrom';
+
+  return {
+    status: 'available',
+    src: cutoutAvailable
+      ? `/assets/products/cutouts/${folder}-${color}.png`
+      : `/assets/products/${folder}/${color}.png`,
+    alt: `Camiseta Híbrida ART ${colorName}, ${applicationId.replace('-', ' ')}`,
+    cutoutStatus: cutoutAvailable ? 'available' : 'needs-review',
+  };
+}
 
 export function ProductPurchasePanel({
   product,
@@ -100,60 +134,89 @@ export function ProductPurchasePanel({
   return (
     <div className={styles.panel} data-testid="purchase-panel">
       {product.kind === 'kit' ? (
-        <div className={styles.kitGrid}>
-          {pieceNumbers.map((pieceNumber, index) => (
-            <fieldset className={styles.kitPiece} key={pieceNumber}>
-              <legend>Peça {pieceNumber}</legend>
-              <label>
-                <span>Aplicação</span>
-                <select
-                  value={kitPieces[index].applicationId}
-                  onChange={(event) =>
-                    updateKitPiece(index, {
-                      applicationId: event.target.value as ProductApplicationId,
-                    })
-                  }
-                >
-                  {applicationOptions.map((application) => (
-                    <option key={application.id} value={application.id}>
-                      {application.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>Cor</span>
-                <select
-                  value={kitPieces[index].colorId}
-                  onChange={(event) =>
-                    updateKitPiece(index, { colorId: event.target.value as ProductColorId })
-                  }
-                >
-                  {colorOptions.map((color) => (
-                    <option key={color.id} value={color.id}>
-                      {color.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>Tamanho</span>
-                <select
-                  value={kitPieces[index].size}
-                  onChange={(event) =>
-                    updateKitPiece(index, { size: event.target.value as ProductSize })
-                  }
-                >
-                  {product.sizes.map((productSize) => (
-                    <option key={productSize} value={productSize}>
-                      {productSize}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </fieldset>
-          ))}
-        </div>
+        <>
+          <div className={styles.kitIntro}>
+            <span>03 peças</span>
+            <p>Cada camiseta é configurada de forma independente.</p>
+          </div>
+          <div className={styles.kitGrid}>
+            {pieceNumbers.map((pieceNumber, index) => {
+              const piece = kitPieces[index];
+              const application = applicationOptions.find(
+                (item) => item.id === piece.applicationId,
+              );
+              const color = colorOptions.find((item) => item.id === piece.colorId);
+
+              return (
+                <fieldset className={styles.kitPiece} key={pieceNumber}>
+                  <legend>Peça {pieceNumber}</legend>
+                  <div className={styles.kitPieceHeader}>
+                    <span>0{pieceNumber}</span>
+                    <p>{application?.name ?? 'Aplicação a confirmar'}</p>
+                  </div>
+                  <div className={styles.kitPreview}>
+                    <ProductMediaFrame
+                      media={mediaForKitPiece(
+                        piece.applicationId,
+                        piece.colorId,
+                        color?.name ?? 'a confirmar',
+                      )}
+                      productName={`Peça ${pieceNumber}`}
+                      compact
+                    />
+                  </div>
+                  <label>
+                    <span>Aplicação</span>
+                    <select
+                      value={piece.applicationId}
+                      onChange={(event) =>
+                        updateKitPiece(index, {
+                          applicationId: event.target.value as ProductApplicationId,
+                        })
+                      }
+                    >
+                      {applicationOptions.map((application) => (
+                        <option key={application.id} value={application.id}>
+                          {application.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    <span>Cor</span>
+                    <select
+                      value={piece.colorId}
+                      onChange={(event) =>
+                        updateKitPiece(index, { colorId: event.target.value as ProductColorId })
+                      }
+                    >
+                      {colorOptions.map((color) => (
+                        <option key={color.id} value={color.id}>
+                          {color.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    <span>Tamanho</span>
+                    <select
+                      value={piece.size}
+                      onChange={(event) =>
+                        updateKitPiece(index, { size: event.target.value as ProductSize })
+                      }
+                    >
+                      {product.sizes.map((productSize) => (
+                        <option key={productSize} value={productSize}>
+                          {productSize}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </fieldset>
+              );
+            })}
+          </div>
+        </>
       ) : (
         <>
           <div className={styles.optionBlock}>
@@ -167,6 +230,7 @@ export function ProductPurchasePanel({
                   style={{ background: color.hex }}
                   title={color.name}
                   aria-label={`Selecionar cor ${color.name}`}
+                  aria-pressed={activeColorId === color.id}
                   onClick={() => chooseColor(color.id)}
                 />
               ))}
@@ -181,6 +245,7 @@ export function ProductPurchasePanel({
                   type="button"
                   className={size === productSize ? styles.selectedSize : ''}
                   onClick={() => setSize(productSize)}
+                  aria-pressed={size === productSize}
                 >
                   {productSize}
                 </button>
@@ -193,11 +258,19 @@ export function ProductPurchasePanel({
       <div className={styles.quantity}>
         <p>Quantidade</p>
         <div>
-          <button type="button" onClick={() => setQuantity((current) => Math.max(1, current - 1))}>
+          <button
+            type="button"
+            aria-label="Diminuir quantidade"
+            onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+          >
             -
           </button>
           <span>{quantity}</span>
-          <button type="button" onClick={() => setQuantity((current) => current + 1)}>
+          <button
+            type="button"
+            aria-label="Aumentar quantidade"
+            onClick={() => setQuantity((current) => current + 1)}
+          >
             +
           </button>
         </div>
