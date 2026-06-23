@@ -1,244 +1,223 @@
 .hero {
   position: relative;
-  min-height: 720px;
-  background: linear-gradient(90deg, #070707 0%, #111111 48%, #23221f 100%);
+  min-height: min(900px, 100svh);
+  background: var(--color-paper);
   overflow: hidden;
+  isolation: isolate;
 }
 
-.hero::before {
-  content: '';
+.gridLineOne,
+.gridLineTwo {
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.92));
-  opacity: 0.42;
+  z-index: -1;
+  background: var(--color-mineral);
+  opacity: 0.38;
 }
 
-.watermark {
-  position: absolute;
-  right: clamp(28px, 5vw, 80px);
-  top: 96px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  color: rgba(255, 255, 255, 0.14);
-  font-size: clamp(54px, 7vw, 106px);
-  font-weight: 950;
-  line-height: 0.8;
-  pointer-events: none;
+.gridLineOne {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
 }
 
-.watermark img {
-  width: clamp(112px, 13vw, 206px);
-  height: auto;
-  opacity: 0.18;
-  filter: invert(1);
+.gridLineTwo {
+  left: 0;
+  right: 0;
+  bottom: clamp(104px, 13vh, 132px);
+  height: 1px;
 }
 
 .productStage {
   position: absolute;
-  inset: 86px clamp(24px, 6vw, 86px) 18px auto;
-  width: min(760px, 54vw);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.productStage::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 42px;
-  width: min(660px, 84%);
-  height: 58px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 72%);
-  transform: translateX(-50%);
-  filter: blur(3px);
-}
-
-.mainShirt,
-.secondaryShirt,
-.tertiaryShirt {
-  position: absolute;
-  bottom: 34px;
-  height: calc(100% - 20px);
-  width: min(600px, 76%);
-  object-fit: contain;
-  object-position: center bottom;
-  filter: drop-shadow(0 34px 38px rgba(0, 0, 0, 0.5));
-}
-
-.mainShirt {
-  z-index: 3;
-}
-
-.secondaryShirt,
-.tertiaryShirt {
+  right: clamp(22px, 7vw, 150px);
+  bottom: 24px;
+  width: min(49vw, 760px);
+  height: min(76svh, 720px);
   z-index: 2;
-  width: min(470px, 58%);
-  height: calc(82% - 20px);
-  opacity: 0.62;
-  filter: grayscale(0.25) drop-shadow(0 28px 34px rgba(0, 0, 0, 0.45));
-}
-
-.secondaryShirt {
-  left: 0;
-  transform: translateX(-12%) rotate(-4deg);
-}
-
-.tertiaryShirt {
-  right: 0;
-  transform: translateX(12%) rotate(4deg);
+  animation: product-enter 560ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
 .content {
   position: relative;
-  z-index: 4;
-  min-height: 720px;
-  max-width: var(--page-max);
+  z-index: 3;
+  min-height: min(900px, 100svh);
+  max-width: var(--content-max);
   margin: 0 auto;
-  padding: 126px 28px 92px;
+  padding: clamp(132px, 18vh, 178px) var(--gutter) 138px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  color: var(--color-white);
 }
 
-.content p {
-  margin: 0 0 20px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
-  font-weight: 900;
+.eyebrow,
+.index,
+.productData {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .content h1 {
   margin: 0;
-  max-width: 680px;
-  font-size: clamp(74px, 13vw, 180px);
-  line-height: 0.82;
+  max-width: min(59vw, 790px);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(84px, 11.4vw, 182px);
+  font-weight: 600;
+  line-height: 0.78;
   text-transform: uppercase;
-  letter-spacing: 0;
+  letter-spacing: 0.015em;
 }
 
-.content > span {
+.content h1 span {
   display: block;
-  margin-top: var(--space-5);
-  max-width: 520px;
-  color: rgba(255, 255, 255, 0.86);
-  font-size: 22px;
-  line-height: 1.5;
+  margin-left: clamp(24px, 6vw, 108px);
+}
+
+.lead {
+  max-width: 400px;
+  margin: var(--space-6) 0 0;
+  color: var(--color-ink-soft);
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  align-items: center;
+  gap: var(--space-5);
   margin-top: var(--space-8);
 }
 
-.actions :global(.buttonPrimary) {
-  background: var(--color-white);
-  color: var(--color-ink);
-  border-color: var(--color-white);
+.index {
+  position: absolute;
+  z-index: 3;
+  top: clamp(98px, 12vh, 118px);
+  right: var(--gutter);
+  display: grid;
+  gap: var(--space-1);
+  text-align: right;
 }
 
-.actions :global(.buttonSecondary),
-.whatsappLink {
-  border-color: rgba(255, 255, 255, 0.72);
-  background: transparent;
-  color: var(--color-white);
+.index span:first-child {
+  font-family: var(--font-display), sans-serif;
+  font-size: 28px;
+  line-height: 0.8;
 }
 
-.whatsappLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  padding: 0 22px;
-  font-size: 12px;
-  font-weight: 950;
-  text-transform: uppercase;
+.mainShirt {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 22px 20px rgba(9, 9, 9, 0.14));
 }
 
-.meta {
+.productData {
+  position: absolute;
+  z-index: 3;
+  right: var(--gutter);
+  bottom: 44px;
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: var(--space-10);
+  gap: var(--space-5);
+  align-items: baseline;
 }
 
-.meta span {
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-  padding: 10px 13px;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 11px;
-  font-weight: 900;
-  text-transform: uppercase;
+.productData span {
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
-@media (max-width: 900px) {
+@keyframes product-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 880px) {
   .hero,
   .content {
-    min-height: 770px;
+    min-height: 800px;
   }
 
   .content {
     justify-content: flex-start;
-    padding-top: 86px;
-    padding-bottom: 360px;
+    padding-top: 142px;
+    padding-bottom: 410px;
   }
 
   .productStage {
-    inset: auto 0 18px 0;
-    width: 100%;
-    height: 360px;
-  }
-
-  .mainShirt {
-    width: min(390px, 82%);
-    height: 340px;
-  }
-
-  .secondaryShirt,
-  .tertiaryShirt {
-    width: min(300px, 50%);
-    height: 270px;
-    opacity: 0.42;
-  }
-
-  .watermark {
-    top: auto;
-    right: 18px;
-    bottom: 318px;
-    font-size: 42px;
-  }
-
-  .watermark img {
-    width: 74px;
+    right: 50%;
+    bottom: 28px;
+    width: min(510px, 88vw);
+    height: 405px;
+    transform: translateX(50%);
   }
 }
 
 @media (max-width: 640px) {
+  .hero,
   .content {
-    padding-left: 18px;
-    padding-right: 18px;
+    min-height: 760px;
+  }
+
+  .content {
+    padding-top: 126px;
+    padding-bottom: 360px;
   }
 
   .content h1 {
-    font-size: 74px;
+    max-width: 100%;
+    font-size: clamp(66px, 21vw, 94px);
+    line-height: 0.78;
   }
 
-  .actions,
-  .whatsappLink {
-    width: 100%;
+  .content h1 span {
+    margin-left: 22px;
+  }
+
+  .lead {
+    max-width: 320px;
+    font-size: 14px;
+  }
+
+  .actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .actions :global(.buttonPrimary) {
+    width: auto;
+  }
+
+  .index {
+    top: 100px;
+  }
+
+  .productData {
+    right: auto;
+    left: var(--gutter);
+    bottom: 22px;
+    flex-direction: column;
+    gap: var(--space-1);
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productStage {
+    animation: none;
   }
 }

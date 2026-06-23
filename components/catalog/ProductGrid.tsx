@@ -13,6 +13,13 @@ interface ProductGridProps {
 
 const filters = ['Todos', 'Camiseta', 'Moletom', 'Kit'] as const;
 
+function mediaForCatalog(product: CatalogProduct) {
+  return (
+    product.colors.find((color) => color.media?.cutoutStatus === 'available')?.media ??
+    product.media
+  );
+}
+
 export function ProductGrid({ products }: ProductGridProps) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<(typeof filters)[number]>('Todos');
@@ -37,7 +44,7 @@ export function ProductGrid({ products }: ProductGridProps) {
       <div className={styles.top}>
         <div>
           <p className="sectionEyebrow">Catálogo oficial</p>
-          <h2 className="sectionTitle">Produtos</h2>
+          <h2 className="sectionTitle">Catálogo completo</h2>
           <p className="sectionLead">
             Sete ofertas confirmadas, compra assistida e sem frete ou pagamento simulado.
           </p>
@@ -79,7 +86,11 @@ export function ProductGrid({ products }: ProductGridProps) {
           {visibleProducts.map((product) => (
             <article className={styles.card} key={product.slug}>
               <Link href={`/produto/${product.slug}`} aria-label={`Ver ${product.name}`}>
-                <ProductMediaFrame media={product.media} productName={product.name} compact />
+                <ProductMediaFrame
+                  media={mediaForCatalog(product)}
+                  productName={product.name}
+                  compact
+                />
               </Link>
               <div className={styles.info}>
                 <p>
