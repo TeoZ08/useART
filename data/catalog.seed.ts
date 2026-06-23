@@ -18,10 +18,15 @@ const pendingMedia = (alt: string, pendingReason: string) => ({
   pendingReason,
 });
 
-const availableMedia = (src: string, alt: string) => ({
+const availableMedia = (
+  src: string,
+  alt: string,
+  cutoutStatus: 'available' | 'needs-review' | 'not-applicable' = 'not-applicable',
+) => ({
   status: 'available' as const,
   src,
   alt,
+  cutoutStatus,
 });
 
 const colorFile = {
@@ -34,8 +39,11 @@ const colorMedia = (folder: string, altPrefix: string): readonly ProductColor[] 
   PRODUCT_COLORS.map((color) => ({
     ...color,
     media: availableMedia(
-      `/assets/products/${folder}/${colorFile[color.id]}.png`,
+      color.id === 'branco-off-white'
+        ? `/assets/products/${folder}/${colorFile[color.id]}.png`
+        : `/assets/products/cutouts/${folder}-${colorFile[color.id]}.png`,
       `${altPrefix} na cor ${color.name}`,
+      color.id === 'branco-off-white' ? 'needs-review' : 'available',
     ),
   }));
 
