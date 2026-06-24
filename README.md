@@ -22,6 +22,7 @@ Os derivados transparentes aprovados vivem em `public/assets/products/cutouts/`.
 - Cupom `PRIMEIRACOMPRA` com 10% de desconto transitório.
 - Entrega com retirada ART, Campo Grande/MS por R$ 10 e demais localidades a confirmar.
 - Checkout assistido com contato, entrega, revisão e mensagem estruturada para WhatsApp.
+- Hero editorial com camiseta 3D transparente, poster estático e fallback para movimento reduzido/economia de dados.
 
 ## Stack
 

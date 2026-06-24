@@ -58,3 +58,8 @@ test-results/
 # Temporary files
 *.tmp
 *.temp
+
+# 3D source files and hero render intermediates
+*.blend
+*.abc
+useart-hero-final*.png

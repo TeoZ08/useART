@@ -13,6 +13,86 @@ test('editorial home presents the collection with a single primary action', asyn
   await expect(page.getByRole('heading', { name: 'Peças para acompanhar o ritmo' })).toBeVisible();
 });
 
+test('hero keeps an interactive CTA while the transparent video is decorative', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const poster = page.getByTestId('hero-shirt-poster');
+  const video = page.getByTestId('hero-shirt-video');
+  await expect(poster).toBeVisible();
+  await expect(video).toBeAttached();
+  await expect(video.locator('source')).toHaveAttribute(
+    'src',
+    '/videos/useart-hero-transparente.webm',
+  );
+  await expect(video).toHaveAttribute('preload', 'metadata');
+  await expect(video).toHaveAttribute('tabindex', '-1');
+  await expect(video).toHaveCSS('pointer-events', 'none');
+
+  await page.getByRole('link', { name: 'Explorar coleção' }).click();
+  await expect(page).toHaveURL(/#colecao$/);
+  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(true);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(false);
+});
+
+test('hero uses only the poster for reduced motion and without JavaScript', async ({ browser }) => {
+  const reducedMotionContext = await browser.newContext({ reducedMotion: 'reduce' });
+  const reducedMotionPage = await reducedMotionContext.newPage();
+  await reducedMotionPage.goto('/');
+
+  await expect(reducedMotionPage.getByTestId('hero-shirt-poster')).toBeVisible();
+  await expect(reducedMotionPage.getByTestId('hero-shirt-video')).toHaveCount(0);
+  await reducedMotionContext.close();
+
+  const noJavaScriptContext = await browser.newContext({ javaScriptEnabled: false });
+  const noJavaScriptPage = await noJavaScriptContext.newPage();
+  await noJavaScriptPage.goto('/');
+
+  await expect(noJavaScriptPage.getByTestId('hero-shirt-poster')).toBeVisible();
+  await expect(
+    noJavaScriptPage.getByRole('heading', { name: 'Conforto em movimento', exact: true }),
+  ).toBeVisible();
+  await expect(noJavaScriptPage.getByRole('link', { name: 'Explorar coleção' })).toBeVisible();
+  await noJavaScriptContext.close();
+});
+
+test('hero keeps the poster when data saving is enabled', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'connection', {
+      configurable: true,
+      value: {
+        saveData: true,
+        addEventListener() {},
+        removeEventListener() {},
+      },
+    });
+  });
+  await page.goto('/');
+
+  await expect(page.getByTestId('hero-shirt-poster')).toBeVisible();
+  await expect(page.getByTestId('hero-shirt-video')).toHaveCount(0);
+});
+
+test('home header changes contrast after scroll and mobile hero has no overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+
+  await expect(page.locator('header')).toHaveCSS('color', 'rgb(241, 239, 234)');
+  expect(await page.locator('html').evaluate((html) => html.scrollWidth === html.clientWidth)).toBe(
+    true,
+  );
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.evaluate(() => window.scrollTo(0, 850));
+  await expect(page.locator('header')).toHaveCSS('color', 'rgb(9, 9, 9)');
+  await expect(page.locator('header')).toHaveCSS('position', 'fixed');
+});
+
 test('customer can prepare an assisted WhatsApp order', async ({ page }) => {
   await page.goto('/');
 

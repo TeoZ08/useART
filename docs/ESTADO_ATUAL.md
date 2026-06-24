@@ -11,6 +11,15 @@
 - Capturas antes/depois, auditoria, inventário e revisão estão em `docs/design-review/`, `docs/AUDITORIA_VISUAL.md`, `docs/ASSET_INVENTORY.md` e `docs/DIRECAO_VISUAL.md`.
 - A CLI do Lighthouse não está disponível no ambiente. Não foi instalada como ferramenta global; build, lint, testes de domínio, E2E e revisão de viewport permanecem a evidência de qualidade executável.
 
+## Hero 3D transparente - 24/06/2026
+
+- Branch de trabalho: `feat/hero-video-3d`, criada a partir da `main` em `2df2fc0`.
+- A hero passou a usar WebM VP9 com alfa, poster WebP RGBA e componente dedicado com fallback estático.
+- Movimento reduzido e economia de dados não montam o vídeo; o poster permanece como experiência completa.
+- O vídeo pausa fora da viewport e em aba oculta; não participa de foco, clique ou navegação.
+- O topo da home usa fundo escuro, header claro e transição de volta ao papel após scroll; páginas internas preservam o comportamento anterior.
+- Auditoria de mídia, riscos de compatibilidade e orientação de substituição: `docs/HERO_3D_VIDEO.md`.
+
 ## Auditoria inicial
 
 - Branch inicial: `main`.
