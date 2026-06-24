@@ -11,6 +11,52 @@ export const COUPON_STORAGE_KEY = 'art.coupon.v1';
 export const CART_CHANGED_EVENT = 'art:cart-changed';
 export const COUPON_CHANGED_EVENT = 'art:coupon-changed';
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isCartItem(value: unknown): value is CartItem {
+  if (!isRecord(value) || !isRecord(value.image) || !isRecord(value.selection)) return false;
+
+  const basicFields =
+    typeof value.id === 'string' &&
+    typeof value.productSlug === 'string' &&
+    typeof value.productName === 'string' &&
+    typeof value.unitPriceCents === 'number' &&
+    Number.isFinite(value.unitPriceCents) &&
+    typeof value.quantity === 'number' &&
+    Number.isInteger(value.quantity) &&
+    value.quantity > 0 &&
+    typeof value.image.status === 'string' &&
+    typeof value.image.alt === 'string';
+
+  if (!basicFields) return false;
+
+  if (value.selection.type === 'simple') {
+    return (
+      typeof value.selection.colorId === 'string' &&
+      typeof value.selection.colorName === 'string' &&
+      typeof value.selection.size === 'string'
+    );
+  }
+
+  return (
+    value.selection.type === 'kit' &&
+    Array.isArray(value.selection.pieces) &&
+    value.selection.pieces.length === 3 &&
+    value.selection.pieces.every(
+      (piece) =>
+        isRecord(piece) &&
+        typeof piece.pieceNumber === 'number' &&
+        typeof piece.applicationId === 'string' &&
+        typeof piece.applicationName === 'string' &&
+        typeof piece.colorId === 'string' &&
+        typeof piece.colorName === 'string' &&
+        typeof piece.size === 'string',
+    )
+  );
+}
+
 function emitCartChanged(): void {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent(CART_CHANGED_EVENT));
@@ -24,7 +70,7 @@ export class LocalCartRepository implements CartRepository {
     try {
       const raw = window.localStorage.getItem(CART_STORAGE_KEY);
       const parsed: unknown = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? (parsed as CartItem[]) : [];
+      return Array.isArray(parsed) ? parsed.filter(isCartItem) : [];
     } catch {
       return [];
     }

@@ -8,6 +8,7 @@
 - Foto da Solid Masculina com logo central.
 - Fotografias reais com pessoas.
 - Recorte manual revisado das variações branco/off-white; o recorte automático não atingiu qualidade aceitável sem erosão ou halo.
+- Confirmação de suporte desejado para o WebM VP9 com alfa em Safari/iOS, caso esse público seja prioritário; o poster já cobre essa limitação sem bloquear a compra.
 
 ## Produto
 

@@ -27,6 +27,7 @@ export interface ProductMedia {
   src?: string;
   pendingReason?: string;
   cutoutStatus?: CutoutStatus;
+  colorId?: ProductColorId;
 }
 
 export interface CatalogProduct {

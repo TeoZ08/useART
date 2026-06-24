@@ -13,13 +13,13 @@ test('editorial home presents the collection with a single primary action', asyn
   await expect(page.getByRole('heading', { name: 'Peças para acompanhar o ritmo' })).toBeVisible();
 });
 
-test('hero keeps an interactive CTA while the transparent video is decorative', async ({
-  page,
-}) => {
+test('hero only plays after desktop hover and returns smoothly to the poster', async ({ page }) => {
   await page.goto('/');
 
+  const media = page.getByTestId('hero-shirt-media');
   const poster = page.getByTestId('hero-shirt-poster');
   const video = page.getByTestId('hero-shirt-video');
+  const hoverZone = page.getByTestId('hero-shirt-hover-zone');
   await expect(poster).toBeVisible();
   await expect(video).toBeAttached();
   await expect(video.locator('source')).toHaveAttribute(
@@ -29,13 +29,42 @@ test('hero keeps an interactive CTA while the transparent video is decorative', 
   await expect(video).toHaveAttribute('preload', 'metadata');
   await expect(video).toHaveAttribute('tabindex', '-1');
   await expect(video).toHaveCSS('pointer-events', 'none');
+  await expect(media).toHaveAttribute('data-state', 'ready');
+  await expect(poster).toHaveCSS('visibility', 'visible');
+  await expect(video).toHaveCSS('visibility', 'hidden');
+  await expect
+    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused))
+    .toBe(true);
+
+  await hoverZone.hover();
+  await expect(media).toHaveAttribute('data-state', 'playing');
+  await expect(poster).toHaveCSS('visibility', 'hidden');
+  await expect(video).toHaveCSS('visibility', 'visible');
+  await expect
+    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentTime))
+    .toBeGreaterThan(0.12);
+
+  await page.mouse.move(4, 4);
+  await expect(media).toHaveAttribute('data-state', 'rewinding');
+  const rewindStart = await video.evaluate((element) => (element as HTMLVideoElement).currentTime);
+  await page.waitForTimeout(180);
+  await expect
+    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentTime))
+    .toBeLessThan(rewindStart);
+
+  await hoverZone.hover();
+  await expect(media).toHaveAttribute('data-state', 'playing');
+  await page.mouse.move(4, 4);
+  await expect(media).toHaveAttribute('data-state', 'rewinding');
+  await expect(media).toHaveAttribute('data-state', 'ready', { timeout: 3_000 });
+  await expect(poster).toHaveCSS('visibility', 'visible');
+  await expect(video).toHaveCSS('visibility', 'hidden');
+  await expect
+    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentTime))
+    .toBeLessThanOrEqual(0.01);
 
   await page.getByRole('link', { name: 'Explorar coleção' }).click();
   await expect(page).toHaveURL(/#colecao$/);
-  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(true);
-
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(false);
 });
 
 test('hero uses only the poster for reduced motion and without JavaScript', async ({ browser }) => {

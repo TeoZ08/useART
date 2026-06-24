@@ -20,6 +20,15 @@
 - O topo da home usa fundo escuro, header claro e transição de volta ao papel após scroll; páginas internas preservam o comportamento anterior.
 - Auditoria de mídia, riscos de compatibilidade e orientação de substituição: `docs/HERO_3D_VIDEO.md`.
 
+## Auditoria de qualidade - 24/06/2026
+
+- Branch de trabalho: `fix/quality-audit-hero-variants`, criada da `main` em `18566bb`.
+- O frame fantasma foi atribuído à sobreposição permanente do poster atrás de um WebM com alfa, e não ao arquivo 3D. Poster e vídeo agora são mutuamente exclusivos nos estados visuais.
+- A hero toca apenas por hover fino em desktop, retorna ao frame inicial por `requestAnimationFrame`, respeita movimento reduzido/economia de dados/touch e não tem mais as linhas cruzadas.
+- A resolução de mídia por cor foi centralizada para produto, miniaturas e carrinho; SKU pendente declara a variante sem simular imagem.
+- Foram adicionados teste de mídia, auditoria do export, cenários Playwright de hover/rewind/variantes/kit/carrinho e capturas em `docs/quality-audit/`.
+- Evidência atual: 7 viewports sem overflow e nenhuma ocorrência de console, página ou asset em `docs/quality-audit/after/runtime-issues.json`.
+
 ## Auditoria inicial
 
 - Branch inicial: `main`.

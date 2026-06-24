@@ -52,6 +52,7 @@ Nenhuma variável de ambiente é necessária na Fase 1. O admin local por `VITE_
 npm run lint
 npm run test
 npm run build
+npm run audit:media
 npm run test:e2e
 ```
 
@@ -62,9 +63,12 @@ Com o servidor local em execução, gere as capturas e a verificação de overfl
 ```bash
 npm run dev
 node scripts/design/capture-review.mjs
+npm run capture:quality
 ```
 
 As capturas estão em `docs/design-review/before/` e `docs/design-review/after/`. A comparação está em `docs/design-review/REVIEW.md`.
+
+A auditoria corretiva de hero e variantes fica em `docs/quality-audit/`. Ela inclui evidências antes/depois, matriz de cores, verificação de overflow e erros de runtime.
 
 ## Deploy
 

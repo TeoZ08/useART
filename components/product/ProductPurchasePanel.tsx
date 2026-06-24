@@ -22,8 +22,8 @@ import styles from './ProductPurchasePanel.module.css';
 
 interface ProductPurchasePanelProps {
   product: CatalogProduct;
-  selectedColorId?: ProductColorId;
-  onColorChange?: (colorId: ProductColorId) => void;
+  selectedColorId: ProductColorId;
+  onColorChange: (colorId: ProductColorId) => void;
 }
 
 interface KitPieceState {
@@ -63,6 +63,7 @@ function mediaForKitPiece(
       : `/assets/products/${folder}/${color}.png`,
     alt: `Camiseta Híbrida ART ${colorName}, ${applicationId.replace('-', ' ')}`,
     cutoutStatus: cutoutAvailable ? 'available' : 'needs-review',
+    colorId,
   };
 }
 
@@ -73,7 +74,6 @@ export function ProductPurchasePanel({
 }: ProductPurchasePanelProps) {
   const firstColor = product.colors[0];
   const firstSize = product.sizes[0];
-  const [localColorId, setLocalColorId] = useState<ProductColorId>(firstColor.id);
   const [size, setSize] = useState<ProductSize>(firstSize);
   const [quantity, setQuantity] = useState(1);
   const [kitPieces, setKitPieces] = useState<KitPieceState[]>(() =>
@@ -87,7 +87,7 @@ export function ProductPurchasePanel({
 
   const colorOptions = product.colors;
   const applicationOptions = product.applications ?? KIT_APPLICATIONS;
-  const activeColorId = selectedColorId ?? localColorId;
+  const activeColorId = selectedColorId;
 
   const canAdd = useMemo(
     () => product.kind === 'kit' || Boolean(activeColorId && size),
@@ -95,8 +95,7 @@ export function ProductPurchasePanel({
   );
 
   function chooseColor(nextColorId: ProductColorId) {
-    setLocalColorId(nextColorId);
-    onColorChange?.(nextColorId);
+    onColorChange(nextColorId);
   }
 
   function updateKitPiece(index: number, patch: Partial<KitPieceState>) {

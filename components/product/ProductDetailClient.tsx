@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
+import { galleryForProduct, mediaForProductColor, productMediaKey } from '@/domain/products/media';
 import { formatMoney } from '@/lib/money';
 import type { CatalogProduct, ProductColorId, ProductMedia } from '@/types/commerce';
 import { ProductPurchasePanel } from './ProductPurchasePanel';
@@ -13,37 +14,22 @@ interface ProductDetailClientProps {
   relatedProducts: CatalogProduct[];
 }
 
-function keyForMedia(media: ProductMedia): string {
-  return media.src ?? media.alt;
-}
-
-function mediaForColor(product: CatalogProduct, colorId: ProductColorId): ProductMedia {
-  return product.colors.find((color) => color.id === colorId)?.media ?? product.media;
-}
-
-function galleryForProduct(product: CatalogProduct, activeMedia: ProductMedia): ProductMedia[] {
-  const media = [
-    activeMedia,
-    ...product.colors.flatMap((color) => (color.media ? [color.media] : [])),
-    ...product.gallery,
-  ];
-
-  return media.filter(
-    (item, index, source) =>
-      source.findIndex((candidate) => keyForMedia(candidate) === keyForMedia(item)) === index,
-  );
-}
-
 export function ProductDetailClient({ product, relatedProducts }: ProductDetailClientProps) {
   const firstColorId =
     product.colors.find((color) => color.media?.cutoutStatus === 'available')?.id ??
     product.colors[0]?.id;
   const [selectedColorId, setSelectedColorId] = useState<ProductColorId | undefined>(firstColorId);
-  const [activeMedia, setActiveMedia] = useState<ProductMedia>(
-    firstColorId ? mediaForColor(product, firstColorId) : product.media,
-  );
-  const gallery = useMemo(() => galleryForProduct(product, activeMedia), [activeMedia, product]);
+  const [selectedGalleryMediaKey, setSelectedGalleryMediaKey] = useState<string>();
+  const gallery = useMemo(() => galleryForProduct(product), [product]);
+  const selectedColorMedia = selectedColorId
+    ? mediaForProductColor(product, selectedColorId)
+    : product.media;
+  const activeMedia =
+    gallery.find((media) => productMediaKey(media) === selectedGalleryMediaKey) ??
+    selectedColorMedia;
+  const selectedColor = product.colors.find((color) => color.id === selectedColorId);
   const zoomDialogRef = useRef<HTMLDialogElement>(null);
+  const mediaButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const dialog = zoomDialogRef.current;
@@ -59,7 +45,12 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
 
   function handleColorChange(colorId: ProductColorId) {
     setSelectedColorId(colorId);
-    setActiveMedia(mediaForColor(product, colorId));
+    setSelectedGalleryMediaKey(undefined);
+  }
+
+  function handleThumbnailChange(media: ProductMedia) {
+    if (media.colorId) setSelectedColorId(media.colorId);
+    setSelectedGalleryMediaKey(productMediaKey(media));
   }
 
   return (
@@ -67,14 +58,25 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
       <section className={styles.page}>
         <div className={styles.mediaColumn}>
           <button
+            ref={mediaButtonRef}
             className={styles.mediaButton}
             type="button"
             onClick={openZoom}
             aria-label={`Ampliar ${activeMedia.alt}`}
           >
-            <ProductMediaFrame media={activeMedia} productName={product.name} priority />
+            <ProductMediaFrame
+              key={productMediaKey(activeMedia)}
+              media={activeMedia}
+              productName={product.name}
+              priority
+            />
             <span>Ampliar imagem</span>
           </button>
+          {selectedColor && (
+            <p className={styles.selectedVariant}>
+              Cor selecionada: <strong>{selectedColor.name}</strong>
+            </p>
+          )}
           {activeMedia.pendingReason && (
             <p className={styles.pendingMedia}>{activeMedia.pendingReason}</p>
           )}
@@ -82,12 +84,14 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             <div className={styles.thumbnails} aria-label="Miniaturas do produto">
               {gallery.map((media) => (
                 <button
-                  key={keyForMedia(media)}
+                  key={productMediaKey(media)}
                   type="button"
                   className={
-                    keyForMedia(media) === keyForMedia(activeMedia) ? styles.activeThumbnail : ''
+                    productMediaKey(media) === productMediaKey(activeMedia)
+                      ? styles.activeThumbnail
+                      : ''
                   }
-                  onClick={() => setActiveMedia(media)}
+                  onClick={() => handleThumbnailChange(media)}
                   aria-label={`Ver ${media.alt}`}
                 >
                   <ProductMediaFrame media={media} productName={product.name} compact />
@@ -125,7 +129,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
           </div>
           <ProductPurchasePanel
             product={product}
-            selectedColorId={selectedColorId}
+            selectedColorId={selectedColorId ?? product.colors[0]!.id}
             onColorChange={handleColorChange}
           />
           <div className={styles.productNotes}>
@@ -148,6 +152,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
           ref={zoomDialogRef}
           className={styles.zoomDialog}
           aria-label={`Imagem ampliada: ${activeMedia.alt}`}
+          onClose={() => mediaButtonRef.current?.focus()}
         >
           <div className={styles.zoomContent}>
             <button type="button" onClick={() => zoomDialogRef.current?.close()}>

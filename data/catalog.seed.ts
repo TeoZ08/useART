@@ -38,13 +38,16 @@ const colorFile = {
 const colorMedia = (folder: string, altPrefix: string): readonly ProductColor[] =>
   PRODUCT_COLORS.map((color) => ({
     ...color,
-    media: availableMedia(
-      color.id === 'branco-off-white'
-        ? `/assets/products/${folder}/${colorFile[color.id]}.png`
-        : `/assets/products/cutouts/${folder}-${colorFile[color.id]}.png`,
-      `${altPrefix} na cor ${color.name}`,
-      color.id === 'branco-off-white' ? 'needs-review' : 'available',
-    ),
+    media: {
+      ...availableMedia(
+        color.id === 'branco-off-white'
+          ? `/assets/products/${folder}/${colorFile[color.id]}.png`
+          : `/assets/products/cutouts/${folder}-${colorFile[color.id]}.png`,
+        `${altPrefix} na cor ${color.name}`,
+        color.id === 'branco-off-white' ? 'needs-review' : 'available',
+      ),
+      colorId: color.id,
+    },
   }));
 
 const firstColorMedia = (colors: readonly ProductColor[]) => {

@@ -43,6 +43,7 @@ Uma peça recortada em grande escala ou uma camiseta 3D transparente cruza uma t
 
 - Links usam sublinhado de progresso ou troca leve de cor, não movimentos longos.
 - Cor e tamanho selecionados têm estado de seleção textual e foco visível.
+- A mídia de produto acompanha a cor selecionada; miniaturas que representam uma cor atualizam o swatch e o carrinho conserva a mesma mídia.
 - Botões primários mantêm uma área mínima de toque de `48px`.
 - Menu mobile usa `dialog`, fecha com Escape e devolve o foco ao botão de abertura.
 - Mensagens de carrinho, erro e pendência têm estrutura semântica e contraste suficiente.
@@ -53,6 +54,7 @@ Uma peça recortada em grande escala ou uma camiseta 3D transparente cruza uma t
 - Ícones possuem rótulo acessível; ícones decorativos usam `aria-hidden`.
 - O foco é visível em qualquer fundo.
 - `prefers-reduced-motion` remove transformações e reveals não essenciais sem perder conteúdo ou controles.
+- A camiseta 3D só toca por hover fino; poster e vídeo não podem pintar juntos quando os frames diferem. Touch, economia de dados e erro de mídia usam poster estático.
 
 ## Defaults rejeitados
 
