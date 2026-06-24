@@ -8,6 +8,15 @@ Data da revisão: 23/06/2026. Os originais permanecem em `public/assets/products
 
 O script não tenta forçar recorte em peças brancas/off-white. Nesses arquivos, tecido claro e fundo neutro são próximos demais para garantir bordas, costuras e logos sem um recorte manual. Eles ficam com `cutoutStatus: 'needs-review'` e não são usados como cutout no layout.
 
+## Hero editorial 3D
+
+| Arquivo                                | Uso                        | Formato / resolução         | Tamanho | Status    | Observação                                                                         |
+| -------------------------------------- | -------------------------- | --------------------------- | ------- | --------- | ---------------------------------------------------------------------------------- |
+| `videos/useart-hero-transparente.webm` | Animação principal da hero | VP9 WebM, 1920x1080, 30 FPS | 1,42 MB | available | Alfa confirmado por `alpha_mode=1` e decoder `libvpx-vp9`; não é um SKU comercial. |
+| `images/useart-hero-poster.webp`       | Poster e fallback da hero  | WebP RGBA, 1600x900         | 32 KB   | available | Frame de aprox. 2,1 s, revisado em fundo escuro e claro.                           |
+
+Os fontes de produção 3D, caches e frames de decisão não fazem parte de `public/` nem do Git. A auditoria detalhada está em `docs/HERO_3D_VIDEO.md`.
+
 ## Assets oficiais aplicáveis ao catálogo
 
 | Original                         | Produto / aplicação                 | Cor              | Resolução original | Derivado                                   | Status       | Observação                                               |
