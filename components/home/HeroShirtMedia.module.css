@@ -18,19 +18,36 @@
 
 .poster {
   z-index: 1;
+  visibility: visible;
 }
 
 .video {
   z-index: 2;
-  opacity: 0;
-  transition: opacity 220ms ease;
+  visibility: hidden;
 }
 
-.media[data-video-ready] .video {
-  opacity: 1;
+.media[data-state='playing'] .poster,
+.media[data-state='rewinding'] .poster {
+  visibility: hidden;
 }
 
-@media (prefers-reduced-motion: reduce) {
+.media[data-state='playing'] .video,
+.media[data-state='rewinding'] .video {
+  visibility: visible;
+}
+
+.hoverZone {
+  position: absolute;
+  z-index: 3;
+  top: 7%;
+  right: 18%;
+  bottom: 4%;
+  left: 25%;
+  pointer-events: auto;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hoverZone,
   .video {
     display: none;
   }

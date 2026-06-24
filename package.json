@@ -14,7 +14,9 @@
     "lint": "eslint .",
     "format": "prettier . --check",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "audit:media": "node scripts/quality/audit-product-media.mjs",
+    "capture:quality": "node scripts/quality/capture-quality-audit.mjs"
   },
   "dependencies": {
     "next": "16.2.9",

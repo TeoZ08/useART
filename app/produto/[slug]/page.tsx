@@ -35,6 +35,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <ProductDetailClient
+      key={product.slug}
       product={product}
       relatedProducts={getProductSlugs()
         .filter((candidateSlug) => candidateSlug !== product.slug)

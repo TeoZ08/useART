@@ -16,28 +16,6 @@
   pointer-events: none;
 }
 
-.gridLineOne,
-.gridLineTwo {
-  position: absolute;
-  z-index: 0;
-  background: var(--color-line-dark);
-  opacity: 0.72;
-}
-
-.gridLineOne {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-}
-
-.gridLineTwo {
-  left: 0;
-  right: 0;
-  bottom: clamp(104px, 13vh, 132px);
-  height: 1px;
-}
-
 .productStage {
   position: absolute;
   right: clamp(-160px, -6vw, -48px);
@@ -63,11 +41,11 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  pointer-events: none;
 }
 
 .eyebrow,
-.index,
-.productData {
+.index {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -104,6 +82,7 @@
   align-items: center;
   gap: var(--space-5);
   margin-top: var(--space-8);
+  pointer-events: auto;
 }
 
 .index {

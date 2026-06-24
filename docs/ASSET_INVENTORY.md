@@ -17,6 +17,12 @@ O script não tenta forçar recorte em peças brancas/off-white. Nesses arquivos
 
 Os fontes de produção 3D, caches e frames de decisão não fazem parte de `public/` nem do Git. A auditoria detalhada está em `docs/HERO_3D_VIDEO.md`.
 
+## Resolução de variantes
+
+Cada imagem comercial disponível declara o `colorId` correspondente em `data/catalog.seed.ts`. `domain/products/media.ts` resolve a mídia por cor para página de produto, miniatura e carrinho; isso impede que uma seleção de cor permaneça com a imagem anterior. Os SKUs sem mídia por cor recebem `alt` e `pendingReason` específicos para a variante, sem reutilizar outra foto.
+
+`tests/domain/media-audit.test.ts` verifica arquivos, hashes distintos para cores disponíveis, galeria, `colorId` e a cópia para `out/`. Após `npm run build`, execute `npm run audit:media` para repetir a verificação no export estático.
+
 ## Assets oficiais aplicáveis ao catálogo
 
 | Original                         | Produto / aplicação                 | Cor              | Resolução original | Derivado                                   | Status       | Observação                                               |

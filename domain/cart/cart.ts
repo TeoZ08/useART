@@ -1,4 +1,5 @@
 import { applyCoupon } from '@/domain/coupon/coupon';
+import { mediaForProductColor } from '@/domain/products/media';
 import type { ShippingQuote } from '@/domain/shipping/shipping';
 import type {
   CartItem,
@@ -42,7 +43,7 @@ function imageForSelection(product: CatalogProduct, selection: CartItemSelection
     return product.media;
   }
 
-  return product.colors.find((color) => color.id === selection.colorId)?.media ?? product.media;
+  return mediaForProductColor(product, selection.colorId);
 }
 
 export function addCartItem(items: CartItem[], nextItem: CartItem): CartItem[] {

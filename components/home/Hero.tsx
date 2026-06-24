@@ -6,8 +6,6 @@ import styles from './Hero.module.css';
 export function Hero() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
-      <div className={styles.gridLineOne} aria-hidden="true" />
-      <div className={styles.gridLineTwo} aria-hidden="true" />
       <div className={styles.index} aria-label="Coleção 01">
         <span>01</span>
         <span>Movimento</span>

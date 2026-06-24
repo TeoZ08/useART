@@ -1,0 +1,94 @@
+[
+  {
+    "slug": "camiseta-hibrida-logo-lateral",
+    "rows": [
+      {
+        "color": "Branco/off-white",
+        "pressed": "true",
+        "src": "/assets/products/hybrid-logo-lateral/branco.png",
+        "alt": "Camiseta Híbrida ART com logo lateral na cor Branco/off-white"
+      },
+      {
+        "color": "Preto",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/hybrid-logo-lateral-preto.png",
+        "alt": "Camiseta Híbrida ART com logo lateral na cor Preto"
+      },
+      {
+        "color": "Marrom",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/hybrid-logo-lateral-marrom.png",
+        "alt": "Camiseta Híbrida ART com logo lateral na cor Marrom"
+      }
+    ]
+  },
+  {
+    "slug": "camiseta-hibrida-logo-central",
+    "rows": [
+      {
+        "color": "Branco/off-white",
+        "pressed": "true",
+        "src": "/assets/products/hybrid-logo-central/branco.png",
+        "alt": "Camiseta Híbrida ART com logo central na cor Branco/off-white"
+      },
+      {
+        "color": "Preto",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/hybrid-logo-central-preto.png",
+        "alt": "Camiseta Híbrida ART com logo central na cor Preto"
+      },
+      {
+        "color": "Marrom",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/hybrid-logo-central-marrom.png",
+        "alt": "Camiseta Híbrida ART com logo central na cor Marrom"
+      }
+    ]
+  },
+  {
+    "slug": "camiseta-hibrida-assinatura-lateral",
+    "rows": [
+      {
+        "color": "Branco/off-white",
+        "pressed": "true",
+        "src": "/assets/products/hybrid-assinatura/branco.png",
+        "alt": "Camiseta Híbrida ART com assinatura lateral na cor Branco/off-white"
+      },
+      {
+        "color": "Preto",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/hybrid-assinatura-preto.png",
+        "alt": "Camiseta Híbrida ART com assinatura lateral na cor Preto"
+      },
+      {
+        "color": "Marrom",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/hybrid-assinatura-marrom.png",
+        "alt": "Camiseta Híbrida ART com assinatura lateral na cor Marrom"
+      }
+    ]
+  },
+  {
+    "slug": "camiseta-solid-masculina-assinatura-lateral",
+    "rows": [
+      {
+        "color": "Branco/off-white",
+        "pressed": "true",
+        "src": "/assets/products/solid-assinatura/branco.png",
+        "alt": "Camiseta Solid Masculina ART com assinatura lateral na cor Branco/off-white"
+      },
+      {
+        "color": "Preto",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/solid-assinatura-preto.png",
+        "alt": "Camiseta Solid Masculina ART com assinatura lateral na cor Preto"
+      },
+      {
+        "color": "Marrom",
+        "pressed": "true",
+        "src": "/assets/products/cutouts/solid-assinatura-marrom.png",
+        "alt": "Camiseta Solid Masculina ART com assinatura lateral na cor Marrom"
+      }
+    ]
+  }
+]
