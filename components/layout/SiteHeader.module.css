@@ -8,6 +8,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  color: var(--color-paper);
 }
 
 .staticHeader {
@@ -56,8 +57,17 @@
   object-fit: contain;
 }
 
-.staticHeader .logo {
+.staticHeader .logo,
+.homeHeader .logo {
   filter: invert(1);
+}
+
+.scrolledHomeHeader {
+  color: var(--color-ink);
+}
+
+.scrolledHomeHeader .logo {
+  filter: none;
 }
 
 .nav {

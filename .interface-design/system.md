@@ -37,7 +37,7 @@ Streetwear, conforto em movimento, camiseta híbrida, proteção UV 30, moletom 
 
 ## Assinatura
 
-Uma peça recortada em grande escala cruza uma tipografia editorial limpa, com marca e dados de operação ocupando posições distintas no mesmo grid. A composição deve continuar legível e útil sem animação.
+Uma peça recortada em grande escala ou uma camiseta 3D transparente cruza uma tipografia editorial limpa, com marca e dados de operação ocupando posições distintas no mesmo grid. Quando houver movimento, poster estático, reduced motion e economia de dados devem preservar a composição sem depender da animação.
 
 ## Estados interativos
 

@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { STORE_CONFIG } from '@/lib/config';
+import { HeroShirtMedia } from './HeroShirtMedia';
 import styles from './Hero.module.css';
 
 export function Hero() {
@@ -13,14 +13,7 @@ export function Hero() {
         <span>Movimento</span>
       </div>
       <div className={styles.productStage}>
-        <Image
-          src="/assets/products/cutouts/hybrid-logo-lateral-preto.png"
-          width={2048}
-          height={2048}
-          alt="Camiseta Híbrida ART preta com logo lateral"
-          className={styles.mainShirt}
-          priority
-        />
+        <HeroShirtMedia />
       </div>
       <div className={styles.content}>
         <p className={styles.eyebrow}>{STORE_CONFIG.brandName} / Streetwear funcional</p>
@@ -44,9 +37,6 @@ export function Hero() {
           </a>
         </div>
       </div>
-      <p className={styles.productData}>
-        Híbrida / logo lateral <span>R$ 45,00</span>
-      </p>
     </section>
   );
 }
