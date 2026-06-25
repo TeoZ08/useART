@@ -1,0 +1,65 @@
+[
+  {
+    "name": "desktop-1440",
+    "width": 1440,
+    "height": 900,
+    "innerWidth": 1440,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+  },
+  {
+    "name": "desktop-1280",
+    "width": 1280,
+    "height": 800,
+    "innerWidth": 1280,
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+  },
+  {
+    "name": "tablet-1024",
+    "width": 1024,
+    "height": 768,
+    "innerWidth": 1024,
+    "scrollWidth": 1024,
+    "clientWidth": 1024,
+    "horizontalOverflow": false
+  },
+  {
+    "name": "tablet-768",
+    "width": 768,
+    "height": 1024,
+    "innerWidth": 768,
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "horizontalOverflow": false
+  },
+  {
+    "name": "mobile-430",
+    "width": 430,
+    "height": 932,
+    "innerWidth": 430,
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+  },
+  {
+    "name": "mobile-390",
+    "width": 390,
+    "height": 844,
+    "innerWidth": 390,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+  },
+  {
+    "name": "mobile-360",
+    "width": 360,
+    "height": 800,
+    "innerWidth": 360,
+    "scrollWidth": 360,
+    "clientWidth": 360,
+    "horizontalOverflow": false
+  }
+]

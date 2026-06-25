@@ -24,10 +24,21 @@
 
 - Branch de trabalho: `fix/quality-audit-hero-variants`, criada da `main` em `18566bb`.
 - O frame fantasma foi atribuído à sobreposição permanente do poster atrás de um WebM com alfa, e não ao arquivo 3D. Poster e vídeo agora são mutuamente exclusivos nos estados visuais.
-- A hero toca apenas por hover fino em desktop, retorna ao frame inicial por `requestAnimationFrame`, respeita movimento reduzido/economia de dados/touch e não tem mais as linhas cruzadas.
+- Naquele PR, a hero passou a tocar apenas por hover fino em desktop, respeitar movimento reduzido/economia de dados/touch e remover as linhas cruzadas; o retorno ainda usava `requestAnimationFrame` e foi substituído pelo reverse dedicado no polimento seguinte.
 - A resolução de mídia por cor foi centralizada para produto, miniaturas e carrinho; SKU pendente declara a variante sem simular imagem.
 - Foram adicionados teste de mídia, auditoria do export, cenários Playwright de hover/rewind/variantes/kit/carrinho e capturas em `docs/quality-audit/`.
 - Evidência atual: 7 viewports sem overflow e nenhuma ocorrência de console, página ou asset em `docs/quality-audit/after/runtime-issues.json`.
+
+## Polimento da animação 3D - 24/06/2026
+
+- Branch de trabalho: `fix/hero-animation-polish`, criada da `main` em `fba946a`.
+- A causa do salto atual foi confirmada: o poster anterior correspondia ao frame 64, aproximadamente 2,100 s, enquanto o vídeo iniciava em 0,000 s.
+- O poster foi regenerado do frame inicial real, em 0,000 s, com WebP ARGB 1920x1080.
+- O retorno deixou de usar seek regressivo por `requestAnimationFrame`; foi adicionado `public/videos/useart-hero-transparente-reverse.webm`, VP9 transparente 1920x1080, 30 FPS, 8,366 s.
+- A hero usa estados `idle`, `forward`, `holding-end`, `seeking-reverse`, `reverse` e `seeking-forward`, com token de transição para cancelar operações antigas.
+- Forward toca uma vez, sem loop, segura o último frame no hover e retorna pelo reverse dedicado no mouseleave.
+- Mobile, touch/coarse pointer, movimento reduzido e Save-Data continuam estáticos e não montam os vídeos.
+- Evidências: `docs/hero-animation-polish/DIAGNOSIS.md`, `docs/hero-animation-polish/RESULT.md`, capturas after, gravação local e checks de viewport/runtime.
 
 ## Auditoria inicial
 

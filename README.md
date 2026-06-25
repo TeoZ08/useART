@@ -22,7 +22,7 @@ Os derivados transparentes aprovados vivem em `public/assets/products/cutouts/`.
 - Cupom `PRIMEIRACOMPRA` com 10% de desconto transitório.
 - Entrega com retirada ART, Campo Grande/MS por R$ 10 e demais localidades a confirmar.
 - Checkout assistido com contato, entrega, revisão e mensagem estruturada para WhatsApp.
-- Hero editorial com camiseta 3D transparente, poster estático e fallback para movimento reduzido/economia de dados.
+- Hero editorial com camiseta 3D transparente, forward/reverse por hover fino, poster estático e fallback para movimento reduzido/economia de dados.
 
 ## Stack
 
@@ -54,6 +54,7 @@ npm run test
 npm run build
 npm run audit:media
 npm run test:e2e
+npm audit --omit=dev
 ```
 
 ## Revisão visual
@@ -64,11 +65,14 @@ Com o servidor local em execução, gere as capturas e a verificação de overfl
 npm run dev
 node scripts/design/capture-review.mjs
 npm run capture:quality
+npm run capture:hero-polish
 ```
 
 As capturas estão em `docs/design-review/before/` e `docs/design-review/after/`. A comparação está em `docs/design-review/REVIEW.md`.
 
 A auditoria corretiva de hero e variantes fica em `docs/quality-audit/`. Ela inclui evidências antes/depois, matriz de cores, verificação de overflow e erros de runtime.
+
+O polimento final da animação 3D fica em `docs/hero-animation-polish/`. Ele inclui diagnóstico do poster antigo, reverse dedicado, capturas after, gravação em velocidade normal, verificação de overflow e erros de runtime.
 
 ## Deploy
 

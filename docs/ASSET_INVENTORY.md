@@ -10,12 +10,13 @@ O script não tenta forçar recorte em peças brancas/off-white. Nesses arquivos
 
 ## Hero editorial 3D
 
-| Arquivo                                | Uso                        | Formato / resolução         | Tamanho | Status    | Observação                                                                         |
-| -------------------------------------- | -------------------------- | --------------------------- | ------- | --------- | ---------------------------------------------------------------------------------- |
-| `videos/useart-hero-transparente.webm` | Animação principal da hero | VP9 WebM, 1920x1080, 30 FPS | 1,42 MB | available | Alfa confirmado por `alpha_mode=1` e decoder `libvpx-vp9`; não é um SKU comercial. |
-| `images/useart-hero-poster.webp`       | Poster e fallback da hero  | WebP RGBA, 1600x900         | 32 KB   | available | Frame de aprox. 2,1 s, revisado em fundo escuro e claro.                           |
+| Arquivo                                        | Uso                       | Formato / resolução         | Tamanho | Status    | Observação                                                                                  |
+| ---------------------------------------------- | ------------------------- | --------------------------- | ------- | --------- | ------------------------------------------------------------------------------------------- |
+| `videos/useart-hero-transparente.webm`         | Animação forward da hero  | VP9 WebM, 1920x1080, 30 FPS | 1,42 MB | available | Alfa confirmado por `alpha_mode=1` e decoder `libvpx-vp9`; não é um SKU comercial.          |
+| `videos/useart-hero-transparente-reverse.webm` | Animação reverse da hero  | VP9 WebM, 1920x1080, 30 FPS | 1,77 MB | available | Derivado reverso dedicado; `ALPHA_MODE=1`; usado apenas em desktop com hover fino.          |
+| `images/useart-hero-poster.webp`               | Poster e fallback da hero | WebP ARGB, 1920x1080        | 155 KB  | available | Frame `0,000 s`, visualmente igual ao frame inicial do forward sobre o fundo `ink` da hero. |
 
-Os fontes de produção 3D, caches e frames de decisão não fazem parte de `public/` nem do Git. A auditoria detalhada está em `docs/HERO_3D_VIDEO.md`.
+Os fontes de produção 3D, caches e frames de decisão não fazem parte de `public/` nem do Git. A auditoria detalhada está em `docs/HERO_3D_VIDEO.md`; o polimento final fica em `docs/hero-animation-polish/`.
 
 ## Resolução de variantes
 

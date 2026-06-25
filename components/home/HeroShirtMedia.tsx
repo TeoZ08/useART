@@ -1,10 +1,17 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from 'react';
+import {
+  canUseInteractiveHeroVideo,
+  getMirroredMediaTime,
+  HERO_ANIMATION_START_TIME,
+  HERO_TRANSITION_TIMEOUT_MS,
+  INTERACTIVE_HERO_STATES,
+  type HeroMediaState,
+  type HeroVisibleMedia,
+} from './heroAnimationMachine';
 import styles from './HeroShirtMedia.module.css';
-
-type HeroMediaState = 'fallback' | 'loading' | 'ready' | 'playing' | 'rewinding' | 'error';
 
 type NetworkConnection = {
   saveData?: boolean;
@@ -12,116 +19,429 @@ type NetworkConnection = {
   removeEventListener?: (type: 'change', listener: () => void) => void;
 };
 
-const VIDEO_STATES = new Set<HeroMediaState>(['loading', 'ready', 'playing', 'rewinding']);
+type SeekResult = 'ready' | 'stale' | 'failed';
 
-function canUseInteractiveVideo(
-  reducedMotion: MediaQueryList,
-  hoverCapable: MediaQueryList,
-  connection?: NetworkConnection,
-): boolean {
-  return !reducedMotion.matches && hoverCapable.matches && connection?.saveData !== true;
+const FORWARD_VIDEO_SRC = '/videos/useart-hero-transparente.webm';
+const REVERSE_VIDEO_SRC = '/videos/useart-hero-transparente-reverse.webm';
+
+function mediaDuration(forward: HTMLVideoElement, reverse?: HTMLVideoElement | null): number {
+  const candidateDurations = [forward.duration];
+  if (reverse) candidateDurations.push(reverse.duration);
+  const durations = candidateDurations.filter(
+    (duration) => Number.isFinite(duration) && duration > 0,
+  );
+  return durations.length > 0 ? Math.min(...durations) : 0;
 }
 
-function rewindDuration(currentTime: number, duration: number): number {
-  const progress = duration > 0 ? currentTime / duration : 0;
-  return Math.round(Math.min(1_800, Math.max(900, 850 + progress * 950)));
+function canReadMetadata(video: HTMLVideoElement): boolean {
+  return video.readyState >= HTMLMediaElement.HAVE_METADATA;
 }
 
 export function HeroShirtMedia() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const rewindFrameRef = useRef<number | null>(null);
+  const forwardVideoRef = useRef<HTMLVideoElement>(null);
+  const reverseVideoRef = useRef<HTMLVideoElement>(null);
+  const transitionRef = useRef(0);
   const stateRef = useRef<HeroMediaState>('fallback');
+  const visibleMediaRef = useRef<HeroVisibleMedia>('poster');
+  const wantsMotionRef = useRef(false);
+  const interactiveRef = useRef(false);
+  const reverseFailedRef = useRef(false);
+  const pendingForwardTimeRef = useRef(HERO_ANIMATION_START_TIME);
+
   const [state, setState] = useState<HeroMediaState>('fallback');
-  const shouldRenderVideo = VIDEO_STATES.has(state);
+  const [visibleMedia, setVisibleMediaState] = useState<HeroVisibleMedia>('poster');
+  const [reversePreload, setReversePreload] = useState<'metadata' | 'auto'>('metadata');
+  const shouldRenderVideo = INTERACTIVE_HERO_STATES.has(state);
 
   const setMediaState = useCallback((nextState: HeroMediaState) => {
     stateRef.current = nextState;
     setState(nextState);
   }, []);
 
-  const cancelRewind = useCallback(() => {
-    if (rewindFrameRef.current !== null) {
-      window.cancelAnimationFrame(rewindFrameRef.current);
-      rewindFrameRef.current = null;
+  const setVisibleMedia = useCallback((nextMedia: HeroVisibleMedia) => {
+    visibleMediaRef.current = nextMedia;
+    setVisibleMediaState(nextMedia);
+  }, []);
+
+  const nextTransition = useCallback(() => {
+    transitionRef.current += 1;
+    return transitionRef.current;
+  }, []);
+
+  const isCurrentTransition = useCallback((token: number) => transitionRef.current === token, []);
+
+  const requestReversePreload = useCallback(() => {
+    setReversePreload('auto');
+    const reverse = reverseVideoRef.current;
+    if (reverse && reverse.preload !== 'auto') {
+      reverse.preload = 'auto';
+      reverse.load();
     }
   }, []);
 
-  const resetToReady = useCallback(() => {
-    cancelRewind();
+  const waitForMetadata = useCallback(
+    async (video: HTMLVideoElement, token: number, timeout = HERO_TRANSITION_TIMEOUT_MS) => {
+      if (canReadMetadata(video)) return isCurrentTransition(token);
 
-    const video = videoRef.current;
-    if (!video) return;
+      return new Promise<boolean>((resolve) => {
+        let done = false;
+        const cleanup = () => {
+          window.clearTimeout(timeoutId);
+          video.removeEventListener('loadedmetadata', handleReady);
+          video.removeEventListener('error', handleError);
+        };
+        const finish = (result: boolean) => {
+          if (done) return;
+          done = true;
+          cleanup();
+          resolve(result && isCurrentTransition(token));
+        };
+        const handleReady = () => finish(true);
+        const handleError = () => finish(false);
+        const timeoutId = window.setTimeout(() => finish(false), timeout);
 
-    video.loop = false;
-    video.pause();
+        video.addEventListener('loadedmetadata', handleReady);
+        video.addEventListener('error', handleError);
+      });
+    },
+    [isCurrentTransition],
+  );
 
-    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-      video.currentTime = 0;
-      setMediaState('ready');
-      return;
-    }
+  const seekVideo = useCallback(
+    async (
+      video: HTMLVideoElement,
+      targetTime: number,
+      token: number,
+      timeout = HERO_TRANSITION_TIMEOUT_MS,
+    ): Promise<SeekResult> => {
+      const hasMetadata = await waitForMetadata(video, token, timeout);
+      if (!hasMetadata) return isCurrentTransition(token) ? 'failed' : 'stale';
+      if (!isCurrentTransition(token)) return 'stale';
 
+      const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : 0;
+      const nextTime = Math.min(Math.max(targetTime, 0), duration || targetTime);
+      if (Math.abs(video.currentTime - nextTime) <= 0.015 && !video.seeking) return 'ready';
+
+      return new Promise<SeekResult>((resolve) => {
+        let done = false;
+        const cleanup = () => {
+          window.clearTimeout(timeoutId);
+          video.removeEventListener('seeked', handleSeeked);
+          video.removeEventListener('error', handleError);
+        };
+        const finish = (result: SeekResult) => {
+          if (done) return;
+          done = true;
+          cleanup();
+          resolve(isCurrentTransition(token) ? result : 'stale');
+        };
+        const handleSeeked = () => finish('ready');
+        const handleError = () => finish('failed');
+        const timeoutId = window.setTimeout(() => finish('failed'), timeout);
+
+        video.addEventListener('seeked', handleSeeked);
+        video.addEventListener('error', handleError);
+
+        try {
+          video.currentTime = nextTime;
+        } catch {
+          finish('failed');
+        }
+      });
+    },
+    [isCurrentTransition, waitForMetadata],
+  );
+
+  const pauseVideos = useCallback(() => {
+    const forward = forwardVideoRef.current;
+    const reverse = reverseVideoRef.current;
+    forward?.pause();
+    reverse?.pause();
+    if (forward) forward.loop = false;
+    if (reverse) reverse.loop = false;
+  }, []);
+
+  const enterStaticError = useCallback(() => {
+    nextTransition();
+    wantsMotionRef.current = false;
+    pauseVideos();
+    setVisibleMedia('poster');
+    setMediaState('error');
+  }, [nextTransition, pauseVideos, setMediaState, setVisibleMedia]);
+
+  const prepareInteractiveIdle = useCallback(async () => {
+    const forward = forwardVideoRef.current;
+    if (!interactiveRef.current || !forward || stateRef.current === 'error') return;
+
+    const token = nextTransition();
+    wantsMotionRef.current = false;
+    pauseVideos();
     setMediaState('loading');
-  }, [cancelRewind, setMediaState]);
+    setVisibleMedia('poster');
 
-  const rewindToStart = useCallback(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    cancelRewind();
-    video.loop = false;
-    video.pause();
-
-    const startTime = video.currentTime;
-    if (!Number.isFinite(startTime) || startTime <= 0.04) {
-      resetToReady();
+    const seekResult = await seekVideo(forward, HERO_ANIMATION_START_TIME, token);
+    if (seekResult === 'stale') return;
+    if (seekResult === 'failed') {
+      enterStaticError();
       return;
     }
 
-    setMediaState('rewinding');
-    const startedAt = performance.now();
-    const duration = rewindDuration(startTime, video.duration);
-    let lastSeekAt = 0;
+    if (!isCurrentTransition(token)) return;
+    setVisibleMedia('forward');
+    setMediaState('idle');
+    requestReversePreload();
+  }, [
+    enterStaticError,
+    isCurrentTransition,
+    nextTransition,
+    pauseVideos,
+    requestReversePreload,
+    seekVideo,
+    setMediaState,
+    setVisibleMedia,
+  ]);
 
-    const step = (now: number) => {
-      if (stateRef.current !== 'rewinding') return;
+  const resetToIdle = useCallback(async () => {
+    const forward = forwardVideoRef.current;
+    const reverse = reverseVideoRef.current;
+    const token = nextTransition();
+    wantsMotionRef.current = false;
+    pendingForwardTimeRef.current = HERO_ANIMATION_START_TIME;
+    pauseVideos();
 
-      const progress = Math.min(1, (now - startedAt) / duration);
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-      const nextTime = Math.max(0, startTime * (1 - easedProgress));
+    if (!interactiveRef.current || !forward) {
+      setVisibleMedia('poster');
+      setMediaState('fallback');
+      return;
+    }
 
-      if (now - lastSeekAt >= 48 || progress === 1) {
-        video.currentTime = nextTime;
-        lastSeekAt = now;
+    const seekResult = await seekVideo(forward, HERO_ANIMATION_START_TIME, token);
+    if (seekResult !== 'ready' || !isCurrentTransition(token)) return;
+
+    setVisibleMedia('forward');
+    setMediaState('idle');
+
+    if (reverse && canReadMetadata(reverse) && !reverseFailedRef.current) {
+      try {
+        reverse.currentTime = HERO_ANIMATION_START_TIME;
+      } catch {
+        reverseFailedRef.current = true;
       }
+    }
+  }, [isCurrentTransition, nextTransition, pauseVideos, seekVideo, setMediaState, setVisibleMedia]);
 
-      if (progress === 1) {
-        video.currentTime = 0;
-        rewindFrameRef.current = null;
-        setMediaState('ready');
+  const fallbackToInitialFrame = useCallback(
+    async (token: number) => {
+      const forward = forwardVideoRef.current;
+      pauseVideos();
+      setVisibleMedia('poster');
+
+      if (!forward) {
+        setMediaState('fallback');
         return;
       }
 
-      rewindFrameRef.current = window.requestAnimationFrame(step);
-    };
+      const seekResult = await seekVideo(forward, HERO_ANIMATION_START_TIME, token, 900);
+      if (seekResult === 'stale' || !isCurrentTransition(token)) return;
 
-    rewindFrameRef.current = window.requestAnimationFrame(step);
-  }, [cancelRewind, resetToReady, setMediaState]);
+      setMediaState(seekResult === 'ready' ? 'idle' : 'fallback');
+      if (seekResult === 'ready') setVisibleMedia('forward');
+    },
+    [isCurrentTransition, pauseVideos, seekVideo, setMediaState, setVisibleMedia],
+  );
 
-  const playFromCurrentFrame = useCallback(() => {
-    const video = videoRef.current;
-    if (!video || stateRef.current === 'loading' || stateRef.current === 'error') return;
+  const startReverseFromForwardTime = useCallback(
+    async (forwardTime: number) => {
+      const forward = forwardVideoRef.current;
+      const reverse = reverseVideoRef.current;
+      if (!interactiveRef.current || !forward) return;
 
-    cancelRewind();
-    video.loop = true;
-    setMediaState('playing');
-    void video.play().catch(() => {
-      if (stateRef.current !== 'playing') return;
-      video.loop = false;
-      setMediaState(video.error ? 'error' : 'ready');
-    });
-  }, [cancelRewind, setMediaState]);
+      const token = nextTransition();
+      pauseVideos();
+      requestReversePreload();
+      setMediaState('seeking-reverse');
+
+      if (!reverse || reverseFailedRef.current) {
+        await fallbackToInitialFrame(token);
+        return;
+      }
+
+      const duration = mediaDuration(forward, reverse);
+      const clampedForwardTime = Math.min(Math.max(forwardTime, 0), duration || forwardTime);
+      pendingForwardTimeRef.current = clampedForwardTime;
+      const reverseTime = getMirroredMediaTime(duration, clampedForwardTime);
+      const seekResult = await seekVideo(reverse, reverseTime, token);
+
+      if (seekResult === 'stale') return;
+      if (seekResult === 'failed') {
+        reverseFailedRef.current = true;
+        await fallbackToInitialFrame(token);
+        return;
+      }
+      if (!isCurrentTransition(token)) return;
+
+      if (wantsMotionRef.current) return;
+
+      setVisibleMedia('reverse');
+      setMediaState('reverse');
+
+      reverse.loop = false;
+      try {
+        await reverse.play();
+      } catch (error) {
+        if (!isCurrentTransition(token)) return;
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        reverseFailedRef.current = true;
+        await fallbackToInitialFrame(token);
+      }
+    },
+    [
+      fallbackToInitialFrame,
+      isCurrentTransition,
+      nextTransition,
+      pauseVideos,
+      requestReversePreload,
+      seekVideo,
+      setMediaState,
+      setVisibleMedia,
+    ],
+  );
+
+  const playForwardFromTime = useCallback(
+    async (forwardTime: number, reverseInterrupted: boolean) => {
+      const forward = forwardVideoRef.current;
+      if (!interactiveRef.current || !forward || stateRef.current === 'loading') return;
+
+      const token = nextTransition();
+      pauseVideos();
+      requestReversePreload();
+      setMediaState('seeking-forward');
+
+      const seekResult = await seekVideo(forward, forwardTime, token);
+      if (seekResult === 'stale') return;
+      if (seekResult === 'failed') {
+        enterStaticError();
+        return;
+      }
+      if (!isCurrentTransition(token)) return;
+
+      if (!wantsMotionRef.current) {
+        if (reverseInterrupted && forwardTime > HERO_ANIMATION_START_TIME + 0.04) {
+          await startReverseFromForwardTime(forwardTime);
+          return;
+        }
+
+        setVisibleMedia('forward');
+        setMediaState('idle');
+        return;
+      }
+
+      setVisibleMedia('forward');
+      setMediaState('forward');
+      forward.loop = false;
+
+      try {
+        await forward.play();
+      } catch (error) {
+        if (!isCurrentTransition(token)) return;
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        enterStaticError();
+      }
+    },
+    [
+      enterStaticError,
+      isCurrentTransition,
+      nextTransition,
+      pauseVideos,
+      requestReversePreload,
+      seekVideo,
+      setMediaState,
+      setVisibleMedia,
+      startReverseFromForwardTime,
+    ],
+  );
+
+  const finishReverseToIdle = useCallback(async () => {
+    const forward = forwardVideoRef.current;
+    if (!forward) {
+      setVisibleMedia('poster');
+      setMediaState('fallback');
+      return;
+    }
+
+    const token = nextTransition();
+    wantsMotionRef.current = false;
+    pauseVideos();
+    setMediaState('seeking-forward');
+
+    const seekResult = await seekVideo(forward, HERO_ANIMATION_START_TIME, token);
+    if (seekResult !== 'ready' || !isCurrentTransition(token)) return;
+
+    setVisibleMedia('forward');
+    setMediaState('idle');
+    if (wantsMotionRef.current) void playForwardFromTime(HERO_ANIMATION_START_TIME, false);
+  }, [
+    isCurrentTransition,
+    nextTransition,
+    pauseVideos,
+    playForwardFromTime,
+    seekVideo,
+    setMediaState,
+    setVisibleMedia,
+  ]);
+
+  const handlePointerEnter = useCallback(
+    (event: PointerEvent<HTMLDivElement>) => {
+      if (event.pointerType !== 'mouse' || !interactiveRef.current) return;
+
+      wantsMotionRef.current = true;
+      const forward = forwardVideoRef.current;
+      const reverse = reverseVideoRef.current;
+      const currentState = stateRef.current;
+      if (!forward || currentState === 'loading' || currentState === 'error') return;
+
+      if (currentState === 'idle') {
+        void playForwardFromTime(HERO_ANIMATION_START_TIME, false);
+        return;
+      }
+
+      if (currentState === 'reverse' && reverse) {
+        reverse.pause();
+        const duration = mediaDuration(forward, reverse);
+        const forwardTime = getMirroredMediaTime(duration, reverse.currentTime);
+        void playForwardFromTime(forwardTime, true);
+        return;
+      }
+
+      if (currentState === 'seeking-reverse') {
+        void playForwardFromTime(pendingForwardTimeRef.current, true);
+      }
+    },
+    [playForwardFromTime],
+  );
+
+  const handlePointerLeave = useCallback(
+    (event: PointerEvent<HTMLDivElement>) => {
+      if (event.pointerType !== 'mouse' || !interactiveRef.current) return;
+
+      wantsMotionRef.current = false;
+      const forward = forwardVideoRef.current;
+      const currentState = stateRef.current;
+      if (!forward) return;
+
+      if (currentState === 'forward') {
+        void startReverseFromForwardTime(forward.currentTime);
+        return;
+      }
+
+      if (currentState === 'holding-end') {
+        const reverse = reverseVideoRef.current;
+        void startReverseFromForwardTime(mediaDuration(forward, reverse));
+      }
+    },
+    [startReverseFromForwardTime],
+  );
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -129,15 +449,26 @@ export function HeroShirtMedia() {
     const connection = (navigator as Navigator & { connection?: NetworkConnection }).connection;
 
     const updateVideoMode = () => {
-      if (canUseInteractiveVideo(reducedMotion, hoverCapable, connection)) {
-        if (!VIDEO_STATES.has(stateRef.current)) setMediaState('loading');
+      const canUseVideo = canUseInteractiveHeroVideo({
+        reducedMotion: reducedMotion.matches,
+        hoverCapable: hoverCapable.matches,
+        saveData: connection?.saveData,
+      });
+
+      interactiveRef.current = canUseVideo;
+      if (canUseVideo) {
+        if (!INTERACTIVE_HERO_STATES.has(stateRef.current)) {
+          setReversePreload('metadata');
+          setVisibleMedia('poster');
+          setMediaState('loading');
+        }
         return;
       }
 
-      cancelRewind();
-      const video = videoRef.current;
-      video?.pause();
-      if (video && video.readyState >= HTMLMediaElement.HAVE_METADATA) video.currentTime = 0;
+      nextTransition();
+      wantsMotionRef.current = false;
+      pauseVideos();
+      setVisibleMedia('poster');
       setMediaState('fallback');
     };
 
@@ -153,7 +484,7 @@ export function HeroShirtMedia() {
     connection?.addEventListener?.('change', updateVideoMode);
 
     return () => {
-      cancelRewind();
+      nextTransition();
       for (const mediaQuery of subscriptions) {
         if (mediaQuery.removeEventListener) {
           mediaQuery.removeEventListener('change', updateVideoMode);
@@ -163,7 +494,7 @@ export function HeroShirtMedia() {
       }
       connection?.removeEventListener?.('change', updateVideoMode);
     };
-  }, [cancelRewind, setMediaState]);
+  }, [nextTransition, pauseVideos, setMediaState, setVisibleMedia]);
 
   useEffect(() => {
     if (!shouldRenderVideo) return;
@@ -172,11 +503,11 @@ export function HeroShirtMedia() {
     if (!container) return;
 
     const resetWhenInactive = () => {
-      if (document.visibilityState !== 'visible') resetToReady();
+      if (document.visibilityState !== 'visible') void resetToIdle();
     };
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) resetToReady();
+        if (!entry.isIntersecting) void resetToIdle();
       },
       { threshold: 0 },
     );
@@ -188,7 +519,7 @@ export function HeroShirtMedia() {
       observer.disconnect();
       document.removeEventListener('visibilitychange', resetWhenInactive);
     };
-  }, [resetToReady, shouldRenderVideo]);
+  }, [resetToIdle, shouldRenderVideo]);
 
   return (
     <div
@@ -196,11 +527,12 @@ export function HeroShirtMedia() {
       className={styles.media}
       data-testid="hero-shirt-media"
       data-state={state}
+      data-visible-media={visibleMedia}
     >
       <Image
         src="/images/useart-hero-poster.webp"
-        width={1600}
-        height={900}
+        width={1920}
+        height={1080}
         alt=""
         aria-hidden="true"
         className={styles.poster}
@@ -209,43 +541,77 @@ export function HeroShirtMedia() {
         data-testid="hero-shirt-poster"
       />
       {shouldRenderVideo ? (
-        <video
-          ref={videoRef}
-          className={styles.video}
-          muted
-          loop={state === 'playing'}
-          playsInline
-          preload="metadata"
-          disablePictureInPicture
-          disableRemotePlayback
-          aria-hidden="true"
-          tabIndex={-1}
-          data-testid="hero-shirt-video"
-          onLoadedMetadata={resetToReady}
-          onCanPlay={() => {
-            if (stateRef.current === 'loading') resetToReady();
-          }}
-          onError={() => {
-            if (!videoRef.current?.error) return;
-            cancelRewind();
-            setMediaState('error');
-          }}
-        >
-          <source src="/videos/useart-hero-transparente.webm" type="video/webm" />
-        </video>
-      ) : null}
-      {shouldRenderVideo ? (
-        <div
-          className={styles.hoverZone}
-          data-testid="hero-shirt-hover-zone"
-          aria-hidden="true"
-          onPointerEnter={(event) => {
-            if (event.pointerType === 'mouse') playFromCurrentFrame();
-          }}
-          onPointerLeave={(event) => {
-            if (event.pointerType === 'mouse') rewindToStart();
-          }}
-        />
+        <>
+          <video
+            ref={forwardVideoRef}
+            className={styles.forwardVideo}
+            muted
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            disableRemotePlayback
+            aria-hidden="true"
+            tabIndex={-1}
+            data-testid="hero-shirt-video"
+            onLoadedMetadata={() => {
+              if (stateRef.current === 'loading') void prepareInteractiveIdle();
+            }}
+            onCanPlay={() => {
+              if (stateRef.current === 'loading') void prepareInteractiveIdle();
+            }}
+            onEnded={() => {
+              if (stateRef.current !== 'forward') return;
+
+              const forward = forwardVideoRef.current;
+              forward?.pause();
+              if (!wantsMotionRef.current && forward) {
+                void startReverseFromForwardTime(forward.currentTime || forward.duration);
+                return;
+              }
+
+              setVisibleMedia('forward');
+              setMediaState('holding-end');
+            }}
+            onError={() => {
+              if (forwardVideoRef.current?.error) enterStaticError();
+            }}
+          >
+            <source src={FORWARD_VIDEO_SRC} type="video/webm" onError={enterStaticError} />
+          </video>
+          <video
+            ref={reverseVideoRef}
+            className={styles.reverseVideo}
+            muted
+            playsInline
+            preload={reversePreload}
+            disablePictureInPicture
+            disableRemotePlayback
+            aria-hidden="true"
+            tabIndex={-1}
+            data-testid="hero-shirt-video-reverse"
+            onError={() => {
+              reverseFailedRef.current = true;
+            }}
+            onEnded={() => {
+              if (stateRef.current === 'reverse') void finishReverseToIdle();
+            }}
+          >
+            <source
+              src={REVERSE_VIDEO_SRC}
+              type="video/webm"
+              onError={() => {
+                reverseFailedRef.current = true;
+              }}
+            />
+          </video>
+          <div
+            className={styles.hoverZone}
+            data-testid="hero-shirt-hover-zone"
+            aria-hidden="true"
+            onPointerEnter={handlePointerEnter}
+            onPointerLeave={handlePointerLeave}
+          />
+        </>
       ) : null}
     </div>
   );

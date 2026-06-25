@@ -13,54 +13,63 @@ test('editorial home presents the collection with a single primary action', asyn
   await expect(page.getByRole('heading', { name: 'Peças para acompanhar o ritmo' })).toBeVisible();
 });
 
-test('hero only plays after desktop hover and returns smoothly to the poster', async ({ page }) => {
+test('hero only plays after desktop hover and returns through the reverse asset', async ({
+  page,
+}) => {
   await page.goto('/');
 
   const media = page.getByTestId('hero-shirt-media');
   const poster = page.getByTestId('hero-shirt-poster');
-  const video = page.getByTestId('hero-shirt-video');
+  const forwardVideo = page.getByTestId('hero-shirt-video');
+  const reverseVideo = page.getByTestId('hero-shirt-video-reverse');
   const hoverZone = page.getByTestId('hero-shirt-hover-zone');
-  await expect(poster).toBeVisible();
-  await expect(video).toBeAttached();
-  await expect(video.locator('source')).toHaveAttribute(
+  await expect(forwardVideo).toBeAttached();
+  await expect(reverseVideo).toBeAttached();
+  await expect(forwardVideo.locator('source')).toHaveAttribute(
     'src',
     '/videos/useart-hero-transparente.webm',
   );
-  await expect(video).toHaveAttribute('preload', 'metadata');
-  await expect(video).toHaveAttribute('tabindex', '-1');
-  await expect(video).toHaveCSS('pointer-events', 'none');
-  await expect(media).toHaveAttribute('data-state', 'ready');
-  await expect(poster).toHaveCSS('visibility', 'visible');
-  await expect(video).toHaveCSS('visibility', 'hidden');
+  await expect(reverseVideo.locator('source')).toHaveAttribute(
+    'src',
+    '/videos/useart-hero-transparente-reverse.webm',
+  );
+  await expect(forwardVideo).toHaveAttribute('preload', 'auto');
+  await expect(reverseVideo).toHaveAttribute('preload', /^(metadata|auto)$/);
+  await expect(forwardVideo).toHaveAttribute('tabindex', '-1');
+  await expect(forwardVideo).toHaveCSS('pointer-events', 'none');
+  await expect(media).toHaveAttribute('data-state', 'idle');
+  await expect(media).toHaveAttribute('data-visible-media', 'forward');
+  await expect(poster).toHaveCSS('visibility', 'hidden');
+  await expect(forwardVideo).toHaveCSS('visibility', 'visible');
+  await expect(reverseVideo).toHaveCSS('visibility', 'hidden');
   await expect
-    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused))
+    .poll(() => forwardVideo.evaluate((element) => (element as HTMLVideoElement).paused))
     .toBe(true);
 
   await hoverZone.hover();
-  await expect(media).toHaveAttribute('data-state', 'playing');
+  await expect(media).toHaveAttribute('data-state', 'forward');
   await expect(poster).toHaveCSS('visibility', 'hidden');
-  await expect(video).toHaveCSS('visibility', 'visible');
+  await expect(forwardVideo).toHaveCSS('visibility', 'visible');
   await expect
-    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentTime))
+    .poll(() => forwardVideo.evaluate((element) => (element as HTMLVideoElement).currentTime))
     .toBeGreaterThan(0.12);
 
   await page.mouse.move(4, 4);
-  await expect(media).toHaveAttribute('data-state', 'rewinding');
-  const rewindStart = await video.evaluate((element) => (element as HTMLVideoElement).currentTime);
-  await page.waitForTimeout(180);
-  await expect
-    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentTime))
-    .toBeLessThan(rewindStart);
+  await expect(media).toHaveAttribute('data-state', 'reverse', { timeout: 3_000 });
+  await expect(media).toHaveAttribute('data-visible-media', 'reverse');
+  await expect(forwardVideo).toHaveCSS('visibility', 'hidden');
+  await expect(reverseVideo).toHaveCSS('visibility', 'visible');
 
   await hoverZone.hover();
-  await expect(media).toHaveAttribute('data-state', 'playing');
+  await expect(media).toHaveAttribute('data-state', 'forward');
   await page.mouse.move(4, 4);
-  await expect(media).toHaveAttribute('data-state', 'rewinding');
-  await expect(media).toHaveAttribute('data-state', 'ready', { timeout: 3_000 });
-  await expect(poster).toHaveCSS('visibility', 'visible');
-  await expect(video).toHaveCSS('visibility', 'hidden');
+  await expect(media).toHaveAttribute('data-state', 'idle', { timeout: 5_000 });
+  await expect(media).toHaveAttribute('data-visible-media', 'forward');
+  await expect(poster).toHaveCSS('visibility', 'hidden');
+  await expect(forwardVideo).toHaveCSS('visibility', 'visible');
+  await expect(reverseVideo).toHaveCSS('visibility', 'hidden');
   await expect
-    .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentTime))
+    .poll(() => forwardVideo.evaluate((element) => (element as HTMLVideoElement).currentTime))
     .toBeLessThanOrEqual(0.01);
 
   await page.getByRole('link', { name: 'Explorar coleção' }).click();
