@@ -15,6 +15,18 @@ function mediaSources(product: CatalogProduct): string[] {
 }
 
 describe('product assets', () => {
+  it('keeps the hero poster and forward/reverse transparent videos available', () => {
+    const heroAssets = [
+      'images/useart-hero-poster.webp',
+      'videos/useart-hero-transparente.webm',
+      'videos/useart-hero-transparente-reverse.webm',
+    ];
+
+    for (const source of heroAssets) {
+      expect(existsSync(join(process.cwd(), 'public', source))).toBe(true);
+    }
+  });
+
   it('references only existing public asset files', () => {
     const sources = getProducts().flatMap(mediaSources);
 

@@ -1,0 +1,3916 @@
+{
+  "state": "ready",
+  "events": [
+    {
+      "type": "instrumented",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 1510.9
+    },
+    {
+      "type": "play",
+      "time": 0.0015,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "ready",
+      "at": 1726.6
+    },
+    {
+      "type": "playing",
+      "time": 0.0017,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "ready",
+      "at": 1726.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2506,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 1975.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.5162,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 2241.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.7818,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 2507
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.0475,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 2772.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.3131,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 3038.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 3197
+    },
+    {
+      "type": "pause",
+      "time": 1.691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 3197.2
+    },
+    {
+      "type": "seeking",
+      "time": 1.691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3198.6
+    },
+    {
+      "type": "seeking",
+      "time": 1.4646,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3211.4
+    },
+    {
+      "type": "seeking",
+      "time": 1.2584,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3248
+    },
+    {
+      "type": "seeking",
+      "time": 1.0732,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3298.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.9065,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3348.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.7586,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3398
+    },
+    {
+      "type": "seeking",
+      "time": 0.6274,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3448
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.6274,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3494.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.6274,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3494.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.6274,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3495
+    },
+    {
+      "type": "seeking",
+      "time": 0.5121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3505.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.5121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3548.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.5121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3548.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.5121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3548.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.4121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3559.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.4121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3597.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.4121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3597.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.4121,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3597.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.326,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3606.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.326,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3632.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.326,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3632.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.326,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3632.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.2528,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3648
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2528,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3669.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.2528,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3669.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.2528,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3669.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.1915,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3698.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1915,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3718.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.1915,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3718.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.1915,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3718.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.1411,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3748.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1411,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3766.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.1411,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3766.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.1411,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3766.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.1003,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3798.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1003,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3816.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.1003,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3816.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.1003,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3816.7
+    },
+    {
+      "type": "seeking",
+      "time": 0.0683,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3848.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0683,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3864.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.0683,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3864.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.0683,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3865
+    },
+    {
+      "type": "seeking",
+      "time": 0.044,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3898.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.044,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3909.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.044,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3909.7
+    },
+    {
+      "type": "canplay",
+      "time": 0.044,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3909.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.0262,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3948.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0262,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3956.5
+    },
+    {
+      "type": "seeked",
+      "time": 0.0262,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3956.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.0262,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3956.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 3998.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4006.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4006.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4006.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.0063,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4048.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0063,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4057.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.0063,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4057.7
+    },
+    {
+      "type": "canplay",
+      "time": 0.0063,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4057.7
+    },
+    {
+      "type": "seeking",
+      "time": 0.0022,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4098.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0022,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4107.1
+    },
+    {
+      "type": "seeked",
+      "time": 0.0022,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4107.1
+    },
+    {
+      "type": "canplay",
+      "time": 0.0022,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4107.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4148.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4156.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4156.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4156.5
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4198.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4207.7
+    },
+    {
+      "type": "seeked",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4207.7
+    },
+    {
+      "type": "canplay",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4207.7
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4220.4
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 4220.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 4231.1
+    },
+    {
+      "type": "seeked",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 4231.2
+    },
+    {
+      "type": "canplay",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 4231.3
+    },
+    {
+      "type": "play",
+      "time": 0.0008,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "ready",
+      "at": 4399.2
+    },
+    {
+      "type": "playing",
+      "time": 0.0008,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "ready",
+      "at": 4399.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2648,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 4663.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.5304,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 4928.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.7961,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 5194.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.0617,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 5460.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.3273,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 5725.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.5929,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 5991.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 1.8586,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 6257
+    },
+    {
+      "type": "timeupdate",
+      "time": 2.1242,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 6522.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 2.3898,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 6788.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 2.6554,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 7053.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 2.9211,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 7319.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 3.1867,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 7585.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 3.4523,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 7850.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 3.7179,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 8116.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 3.9836,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 8382
+    },
+    {
+      "type": "timeupdate",
+      "time": 4.2493,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 8647.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 4.5149,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 8913.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 4.7805,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 9178.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 5.0461,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 9444.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 5.3119,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 9710.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 5.5773,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 9975.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 5.8429,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 10241.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 6.1085,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 10506.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 6.3742,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 10772.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 6.6398,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 11038.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 6.9054,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 11303.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 7.1711,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 11569.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 7.4367,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 11835.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 7.7023,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12100.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 7.9679,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12366.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 8.2335,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12632
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12764.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0003,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12773.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.0004,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12773.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.0004,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12773.4
+    },
+    {
+      "type": "playing",
+      "time": 0.0004,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 12773.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2652,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 13038.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.5308,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "playing",
+      "at": 13303.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.7719,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 13524
+    },
+    {
+      "type": "pause",
+      "time": 0.7719,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 13524.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.7719,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13526.2
+    },
+    {
+      "type": "seeking",
+      "time": 0.6559,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13564.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.5519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13614.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.5519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13649.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.5519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13649.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.5519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13649.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.4596,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13664.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.4596,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13710.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.4596,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13710.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.4596,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13710.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.3781,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13721.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.3781,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13750.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.3781,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13750.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.3781,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13750.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.3069,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13764.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.3069,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13788.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.3069,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13788.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.3069,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13788.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.2452,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13814.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2452,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13836.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.2452,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13836.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.2452,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13836.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.1925,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13864.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1925,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13885.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.1925,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13885.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.1925,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13885.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.1479,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13914.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1479,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13935.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.1479,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13935.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.1479,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13935.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.1108,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13964.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1108,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13982.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.1108,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13982.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.1108,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 13982.2
+    },
+    {
+      "type": "seeking",
+      "time": 0.0804,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14014.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0804,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14026.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.0804,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14026.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.0804,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14026.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0562,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14064.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0562,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14077.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.0562,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14077.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.0562,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14077.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0374,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14114.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0374,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14125.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.0374,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14125.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.0374,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14125.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.0234,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14164.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0234,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14172.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.0234,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14173
+    },
+    {
+      "type": "canplay",
+      "time": 0.0234,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14173
+    },
+    {
+      "type": "seeking",
+      "time": 0.0134,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14214.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0134,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14222.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.0134,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14222.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.0134,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14222.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.0067,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14264.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0067,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14273.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.0067,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14273.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.0067,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14273.2
+    },
+    {
+      "type": "seeking",
+      "time": 0.0028,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14315.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0028,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14324.5
+    },
+    {
+      "type": "seeked",
+      "time": 0.0028,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14324.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.0028,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14324.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.0008,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14364.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0008,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14373.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.0008,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14373.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.0008,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14373.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14415
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14423.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14424
+    },
+    {
+      "type": "canplay",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14424
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14464.8
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14464.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 14475.6
+    },
+    {
+      "type": "seeked",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 14475.7
+    },
+    {
+      "type": "canplay",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 14475.7
+    },
+    {
+      "type": "play",
+      "time": 0.0007,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "ready",
+      "at": 14765
+    },
+    {
+      "type": "playing",
+      "time": 0.0008,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "ready",
+      "at": 14765
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0842,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 14849.2
+    },
+    {
+      "type": "pause",
+      "time": 0.0842,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 14849.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0842,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14850.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0842,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14865.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.0842,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14865.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.0842,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14865.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.071,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14897.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.071,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14909.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.071,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14909.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.071,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14909.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.0592,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14948.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0592,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14959
+    },
+    {
+      "type": "seeked",
+      "time": 0.0592,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14959.1
+    },
+    {
+      "type": "canplay",
+      "time": 0.0592,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 14959.1
+    },
+    {
+      "type": "play",
+      "time": 0.0609,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 14982.6
+    },
+    {
+      "type": "playing",
+      "time": 0.061,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 14982.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1469,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15067.7
+    },
+    {
+      "type": "pause",
+      "time": 0.1469,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15067.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.1469,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15068.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1469,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15082.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.1469,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15082.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.1469,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15082.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.1238,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15114.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1238,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15127.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.1238,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15127.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.1238,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15127.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.1033,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15164.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1033,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15177.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.1033,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15177.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.1033,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15177.7
+    },
+    {
+      "type": "play",
+      "time": 0.1039,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15198.1
+    },
+    {
+      "type": "playing",
+      "time": 0.104,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15198.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1977,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15282
+    },
+    {
+      "type": "pause",
+      "time": 0.1977,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15282
+    },
+    {
+      "type": "seeking",
+      "time": 0.1977,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15283.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1977,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15308.1
+    },
+    {
+      "type": "seeked",
+      "time": 0.1977,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15308.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.1977,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15308.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.1671,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15319.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1671,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15338.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.1671,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15338.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.1671,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15338.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.1399,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15364.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1399,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15379.1
+    },
+    {
+      "type": "seeked",
+      "time": 0.1399,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15379.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.1399,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15379.2
+    },
+    {
+      "type": "play",
+      "time": 0.1407,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15415.4
+    },
+    {
+      "type": "playing",
+      "time": 0.1408,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15415.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.244,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15509.9
+    },
+    {
+      "type": "pause",
+      "time": 0.244,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15510
+    },
+    {
+      "type": "seeking",
+      "time": 0.244,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15511.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.244,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15535.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.244,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15535.7
+    },
+    {
+      "type": "canplay",
+      "time": 0.244,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15535.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.206,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15547.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.206,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15568.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.206,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15569
+    },
+    {
+      "type": "canplay",
+      "time": 0.206,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15569.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.1722,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15597.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1722,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15613.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.1722,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15613.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.1722,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15614
+    },
+    {
+      "type": "play",
+      "time": 0.1728,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15631.3
+    },
+    {
+      "type": "playing",
+      "time": 0.1728,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15631.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2572,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15715.5
+    },
+    {
+      "type": "pause",
+      "time": 0.2572,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15715.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.2572,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15716.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2572,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15742
+    },
+    {
+      "type": "seeked",
+      "time": 0.2572,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15742
+    },
+    {
+      "type": "canplay",
+      "time": 0.2572,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15742
+    },
+    {
+      "type": "seeking",
+      "time": 0.2167,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15764.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2167,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15785.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.2167,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15785.7
+    },
+    {
+      "type": "canplay",
+      "time": 0.2167,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15785.7
+    },
+    {
+      "type": "seeking",
+      "time": 0.1808,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15814.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1808,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15831.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.1808,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15831.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.1808,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15831.5
+    },
+    {
+      "type": "play",
+      "time": 0.1815,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15848.2
+    },
+    {
+      "type": "playing",
+      "time": 0.1816,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 15848.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2674,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15932.9
+    },
+    {
+      "type": "pause",
+      "time": 0.2674,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 15933.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.2674,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15934.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2674,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15958.7
+    },
+    {
+      "type": "seeked",
+      "time": 0.2674,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15958.7
+    },
+    {
+      "type": "canplay",
+      "time": 0.2674,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15958.7
+    },
+    {
+      "type": "seeking",
+      "time": 0.2253,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 15981.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2253,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16001.5
+    },
+    {
+      "type": "seeked",
+      "time": 0.2253,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16001.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.2253,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16001.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.188,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16031
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.188,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16047.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.188,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16047.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.188,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16047.4
+    },
+    {
+      "type": "play",
+      "time": 0.1888,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16064.9
+    },
+    {
+      "type": "playing",
+      "time": 0.1889,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16064.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2723,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16148.5
+    },
+    {
+      "type": "pause",
+      "time": 0.2723,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16148.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.2723,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16149.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2723,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16172.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.2723,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16172.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.2723,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16172.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.2295,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16197.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2295,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16216
+    },
+    {
+      "type": "seeked",
+      "time": 0.2295,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16216
+    },
+    {
+      "type": "canplay",
+      "time": 0.2295,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16216
+    },
+    {
+      "type": "seeking",
+      "time": 0.1914,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16248
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1914,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16264
+    },
+    {
+      "type": "seeked",
+      "time": 0.1914,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16264
+    },
+    {
+      "type": "canplay",
+      "time": 0.1914,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16264.1
+    },
+    {
+      "type": "play",
+      "time": 0.1922,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16281.8
+    },
+    {
+      "type": "playing",
+      "time": 0.1923,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16281.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.279,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16366.8
+    },
+    {
+      "type": "pause",
+      "time": 0.279,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16366.8
+    },
+    {
+      "type": "seeking",
+      "time": 0.279,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16368
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.279,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16390.5
+    },
+    {
+      "type": "seeked",
+      "time": 0.279,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16390.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.279,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16390.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.2351,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16414.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2351,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16437.5
+    },
+    {
+      "type": "seeked",
+      "time": 0.2351,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16437.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.2351,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16437.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.1962,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16464.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1962,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16482
+    },
+    {
+      "type": "seeked",
+      "time": 0.1962,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16482.1
+    },
+    {
+      "type": "canplay",
+      "time": 0.1962,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16482.1
+    },
+    {
+      "type": "play",
+      "time": 0.1976,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16498.8
+    },
+    {
+      "type": "playing",
+      "time": 0.1977,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16498.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.3059,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16594.5
+    },
+    {
+      "type": "pause",
+      "time": 0.3059,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16594.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.3059,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16595.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.3059,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16619
+    },
+    {
+      "type": "seeked",
+      "time": 0.3059,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16619.1
+    },
+    {
+      "type": "canplay",
+      "time": 0.3059,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16619.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.2584,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16630.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2584,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16653.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.2584,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16653.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.2584,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16653.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.216,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16681.1
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.216,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16699.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.216,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16700
+    },
+    {
+      "type": "canplay",
+      "time": 0.216,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16700
+    },
+    {
+      "type": "play",
+      "time": 0.2166,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16714.6
+    },
+    {
+      "type": "playing",
+      "time": 0.2167,
+      "paused": false,
+      "ended": false,
+      "loop": true,
+      "state": "rewinding",
+      "at": 16714.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.3017,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16799
+    },
+    {
+      "type": "pause",
+      "time": 0.3017,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "playing",
+      "at": 16799.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.3017,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16800.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.3017,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16829.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.3017,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16829.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.3017,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16829.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.2543,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16847.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.2543,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16869
+    },
+    {
+      "type": "seeked",
+      "time": 0.2543,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16869.1
+    },
+    {
+      "type": "canplay",
+      "time": 0.2543,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16869.2
+    },
+    {
+      "type": "seeking",
+      "time": 0.212,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16897.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.212,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16915.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.212,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16915.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.212,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16915.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.1748,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16947.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1748,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16966.5
+    },
+    {
+      "type": "seeked",
+      "time": 0.1748,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16966.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.1748,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16966.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.1422,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 16997.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1422,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17016.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.1422,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17016.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.1422,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17016.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.1138,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17047.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.1138,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17065.2
+    },
+    {
+      "type": "seeked",
+      "time": 0.1138,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17065.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.1138,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17065.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0896,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17097.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0896,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17111.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.0896,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17111.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.0896,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17111.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.0691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17147.8
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17171.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.0691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17171.5
+    },
+    {
+      "type": "canplay",
+      "time": 0.0691,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17171.5
+    },
+    {
+      "type": "seeking",
+      "time": 0.0519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17197.7
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17214.1
+    },
+    {
+      "type": "seeked",
+      "time": 0.0519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17214.2
+    },
+    {
+      "type": "canplay",
+      "time": 0.0519,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17214.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0379,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17247.9
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0379,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17262.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.0379,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17262.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.0379,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17263
+    },
+    {
+      "type": "seeking",
+      "time": 0.0267,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17297.6
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0267,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17306.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.0267,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17306.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.0267,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17306.4
+    },
+    {
+      "type": "seeking",
+      "time": 0.0179,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17348
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0179,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17355.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.0179,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17355.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.0179,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17355.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.0113,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17398.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0113,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17407
+    },
+    {
+      "type": "seeked",
+      "time": 0.0113,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17407
+    },
+    {
+      "type": "canplay",
+      "time": 0.0113,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17407.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.0066,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17448
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0066,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17456.3
+    },
+    {
+      "type": "seeked",
+      "time": 0.0066,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17456.3
+    },
+    {
+      "type": "canplay",
+      "time": 0.0066,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17456.3
+    },
+    {
+      "type": "seeking",
+      "time": 0.0034,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17498.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0034,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17507.6
+    },
+    {
+      "type": "seeked",
+      "time": 0.0034,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17507.6
+    },
+    {
+      "type": "canplay",
+      "time": 0.0034,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17507.6
+    },
+    {
+      "type": "seeking",
+      "time": 0.0014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17548.2
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17556.9
+    },
+    {
+      "type": "seeked",
+      "time": 0.0014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17556.9
+    },
+    {
+      "type": "canplay",
+      "time": 0.0014,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17557.1
+    },
+    {
+      "type": "seeking",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17598.4
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17606.8
+    },
+    {
+      "type": "seeked",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17606.8
+    },
+    {
+      "type": "canplay",
+      "time": 0.0004,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17606.9
+    },
+    {
+      "type": "seeking",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17648
+    },
+    {
+      "type": "timeupdate",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17656.4
+    },
+    {
+      "type": "seeked",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17656.4
+    },
+    {
+      "type": "canplay",
+      "time": 0.0001,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17656.5
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17698.3
+    },
+    {
+      "type": "timeupdate",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17707.1
+    },
+    {
+      "type": "seeked",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17707.2
+    },
+    {
+      "type": "canplay",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17707.2
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17719.5
+    },
+    {
+      "type": "seeking",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "rewinding",
+      "at": 17719.5
+    },
+    {
+      "type": "timeupdate",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 17728.8
+    },
+    {
+      "type": "seeked",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 17728.9
+    },
+    {
+      "type": "canplay",
+      "time": 0,
+      "paused": true,
+      "ended": false,
+      "loop": false,
+      "state": "ready",
+      "at": 17729
+    }
+  ],
+  "eventCounts": {
+    "instrumented": 1,
+    "play": 12,
+    "playing": 13,
+    "timeupdate": 133,
+    "pause": 12,
+    "seeking": 94,
+    "seeked": 83,
+    "canplay": 83
+  },
+  "video": {
+    "currentTime": 0,
+    "duration": 8.366,
+    "paused": true,
+    "ended": false,
+    "loop": false,
+    "readyState": 4,
+    "networkState": 1
+  },
+  "visibility": {
+    "poster": {
+      "visibility": "visible",
+      "display": "block",
+      "opacity": "1"
+    },
+    "video": {
+      "visibility": "hidden",
+      "display": "block",
+      "opacity": "1"
+    }
+  },
+  "issues": []
+}

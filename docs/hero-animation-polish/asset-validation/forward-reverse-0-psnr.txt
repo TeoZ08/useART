@@ -1,0 +1,20 @@
+Input #0, png_pipe, from 'docs/hero-animation-polish/asset-validation/forward-0.png':
+  Duration: N/A, bitrate: N/A
+  Stream #0:0: Video: png, rgba(pc, gbr/unknown/unknown), 1920x1080 [SAR 1:1 DAR 16:9], 25 fps, 25 tbr, 25 tbn
+Input #1, png_pipe, from 'docs/hero-animation-polish/asset-validation/reverse-0.png':
+  Duration: N/A, bitrate: N/A
+  Stream #1:0: Video: png, rgba(pc, gbr/unknown/unknown), 1920x1080 [SAR 1:1 DAR 16:9], 25 fps, 25 tbr, 25 tbn
+Stream mapping:
+  Stream #0:0 (png) -> format:default
+  Stream #1:0 (png) -> format:default
+  psnr:default -> Stream #0:0 (wrapped_avframe)
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0: Video: wrapped_avframe, gbrap(pc, gbr/unknown/unknown, progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 25 fps, 25 tbn
+      Metadata:
+        encoder         : Lavc61.19.101 wrapped_avframe
+[Parsed_psnr_2 @ 0x7e3cb4004780] PSNR r:51.217070 g:51.217070 b:51.217070 a:59.193878 average:52.241709 min:52.241709 max:52.241709
+[out#0/null @ 0x64e97dff9a80] video:0KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=    1 fps=0.0 q=-0.0 Lsize=N/A time=00:00:00.04 bitrate=N/A speed=0.657x

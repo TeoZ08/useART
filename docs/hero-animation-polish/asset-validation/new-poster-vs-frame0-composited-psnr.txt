@@ -1,0 +1,28 @@
+Input #0, lavfi, from 'color=c=0x090909:s=1920x1080:d=1':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: wrapped_avframe, yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], 25 fps, 25 tbr, 25 tbn
+Input #1, lavfi, from 'color=c=0x090909:s=1920x1080:d=1':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #1:0: Video: wrapped_avframe, yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], 25 fps, 25 tbr, 25 tbn
+Input #2, png_pipe, from 'docs/hero-animation-polish/asset-validation/new-poster-decoded.png':
+  Duration: N/A, bitrate: N/A
+  Stream #2:0: Video: png, rgba(pc, gbr/unknown/unknown), 1920x1080, 25 fps, 25 tbr, 25 tbn
+Input #3, png_pipe, from 'docs/hero-animation-polish/before/frame-analysis/forward-frame-0.png':
+  Duration: N/A, bitrate: N/A
+  Stream #3:0: Video: png, rgba(pc, gbr/unknown/unknown), 1920x1080 [SAR 1:1 DAR 16:9], 25 fps, 25 tbr, 25 tbn
+Stream mapping:
+  Stream #0:0 (wrapped_avframe) -> overlay
+  Stream #1:0 (wrapped_avframe) -> overlay
+  Stream #2:0 (png) -> overlay
+  Stream #3:0 (png) -> overlay
+  psnr:default -> Stream #0:0 (wrapped_avframe)
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf61.7.100
+  Stream #0:0: Video: wrapped_avframe, gbrp(pc, gbr/unknown/unknown, progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 25 fps, 25 tbn
+      Metadata:
+        encoder         : Lavc61.19.101 wrapped_avframe
+[Parsed_psnr_4 @ 0x74646c0086c0] PSNR r:inf g:inf b:inf average:inf min:inf max:inf
+[out#0/null @ 0x5e66640d1880] video:0KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=    1 fps=0.0 q=-0.0 Lsize=N/A time=00:00:00.04 bitrate=N/A speed=0.501x
