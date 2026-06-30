@@ -9,12 +9,14 @@ import { buildOrderId } from '@/domain/orders/order';
 import { getProductBySlug } from '@/domain/products/products';
 import { shippingQuoteProvider } from '@/domain/shipping/shipping';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
+import { withTestVariant } from '@/tests/fixtures/catalog';
 
 describe('whatsapp message', () => {
   it('formats a common product order with the correct WhatsApp number', () => {
     const product = getProductBySlug('camiseta-hibrida-logo-lateral');
     expect(product).toBeDefined();
 
+    const selection = createSimpleSelection('preto', 'M');
     const order = {
       id: buildOrderId(new Date('2026-06-18T12:00:00-04:00')),
       createdAt: '2026-06-18T16:00:00.000Z',
@@ -22,7 +24,7 @@ describe('whatsapp message', () => {
       address: {},
       shipping: shippingQuoteProvider.quote({ methodId: 'retirada-art' }),
       paymentNote: 'Pagamento a combinar no atendimento.',
-      items: [createCartItem(product!, createSimpleSelection('preto', 'M'), 1)],
+      items: [createCartItem(withTestVariant(product!, selection), selection, 1)],
       couponCode: 'PRIMEIRACOMPRA',
       subtotalCents: 4500,
       discountCents: 450,
@@ -57,7 +59,7 @@ describe('whatsapp message', () => {
       address: { city: 'Dourados', state: 'MS' },
       shipping: shippingQuoteProvider.quote({ methodId: 'outra-localidade' }),
       paymentNote: 'Pagamento a combinar no atendimento.',
-      items: [createCartItem(product!, kit, 1)],
+      items: [createCartItem(withTestVariant(product!, kit), kit, 1)],
       couponCode: '',
       subtotalCents: 11490,
       discountCents: 0,

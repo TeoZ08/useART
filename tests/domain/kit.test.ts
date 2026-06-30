@@ -6,6 +6,7 @@ import {
   describeSelection,
 } from '@/domain/cart/selection';
 import { getProductBySlug } from '@/domain/products/products';
+import { withTestVariant } from '@/tests/fixtures/catalog';
 
 describe('kit domain', () => {
   it('requires three independent configurations', () => {
@@ -18,7 +19,7 @@ describe('kit domain', () => {
       createKitPieceSelection(3, 'assinatura-lateral', 'marrom', 'G'),
     ]);
 
-    const item = createCartItem(product!, selection, 1);
+    const item = createCartItem(withTestVariant(product!, selection), selection, 1);
     const description = describeSelection(item.selection);
 
     expect(item.unitPriceCents).toBe(11490);

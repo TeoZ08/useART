@@ -77,7 +77,7 @@ const solidAssinaturaColors = colorMedia(
   'Camiseta Solid Masculina ART com assinatura lateral',
 );
 
-export const catalogSeed = [
+const catalogSeedData = [
   {
     slug: 'moletom-art',
     name: 'Moletom ART',
@@ -244,4 +244,10 @@ export const catalogSeed = [
       description: 'Camiseta Solid Masculina com assinatura lateral e compra assistida.',
     },
   },
-] as const satisfies CatalogProduct[];
+] as const;
+
+export const catalogSeed: CatalogProduct[] = catalogSeedData.map((product) => ({
+  ...product,
+  variants: [],
+  commerceAvailable: false,
+}));

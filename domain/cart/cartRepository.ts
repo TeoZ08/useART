@@ -20,6 +20,7 @@ function isCartItem(value: unknown): value is CartItem {
 
   const basicFields =
     typeof value.id === 'string' &&
+    typeof value.variantId === 'string' &&
     typeof value.productSlug === 'string' &&
     typeof value.productName === 'string' &&
     typeof value.unitPriceCents === 'number' &&

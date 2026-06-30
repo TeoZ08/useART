@@ -129,6 +129,18 @@ export function requireSupabaseEnv() {
   } as const;
 }
 
+export function requirePublicSupabaseEnv() {
+  const env = getServerEnv();
+  if (!env.NEXT_PUBLIC_SUPABASE_URL || !env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+    throw new Error('Supabase público não está configurado neste ambiente.');
+  }
+
+  return {
+    url: env.NEXT_PUBLIC_SUPABASE_URL,
+    publishableKey: env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  } as const;
+}
+
 export function resetEnvCacheForTests() {
   cachedEnv = undefined;
 }

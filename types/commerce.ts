@@ -31,6 +31,7 @@ export interface ProductMedia {
 }
 
 export interface CatalogProduct {
+  id?: string;
   slug: string;
   name: string;
   line: string;
@@ -43,8 +44,8 @@ export interface CatalogProduct {
   media: ProductMedia;
   gallery: readonly ProductMedia[];
   applications?: readonly ProductApplication[];
-  confirmedFacts: string[];
-  pendingFacts: string[];
+  confirmedFacts: readonly string[];
+  pendingFacts: readonly string[];
   operation: {
     mode: 'sob-encomenda' | 'sob-consulta';
     label: string;
@@ -54,6 +55,19 @@ export interface CatalogProduct {
     title: string;
     description: string;
   };
+  variants: readonly CatalogVariant[];
+  commerceAvailable: boolean;
+}
+
+export interface CatalogVariant {
+  id: string;
+  sku: string;
+  colorId?: ProductColorId;
+  size?: ProductSize;
+  applicationId?: ProductApplicationId;
+  priceCents: number;
+  availabilityMode: 'on_demand' | 'limited' | 'unavailable';
+  stockQuantity?: number;
 }
 
 export interface SimpleSelection {
@@ -81,6 +95,7 @@ export type CartItemSelection = SimpleSelection | KitSelection;
 
 export interface CartItem {
   id: string;
+  variantId: string;
   productSlug: string;
   productName: string;
   unitPriceCents: number;
