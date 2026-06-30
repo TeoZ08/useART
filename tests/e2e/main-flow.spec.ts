@@ -67,10 +67,10 @@ test('reduced motion and Save-Data keep the poster and do not request the GLB', 
 test('catalog, product, Kit and cart use the remote commerce flow', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByTestId('catalog-fallback')).toHaveCount(0);
-  await page
-    .getByRole('link', { name: /Camiseta Híbrida - logo lateral/i })
-    .first()
-    .click();
+  await expect(
+    page.getByRole('link', { name: /Camiseta Híbrida - logo lateral/i }).first(),
+  ).toBeVisible();
+  await page.goto('/produto/camiseta-hibrida-logo-lateral');
   await expect(page.getByTestId('purchase-panel')).toBeVisible();
   await page.getByLabel('Selecionar cor Preto').click();
   await page.getByTestId('add-to-cart').click();
@@ -97,6 +97,43 @@ test('checkout page, public tracking and admin protection are reachable', async 
     page.getByText('Acesso somente para usuários convidados. Não há cadastro público.'),
   ).toBeVisible();
   await expect(page.getByRole('link', { name: /criar conta|cadastro|signup/i })).toHaveCount(0);
+});
+
+test('published staging creates and tracks a server-priced local order', async ({ page }) => {
+  test.skip(
+    process.env.RUN_ORDER_SMOKE !== 'true',
+    'Executado somente contra o Preview de staging.',
+  );
+
+  await page.goto('/produto/camiseta-hibrida-logo-lateral');
+  await page.getByLabel('Selecionar cor Preto').click();
+  await page.getByTestId('add-to-cart').click();
+  await page.goto('/carrinho');
+  await page.getByPlaceholder('PRIMEIRACOMPRA').fill('PRIMEIRACOMPRA');
+  await page.getByTestId('go-to-checkout').click();
+
+  await page.getByLabel('Nome').fill('Smoke Preview');
+  await page.getByLabel('WhatsApp').fill('+55 67 99999-0101');
+  await page.getByRole('button', { name: /Entrega em Campo Grande\/MS/i }).click();
+  await page.getByLabel('CEP').fill('79000-000');
+  await page.getByLabel('Rua').fill('Rua Teste');
+  await page.getByLabel('Número').fill('101');
+  await page.getByLabel('Bairro').fill('Centro');
+  await page.getByRole('textbox', { name: 'Cidade', exact: true }).fill('Campo Grande');
+  await page.getByRole('checkbox').check();
+
+  const orderResponse = page.waitForResponse((response) =>
+    response.url().endsWith('/api/checkout/create-order'),
+  );
+  await page.getByRole('button', { name: 'Confirmar e criar pedido' }).click();
+  const response = await orderResponse;
+  const body = (await response.json()) as { orderCode: string; error?: string };
+  expect(response.status(), body.error).toBe(201);
+  expect(body.orderCode).toMatch(/^ART-/);
+  await expect(page.getByTestId('order-created')).toContainText(body.orderCode);
+  await page.getByRole('link', { name: 'Acompanhar pedido' }).click();
+  await expect(page.getByRole('heading', { name: body.orderCode })).toBeVisible();
+  await expect(page.getByText('R$ 50,50')).toBeVisible();
 });
 
 test('mobile storefront has no horizontal overflow and keeps core navigation usable', async ({
