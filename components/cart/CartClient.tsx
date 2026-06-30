@@ -86,8 +86,8 @@ export function CartClient() {
         <p className="sectionEyebrow">Carrinho</p>
         <h1 className="sectionTitle">Revise seu pedido</h1>
         <p className="sectionLead">
-          O carrinho fica salvo apenas neste navegador e é usado para preparar a mensagem de
-          atendimento.
+          O carrinho fica salvo neste navegador. Preço, cupom, frete e disponibilidade são
+          recalculados no servidor ao criar o pedido.
         </p>
       </div>
 
@@ -185,7 +185,7 @@ export function CartClient() {
                 <b>Escolhido no checkout</b>
               </div>
               <div className={styles.total}>
-                <span>Total parcial</span>
+                <span>Estimativa no carrinho</span>
                 <b>{formatMoney(totals.subtotalCents - totals.discountCents)}</b>
               </div>
             </div>

@@ -106,6 +106,39 @@
   padding: var(--space-5) 0;
 }
 
+.confirmation {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 640px;
+  border-top: 2px solid var(--color-ink);
+  padding-top: var(--space-6);
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  line-height: 1.55;
+}
+
+.consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+}
+
+.consent a {
+  color: inherit;
+  font-weight: 700;
+}
+
+.serverError {
+  margin: 0;
+  color: #9e241a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .summaryItems {
   display: grid;
   gap: var(--space-4);
