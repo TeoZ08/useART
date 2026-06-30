@@ -13,7 +13,10 @@ export async function POST(request: Request) {
   }
 
   if (!(await consumeRateLimit(request.headers, 'checkout:create-preference', 10, 600))) {
-    return NextResponse.json({ error: 'Muitas tentativas. Aguarde alguns minutos.' }, { status: 429 });
+    return NextResponse.json(
+      { error: 'Muitas tentativas. Aguarde alguns minutos.' },
+      { status: 429 },
+    );
   }
 
   try {

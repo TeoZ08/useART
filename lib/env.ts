@@ -96,13 +96,15 @@ export function getServerEnv(): ServerEnv {
 
 export function getSiteUrl(): URL {
   const env = getServerEnv();
+  const vercelPreviewUrl = env.VERCEL_URL ? `https://${env.VERCEL_URL}` : undefined;
+  const vercelProductionUrl = env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : undefined;
   const configuredUrl =
     env.NEXT_PUBLIC_SITE_URL ??
-    (env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : env.VERCEL_URL
-        ? `https://${env.VERCEL_URL}`
-        : undefined);
+    (env.STORE_MODE === 'live'
+      ? (vercelProductionUrl ?? vercelPreviewUrl)
+      : (vercelPreviewUrl ?? vercelProductionUrl));
 
   if (!configuredUrl) {
     if (env.STORE_MODE === 'local') return new URL('http://localhost:3000');

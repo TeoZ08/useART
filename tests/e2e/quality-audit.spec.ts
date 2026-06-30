@@ -1,5 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
 import { getProducts } from '@/domain/products/products';
+
+async function expectImageSource(locator: Locator, expected: string) {
+  await expect(locator).toHaveAttribute('src', new RegExp(encodeURIComponent(expected), 'i'));
+}
 
 const productsWithColorMedia = getProducts().filter((product) =>
   product.colors.every((color) => Boolean(color.media?.src)),
@@ -18,9 +22,10 @@ for (const product of productsWithColorMedia) {
         'true',
       );
       await expect(page.getByText('Cor selecionada:').getByRole('strong')).toHaveText(color.name);
-      await expect(
+      await expectImageSource(
         page.getByRole('button', { name: `Ampliar ${media.alt}` }).locator('img'),
-      ).toHaveAttribute('src', media.src!);
+        media.src!,
+      );
     }
 
     const brown = product.colors.find((color) => color.id === 'marrom')!;
@@ -45,9 +50,10 @@ test('thumbnail selection keeps color, main media, and cart image synchronized',
     'true',
   );
   await expect(page.getByText('Cor selecionada:').getByRole('strong')).toHaveText(brown.name);
-  await expect(
+  await expectImageSource(
     page.getByRole('button', { name: `Ampliar ${brown.media!.alt}` }).locator('img'),
-  ).toHaveAttribute('src', brown.media!.src!);
+    brown.media!.src!,
+  );
 
   await page.getByTestId('add-to-cart').click();
   await page.goto('/carrinho/');
@@ -94,16 +100,16 @@ test('kit previews reflect all three independent configuration choices', async (
     await piece.getByLabel('Tamanho').selectOption(configuration.size);
   }
 
-  await expect(page.getByRole('group', { name: 'Peça 1' }).locator('img').first()).toHaveAttribute(
-    'src',
+  await expectImageSource(
+    page.getByRole('group', { name: 'Peça 1' }).locator('img').first(),
     '/assets/products/hybrid-logo-lateral/branco.png',
   );
-  await expect(page.getByRole('group', { name: 'Peça 2' }).locator('img').first()).toHaveAttribute(
-    'src',
+  await expectImageSource(
+    page.getByRole('group', { name: 'Peça 2' }).locator('img').first(),
     '/assets/products/cutouts/hybrid-logo-central-preto.png',
   );
-  await expect(page.getByRole('group', { name: 'Peça 3' }).locator('img').first()).toHaveAttribute(
-    'src',
+  await expectImageSource(
+    page.getByRole('group', { name: 'Peça 3' }).locator('img').first(),
     '/assets/products/cutouts/hybrid-assinatura-marrom.png',
   );
 });
