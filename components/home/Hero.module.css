@@ -129,36 +129,64 @@
   }
 }
 
-@media (max-width: 880px) {
+@media (min-width: 881px) and (max-width: 1180px) {
+  .productStage {
+    right: -5vw;
+    bottom: 18px;
+    width: 58vw;
+    height: min(72svh, 610px);
+  }
+
+  .content h1 {
+    max-width: 62vw;
+    font-size: clamp(78px, 10.5vw, 124px);
+  }
+
+  .lead {
+    max-width: 360px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 880px) {
   .hero,
   .content {
-    min-height: 800px;
+    min-height: max(940px, 100svh);
   }
 
   .content {
     justify-content: flex-start;
     padding-top: 142px;
-    padding-bottom: 410px;
+    padding-bottom: 420px;
   }
 
   .productStage {
     right: 50%;
-    bottom: 28px;
-    width: min(150vw, 600px);
-    height: min(56svh, 500px);
-    transform: translateX(46%);
+    bottom: 24px;
+    width: min(92vw, 620px);
+    height: min(42svh, 410px);
+    transform: translateX(50%);
+  }
+
+  .actions :global(.textLink) {
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(241, 239, 234, 0.26);
+    background: rgba(9, 9, 9, 0.72);
+    padding: 0 18px;
+    text-decoration: none;
   }
 }
 
 @media (max-width: 640px) {
   .hero,
   .content {
-    min-height: max(760px, 100svh);
+    min-height: max(780px, 100svh);
   }
 
   .content {
     padding-top: 126px;
-    padding-bottom: 360px;
+    padding-bottom: 240px;
   }
 
   .content h1 {
@@ -177,18 +205,51 @@
   }
 
   .actions {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: var(--space-4);
+    z-index: 3;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: var(--space-2);
+    width: 100%;
     margin-top: var(--space-6);
   }
 
+  .actions :global(.buttonPrimary),
+  .actions :global(.textLink) {
+    width: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    font-size: 10px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
   .actions :global(.buttonPrimary) {
-    width: auto;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .actions :global(.textLink) {
+    border: 1px solid rgba(241, 239, 234, 0.28);
+    background: rgba(9, 9, 9, 0.76);
+    color: var(--color-paper);
+    text-decoration: none;
+    backdrop-filter: blur(8px);
   }
 
   .index {
     top: 100px;
+  }
+
+  .productStage {
+    top: clamp(440px, 58svh, 500px);
+    right: 50%;
+    bottom: auto;
+    width: min(142vw, 570px);
+    height: clamp(300px, 43svh, 360px);
+    transform: translateX(50%);
   }
 }
 

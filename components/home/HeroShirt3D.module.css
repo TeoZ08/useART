@@ -18,6 +18,8 @@
   z-index: 1;
   object-fit: contain;
   object-position: center;
+  transform: scale(1.35);
+  transform-origin: center;
   pointer-events: none;
 }
 
@@ -41,48 +43,95 @@
   opacity: 1;
 }
 
-.hint {
+.controls {
   position: absolute;
   z-index: 3;
   right: clamp(28px, 8vw, 110px);
   bottom: 26px;
-  padding: 7px 10px;
-  border: 1px solid rgba(241, 239, 234, 0.2);
-  border-radius: 999px;
-  background: rgba(17, 20, 27, 0.36);
-  color: rgba(241, 239, 234, 0.7);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   opacity: 0;
   transform: translateY(4px);
   transition:
     opacity 240ms ease 420ms,
     transform 240ms ease 420ms;
   pointer-events: none;
+}
+
+.viewButton,
+.hintDesktop,
+.hintTouch {
+  padding: 7px 10px;
+  border: 1px solid rgba(241, 239, 234, 0.34);
+  border-radius: 999px;
+  background: rgba(9, 9, 9, 0.72);
+  color: rgba(241, 239, 234, 0.9);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
   backdrop-filter: blur(8px);
 }
 
-.media[data-state='ready'] .hint {
+.viewButton {
+  min-height: 32px;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+  pointer-events: auto;
+}
+
+.viewButton:hover,
+.viewButton:focus-visible {
+  border-color: rgba(241, 239, 234, 0.72);
+  background: rgba(241, 239, 234, 0.92);
+  color: var(--color-ink);
+}
+
+.hintDesktop,
+.hintTouch {
+  pointer-events: none;
+}
+
+.hintTouch {
+  display: none;
+}
+
+.media[data-state='ready'] .controls {
   opacity: 1;
   transform: translateY(0);
 }
 
 @media (hover: none), (pointer: coarse) {
-  .canvas {
-    pointer-events: none;
+  .controls {
+    right: 50%;
+    bottom: 14px;
+    transform: translate(50%, 4px);
   }
 
-  .hint {
+  .media[data-state='ready'] .controls {
+    transform: translate(50%, 0);
+  }
+
+  .hintDesktop {
     display: none;
+  }
+
+  .hintTouch {
+    display: inline-block;
+    white-space: nowrap;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .poster,
   .canvas,
-  .hint {
+  .controls {
     transition: none;
   }
 
@@ -90,7 +139,8 @@
     pointer-events: none;
   }
 
-  .hint {
+  .hintDesktop,
+  .hintTouch {
     display: none;
   }
 }
