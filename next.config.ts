@@ -13,7 +13,9 @@ const contentSecurityPolicy = [
   "connect-src 'self' https://*.supabase.co https://api.mercadopago.com",
   "media-src 'self' blob:",
   "worker-src 'self' blob:",
-  'frame-src https://www.mercadopago.com https://*.mercadopago.com',
+  `frame-src https://www.mercadopago.com https://*.mercadopago.com${
+    process.env.VERCEL_ENV === 'preview' ? ' https://vercel.live' : ''
+  }`,
 ].join('; ');
 
 const securityHeaders = [

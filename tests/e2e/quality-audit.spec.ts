@@ -9,6 +9,11 @@ const productsWithColorMedia = getProducts().filter((product) =>
   product.colors.every((color) => Boolean(color.media?.src)),
 );
 
+test.beforeEach(async ({ page }) => {
+  const shareUrl = process.env.PLAYWRIGHT_SHARE_URL;
+  if (shareUrl) await page.goto(shareUrl, { waitUntil: 'domcontentloaded' });
+});
+
 for (const product of productsWithColorMedia) {
   test(`all declared colors update media for ${product.slug}`, async ({ page }) => {
     await page.goto(`/produto/${product.slug}/`);
