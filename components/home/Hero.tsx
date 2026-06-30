@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { STORE_CONFIG } from '@/lib/config';
-import { HeroShirtMedia } from './HeroShirtMedia';
+import { HeroShirt3D } from './HeroShirt3D';
 import styles from './Hero.module.css';
 
 export function Hero() {
@@ -11,7 +11,7 @@ export function Hero() {
         <span>Movimento</span>
       </div>
       <div className={styles.productStage}>
-        <HeroShirtMedia />
+        <HeroShirt3D />
       </div>
       <div className={styles.content}>
         <p className={styles.eyebrow}>{STORE_CONFIG.brandName} / Streetwear funcional</p>
