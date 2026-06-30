@@ -1,4 +1,5 @@
 begin;
+set local search_path = public, extensions;
 select plan(20);
 
 select results_eq(
@@ -83,11 +84,10 @@ select results_eq(
   array[0::bigint],
   'non-admin authenticated user cannot enumerate coupons'
 );
-select throws_ok(
-  $$delete from public.products$$,
-  '42501',
-  null,
-  'non-admin cannot delete products'
+select results_eq(
+  $$with deleted as (delete from public.products returning id) select count(*)::bigint from deleted$$,
+  array[0::bigint],
+  'non-admin cannot delete any products'
 );
 select throws_ok(
   $$select public.create_order_v1('a','b','c','d','e','f',null,null,'v1','pickup',null,null,null,'[]'::jsonb)$$,

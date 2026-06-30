@@ -1,4 +1,5 @@
 begin;
+set local search_path = public, extensions;
 select plan(22);
 
 select has_extension('citext', 'citext extension is installed');
