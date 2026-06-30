@@ -24,6 +24,7 @@
     "db:types": "supabase gen types typescript --local > types/database.generated.ts",
     "verify:env": "tsx scripts/verify-env.ts",
     "verify:launch": "tsx scripts/verify-production-readiness.ts",
+    "admin:bootstrap": "node --env-file=.env.local --import tsx scripts/bootstrap-admin.ts",
     "audit:media": "node scripts/quality/audit-product-media.mjs",
     "capture:quality": "node scripts/quality/capture-quality-audit.mjs",
     "capture:hero-polish": "node scripts/quality/capture-hero-animation-polish.mjs"
@@ -35,6 +36,7 @@
     "next": "16.2.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
+    "server-only": "0.0.1",
     "three": "^0.185.0",
     "zod": "4.4.3"
   },
