@@ -246,3 +246,15 @@ on conflict (code) do update set
   first_order_only = excluded.first_order_only,
   review_required = excluded.review_required,
   updated_at = now();
+
+-- Facts are editable in the admin after the hardening migration.
+update public.products set
+  confirmed_facts = case slug
+    when 'moletom-art' then array['Tecido três cabos.', 'Preço confirmado: R$ 109,90.']
+    when 'camiseta-hibrida-logo-lateral' then array['Proteção UV 30.', 'Preço confirmado: R$ 45,00.']
+    when 'camiseta-hibrida-logo-central' then array['Proteção UV 30.', 'Preço confirmado: R$ 45,00.']
+    when 'camiseta-hibrida-assinatura-lateral' then array['Proteção UV 30.', 'Preço confirmado: R$ 45,00.']
+    when 'kit-selecao-3-camisetas' then array['Três camisetas no kit.', 'Preço confirmado: R$ 114,90.']
+    when 'camiseta-solid-masculina-logo-central' then array['Preço confirmado: R$ 50,00.']
+    when 'camiseta-solid-masculina-assinatura-lateral' then array['Preço confirmado: R$ 50,00.']
+    else confirmed_facts end;

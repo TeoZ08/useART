@@ -34,7 +34,7 @@ export async function createOrder(input: CheckoutInput, idempotencyKey: string) 
   );
   const address = 'address' in input.shipping ? input.shipping.address : null;
   const admin = createAdminClient();
-  const { data, error } = await admin.rpc('create_order_v1', {
+  const { data, error } = await admin.rpc('create_order_v2', {
     p_checkout_idempotency_key: idempotencyKey,
     p_public_token_hash: publicTokenHash,
     p_customer_key_hash: customerKeyHash,

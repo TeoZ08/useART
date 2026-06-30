@@ -133,8 +133,8 @@ function mapProduct(row: ProductRow, lookups: Lookups, storageBaseUrl: string): 
     media: primary ?? editorial.media,
     gallery: mappedImages.length ? mappedImages : editorial.gallery,
     applications: applications.length ? applications : editorial.applications,
-    confirmedFacts: editorial.confirmedFacts,
-    pendingFacts: editorial.pendingFacts,
+    confirmedFacts: row.confirmed_facts?.length ? row.confirmed_facts : editorial.confirmedFacts,
+    pendingFacts: row.pending_facts?.length ? row.pending_facts : editorial.pendingFacts,
     operation: {
       mode: row.availability_mode === 'unavailable' ? 'sob-consulta' : 'sob-encomenda',
       label:

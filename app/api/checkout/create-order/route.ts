@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ZodError, z } from 'zod';
 import { hasTrustedOrigin } from '@/lib/security/origin';
+import { consumeRateLimit } from '@/lib/security/rate-limit';
 import { createOrder } from '@/services/checkout/create-order';
 import { checkoutInputSchema } from '@/services/checkout/schema';
 
@@ -9,6 +10,10 @@ const idempotencyKeySchema = z.string().trim().min(16).max(128);
 export async function POST(request: Request) {
   if (!hasTrustedOrigin(request)) {
     return NextResponse.json({ error: 'Origem não autorizada.' }, { status: 403 });
+  }
+
+  if (!(await consumeRateLimit(request.headers, 'checkout:create-order', 5, 600))) {
+    return NextResponse.json({ error: 'Muitas tentativas. Aguarde alguns minutos.' }, { status: 429 });
   }
 
   try {

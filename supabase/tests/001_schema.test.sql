@@ -1,6 +1,6 @@
 begin;
 set local search_path = public, extensions;
-select plan(22);
+select plan(26);
 
 select has_extension('citext', 'citext extension is installed');
 select has_table('public', 'products', 'products table exists');
@@ -13,12 +13,16 @@ select has_table('public', 'payment_attempts', 'payment attempts table exists');
 select has_table('public', 'payment_webhook_events', 'webhook events table exists');
 select has_table('public', 'inventory_reservations', 'inventory reservations table exists');
 select has_table('public', 'admin_audit_log', 'admin audit log table exists');
+select has_table('public', 'request_rate_limits', 'database rate limits table exists');
 
 select col_is_pk('public', 'products', 'id', 'products uses id as primary key');
 select col_is_pk('public', 'admin_profiles', 'user_id', 'admin profile maps one-to-one to auth user');
 select col_is_unique('public', 'products', 'slug', 'product slug is unique');
 select col_is_unique('public', 'orders', 'public_token_hash', 'public order token hash is unique');
 select col_is_unique('public', 'orders', 'checkout_idempotency_key', 'checkout key is unique');
+select has_column('public', 'products', 'confirmed_facts', 'products store confirmed facts');
+select has_column('public', 'products', 'pending_facts', 'products store pending facts');
+select has_column('public', 'orders', 'tracking_code', 'orders store tracking code');
 
 select ok(
   public.is_valid_order_selection('{"type":"simple","colorId":"preto","size":"M"}'::jsonb),

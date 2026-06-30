@@ -1,10 +1,10 @@
 begin;
 set local search_path = public, extensions;
-select plan(20);
+select plan(25);
 
 select results_eq(
   $$select count(*)::bigint from pg_tables where schemaname = 'public' and rowsecurity$$,
-  array[18::bigint],
+  array[19::bigint],
   'all commerce tables have RLS enabled'
 );
 
@@ -123,6 +123,31 @@ select results_eq(
   $$select count(*)::bigint from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'create_order_v1' and grantee in ('anon', 'authenticated')$$,
   array[0::bigint],
   'checkout RPC is not granted to browser roles'
+);
+select results_eq(
+  $$select count(*)::bigint from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'create_order_v2' and grantee in ('anon', 'authenticated')$$,
+  array[0::bigint],
+  'hardened checkout RPC is not granted to browser roles'
+);
+select results_eq(
+  $$select count(*)::bigint from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'consume_rate_limit_v1' and grantee in ('anon', 'authenticated')$$,
+  array[0::bigint],
+  'rate limit RPC is server-only'
+);
+select results_eq(
+  $$select count(*)::bigint from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'admin_quote_order_v1' and grantee in ('anon', 'authenticated')$$,
+  array[0::bigint],
+  'quote RPC is server-only'
+);
+select results_eq(
+  $$select count(*)::bigint from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'admin_transition_order_v1' and grantee in ('anon', 'authenticated')$$,
+  array[0::bigint],
+  'order transition RPC is server-only'
+);
+select results_eq(
+  $$select count(*)::bigint from information_schema.routine_privileges where routine_schema = 'public' and routine_name = 'set_primary_product_image_v1' and grantee in ('anon', 'authenticated')$$,
+  array[0::bigint],
+  'image primary RPC is server-only'
 );
 
 select * from finish();

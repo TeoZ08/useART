@@ -451,11 +451,14 @@ export type Database = {
           privacy_accepted_at: string
           privacy_terms_version: string
           public_token_hash: string
+          quoted_at: string | null
           shipping_cents: number | null
           shipping_method: string
           status: string
           subtotal_cents: number
           total_cents: number | null
+          tracking_code: string | null
+          tracking_url: string | null
           updated_at: string
         }
         Insert: {
@@ -480,11 +483,14 @@ export type Database = {
           privacy_accepted_at: string
           privacy_terms_version: string
           public_token_hash: string
+          quoted_at?: string | null
           shipping_cents?: number | null
           shipping_method: string
           status?: string
           subtotal_cents: number
           total_cents?: number | null
+          tracking_code?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -509,11 +515,14 @@ export type Database = {
           privacy_accepted_at?: string
           privacy_terms_version?: string
           public_token_hash?: string
+          quoted_at?: string | null
           shipping_cents?: number | null
           shipping_method?: string
           status?: string
           subtotal_cents?: number
           total_cents?: number | null
+          tracking_code?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -777,6 +786,7 @@ export type Database = {
           availability_mode: string
           base_price_cents: number
           category: string
+          confirmed_facts: string[]
           created_at: string
           description: string
           featured: boolean
@@ -785,6 +795,7 @@ export type Database = {
           lead_time_days: number | null
           line: string
           name: string
+          pending_facts: string[]
           review_required: boolean
           seo_description: string
           seo_title: string
@@ -796,6 +807,7 @@ export type Database = {
           availability_mode?: string
           base_price_cents: number
           category: string
+          confirmed_facts?: string[]
           created_at?: string
           description: string
           featured?: boolean
@@ -804,6 +816,7 @@ export type Database = {
           lead_time_days?: number | null
           line: string
           name: string
+          pending_facts?: string[]
           review_required?: boolean
           seo_description: string
           seo_title: string
@@ -815,6 +828,7 @@ export type Database = {
           availability_mode?: string
           base_price_cents?: number
           category?: string
+          confirmed_facts?: string[]
           created_at?: string
           description?: string
           featured?: boolean
@@ -823,11 +837,33 @@ export type Database = {
           lead_time_days?: number | null
           line?: string
           name?: string
+          pending_facts?: string[]
           review_required?: boolean
           seo_description?: string
           seo_title?: string
           slug?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      request_rate_limits: {
+        Row: {
+          key_hash: string
+          request_count: number
+          scope: string
+          window_started_at: string
+        }
+        Insert: {
+          key_hash: string
+          request_count?: number
+          scope: string
+          window_started_at: string
+        }
+        Update: {
+          key_hash?: string
+          request_count?: number
+          scope?: string
+          window_started_at?: string
         }
         Relationships: []
       }
@@ -905,7 +941,55 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_quote_order_v1: {
+        Args: {
+          p_actor_user_id: string
+          p_note?: string
+          p_order_id: string
+          p_shipping_cents: number
+        }
+        Returns: undefined
+      }
+      admin_transition_order_v1: {
+        Args: {
+          p_actor_user_id: string
+          p_note?: string
+          p_order_id: string
+          p_target_status: string
+          p_tracking_code?: string
+          p_tracking_url?: string
+        }
+        Returns: undefined
+      }
+      consume_rate_limit_v1: {
+        Args: {
+          p_key_hash: string
+          p_max_requests: number
+          p_scope: string
+          p_window_seconds: number
+        }
+        Returns: boolean
+      }
       create_order_v1: {
+        Args: {
+          p_address: Json
+          p_checkout_idempotency_key: string
+          p_coupon_code: string
+          p_customer_email: string
+          p_customer_email_normalized: string
+          p_customer_key_hash: string
+          p_customer_name: string
+          p_customer_phone: string
+          p_customer_phone_normalized: string
+          p_items: Json
+          p_notes: string
+          p_privacy_terms_version: string
+          p_public_token_hash: string
+          p_shipping_method: string
+        }
+        Returns: Json
+      }
+      create_order_v2: {
         Args: {
           p_address: Json
           p_checkout_idempotency_key: string
@@ -943,6 +1027,10 @@ export type Database = {
           p_source: string
           p_target_status: string
         }
+        Returns: undefined
+      }
+      set_primary_product_image_v1: {
+        Args: { p_image_id: string; p_product_id: string }
         Returns: undefined
       }
     }

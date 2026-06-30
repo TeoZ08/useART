@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import { PayOrderButton } from '@/components/orders/PayOrderButton';
 import styles from '@/components/orders/OrderStatus.module.css';
 import { formatMoney } from '@/lib/money';
 import { getServerEnv } from '@/lib/env';
 import { getPublicOrder } from '@/services/orders/public-order';
+import { consumeRateLimit } from '@/lib/security/rate-limit';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ const statusLabel: Record<string, string> = {
 export default async function OrderPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
   if (token.length < 32 || token.length > 128) notFound();
+  if (!(await consumeRateLimit(await headers(), 'orders:public-status', 60, 60))) notFound();
   const order = await getPublicOrder(token);
   if (!order) notFound();
   const env = getServerEnv();
