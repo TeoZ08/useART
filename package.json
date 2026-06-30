@@ -9,21 +9,34 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "rm -rf dist && cp -R out dist",
     "start": "next start",
     "lint": "eslint .",
     "format": "prettier . --check",
     "test": "vitest run",
+    "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
+    "test:integration": "vitest run tests/integration",
+    "test:security": "vitest run tests/security",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:test": "supabase test db",
+    "db:types": "supabase gen types typescript --local > types/database.generated.ts",
+    "verify:env": "tsx scripts/verify-env.ts",
+    "verify:launch": "tsx scripts/verify-production-readiness.ts",
     "audit:media": "node scripts/quality/audit-product-media.mjs",
     "capture:quality": "node scripts/quality/capture-quality-audit.mjs",
     "capture:hero-polish": "node scripts/quality/capture-hero-animation-polish.mjs"
   },
   "dependencies": {
+    "@supabase/ssr": "0.12.0",
+    "@supabase/supabase-js": "2.110.0",
+    "mercadopago": "3.1.0",
     "next": "16.2.9",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "three": "^0.185.0"
+    "three": "^0.185.0",
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@playwright/test": "1.61.0",
@@ -34,6 +47,8 @@
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.9",
     "prettier": "3.8.4",
+    "supabase": "2.108.0",
+    "tsx": "4.21.0",
     "typescript": "6.0.3",
     "vitest": "4.1.9"
   },
