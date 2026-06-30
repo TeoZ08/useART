@@ -23,6 +23,7 @@ const serverEnvSchema = z
     MERCADO_PAGO_ACCESS_TOKEN: optionalSecret,
     MERCADO_PAGO_WEBHOOK_SECRET: optionalSecret,
     MERCADO_PAGO_ENVIRONMENT: z.enum(['test', 'live']).default('test'),
+    PAYMENT_PROVIDER: z.enum(['mercadopago', 'fake']).default('mercadopago'),
     STORE_MODE: z.enum(['local', 'staging', 'live']).default('local'),
     PAYMENTS_ENABLED: booleanFlag,
     NATIONAL_CHECKOUT_ENABLED: booleanFlag,
@@ -36,21 +37,6 @@ const serverEnvSchema = z
     VERCEL_PROJECT_PRODUCTION_URL: optionalSecret,
   })
   .superRefine((env, context) => {
-    const supabaseValues = [
-      env.NEXT_PUBLIC_SUPABASE_URL,
-      env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-      env.SUPABASE_SECRET_KEY,
-    ];
-    const configuredSupabaseValues = supabaseValues.filter(Boolean).length;
-
-    if (configuredSupabaseValues > 0 && configuredSupabaseValues < supabaseValues.length) {
-      context.addIssue({
-        code: 'custom',
-        message: 'Supabase deve ter URL, publishable key e secret key configuradas em conjunto.',
-        path: ['NEXT_PUBLIC_SUPABASE_URL'],
-      });
-    }
-
     if (
       env.PAYMENTS_ENABLED &&
       (!env.MERCADO_PAGO_ACCESS_TOKEN || !env.MERCADO_PAGO_WEBHOOK_SECRET)
@@ -63,6 +49,13 @@ const serverEnvSchema = z
     }
 
     if (env.STORE_MODE === 'live') {
+      if (env.PAYMENT_PROVIDER === 'fake') {
+        context.addIssue({
+          code: 'custom',
+          message: 'O provider fake é proibido em live.',
+          path: ['PAYMENT_PROVIDER'],
+        });
+      }
       if (env.MERCADO_PAGO_ENVIRONMENT !== 'live') {
         context.addIssue({
           code: 'custom',
