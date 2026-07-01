@@ -138,8 +138,8 @@
   }
 
   .content h1 {
-    max-width: 54vw;
-    font-size: clamp(72px, 8.5vw, 102px);
+    max-width: 49vw;
+    font-size: clamp(72px, 7.5vw, 92px);
   }
 
   .lead {
