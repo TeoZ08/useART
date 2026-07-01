@@ -7,12 +7,7 @@ export function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <div className={styles.wave} aria-hidden="true">
-        <Image
-          src="/assets/brand/art-footer-motion-wave.svg"
-          width={1600}
-          height={360}
-          alt=""
-        />
+        <Image src="/assets/brand/art-footer-motion-wave.svg" width={1600} height={360} alt="" />
       </div>
       <div className={styles.inner}>
         <div className={styles.brand}>
