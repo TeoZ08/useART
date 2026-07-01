@@ -164,6 +164,7 @@ additional_redirect_urls = [
   "http://127.0.0.1:3000",
   "http://localhost:3000",
   "https://useart-teoz08-matteo-lima-scottis-projects.vercel.app",
+  "https://useart-git-feat-commerce-pr-6b655e-matteo-lima-scottis-projects.vercel.app",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
