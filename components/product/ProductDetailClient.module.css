@@ -49,13 +49,6 @@
   opacity: 1;
 }
 
-.pendingMedia {
-  margin: var(--space-3) 0 0;
-  color: var(--color-ink-muted);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
 .selectedVariant {
   margin: var(--space-3) 0 0;
   color: var(--color-ink-muted);
@@ -122,9 +115,10 @@
 
 .facts {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-5);
   margin: var(--space-8) 0;
+  max-width: 590px;
 }
 
 .facts div,

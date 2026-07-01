@@ -86,8 +86,7 @@ export function CartClient() {
         <p className="sectionEyebrow">Carrinho</p>
         <h1 className="sectionTitle">Revise seu pedido</h1>
         <p className="sectionLead">
-          O carrinho fica salvo neste navegador. Preço, cupom, frete e disponibilidade são
-          recalculados no servidor ao criar o pedido.
+          Confira as peças e quantidades antes de escolher a forma de entrega.
         </p>
       </div>
 

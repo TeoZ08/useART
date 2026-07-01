@@ -209,9 +209,7 @@ export function CheckoutClient() {
         <div className={styles.header}>
           <p className="sectionEyebrow">Pedido criado</p>
           <h1 className="sectionTitle">{createdOrder.orderCode}</h1>
-          <p className="sectionLead">
-            Valores confirmados pelo servidor. Guarde o link de acompanhamento do pedido.
-          </p>
+          <p className="sectionLead">Guarde o código e o link de acompanhamento do pedido.</p>
         </div>
         <div className={styles.confirmation}>
           <div className={styles.rows}>
@@ -261,9 +259,7 @@ export function CheckoutClient() {
       <div className={styles.header}>
         <p className="sectionEyebrow">Checkout ART</p>
         <h1 className="sectionTitle">Criar pedido</h1>
-        <p className="sectionLead">
-          Preços, cupom, frete e disponibilidade são validados novamente no servidor.
-        </p>
+        <p className="sectionLead">Informe seus dados e escolha a forma de entrega.</p>
       </div>
 
       {!items.length ? (
@@ -452,7 +448,7 @@ export function CheckoutClient() {
               </div>
               <div className={styles.total}>
                 <span>Total final</span>
-                <b>Calculado no servidor</b>
+                <b>Exibido após confirmar</b>
               </div>
             </div>
             <button

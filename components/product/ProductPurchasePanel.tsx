@@ -295,8 +295,8 @@ export function ProductPurchasePanel({
       {message && <p className={styles.message}>{message}</p>}
       <p className={styles.note}>
         {product.commerceAvailable
-          ? 'Preço e disponibilidade serão recalculados no servidor ao criar o pedido.'
-          : 'Compra indisponível enquanto o catálogo remoto não responde.'}
+          ? 'Disponibilidade verificada ao finalizar o pedido.'
+          : 'Compra temporariamente indisponível.'}
       </p>
     </div>
   );

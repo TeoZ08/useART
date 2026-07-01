@@ -15,7 +15,7 @@ export function mediaForProductColor(
   return {
     ...product.media,
     colorId,
-    alt: color ? `Imagem pendente de ${product.name} na cor ${color.name}` : product.media.alt,
+    alt: color ? `Apresentação de ${product.name} na cor ${color.name}` : product.media.alt,
     pendingReason: color
       ? `Imagem desta variação (${color.name}) ainda pendente.`
       : product.media.pendingReason,

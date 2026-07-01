@@ -67,19 +67,14 @@ test('thumbnail selection keeps color, main media, and cart image synchronized',
   await expect(page.getByAltText(brown.media!.alt)).toHaveAttribute('src', brown.media!.src!);
 });
 
-test('pending product colors remain explicit rather than reusing another variant image', async ({
-  page,
-}) => {
+test('product colors without media do not reuse another variant image', async ({ page }) => {
   await page.goto('/produto/camiseta-solid-masculina-logo-central/');
 
   await page.getByLabel('Selecionar cor Marrom').click();
   await expect(page.getByText('Cor selecionada:').getByRole('strong')).toHaveText('Marrom');
   await expect(
-    page.getByText('Imagem desta variação (Marrom) ainda pendente.', { exact: true }),
-  ).toBeVisible();
-  await expect(
     page.getByRole('button', {
-      name: 'Ampliar Imagem pendente de Camiseta Solid Masculina - logo central na cor Marrom',
+      name: 'Ampliar Apresentação de Camiseta Solid Masculina - logo central na cor Marrom',
     }),
   ).toHaveCount(1);
 
@@ -88,7 +83,7 @@ test('pending product colors remain explicit rather than reusing another variant
     await page.goto('/carrinho/');
     await expect(page.getByText('Cor: Marrom')).toBeVisible();
     await expect(
-      page.getByAltText('Imagem pendente de Camiseta Solid Masculina - logo central na cor Marrom'),
+      page.getByAltText('Apresentação de Camiseta Solid Masculina - logo central na cor Marrom'),
     ).toHaveCount(0);
   }
 });
