@@ -83,8 +83,7 @@ export function SiteHeader() {
         </Link>
         <nav className={styles.nav} aria-label="Navegação principal">
           <Link href="/#colecao">Coleção</Link>
-          <Link href="/#produtos">Produtos</Link>
-          <Link href="/entrega">Entrega</Link>
+          <Link href="/#movimento">Movimento</Link>
           <Link href="/contato">Contato</Link>
         </nav>
         <div className={styles.actions}>
@@ -130,17 +129,14 @@ export function SiteHeader() {
             <Link href="/#colecao" onClick={closeMenu}>
               Coleção
             </Link>
-            <Link href="/#produtos" onClick={closeMenu}>
-              Produtos
-            </Link>
-            <Link href="/carrinho" onClick={closeMenu}>
-              Carrinho ({cartCount})
-            </Link>
-            <Link href="/entrega" onClick={closeMenu}>
-              Entrega
+            <Link href="/#movimento" onClick={closeMenu}>
+              Movimento
             </Link>
             <Link href="/contato" onClick={closeMenu}>
               Contato
+            </Link>
+            <Link href="/carrinho" onClick={closeMenu}>
+              Carrinho ({cartCount})
             </Link>
           </nav>
         </div>
