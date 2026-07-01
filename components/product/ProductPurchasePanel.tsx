@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
-import { addCartItem, createCartItem } from '@/domain/cart/cart';
+import { addCartItem, createCartItem, findVariantForSelection } from '@/domain/cart/cart';
 import { localCartRepository } from '@/domain/cart/cartRepository';
 import {
   createKitPieceSelection,
@@ -89,10 +89,27 @@ export function ProductPurchasePanel({
   const applicationOptions = product.applications ?? KIT_APPLICATIONS;
   const activeColorId = selectedColorId;
 
-  const canAdd = useMemo(
-    () => product.kind === 'kit' || Boolean(activeColorId && size),
-    [activeColorId, product.kind, size],
+  const currentSelection = useMemo(
+    () =>
+      product.kind === 'kit'
+        ? createKitSelection(
+            kitPieces.map((piece, index) =>
+              createKitPieceSelection(
+                pieceNumbers[index],
+                piece.applicationId,
+                piece.colorId,
+                piece.size,
+              ),
+            ),
+          )
+        : createSimpleSelection(activeColorId, size),
+    [activeColorId, kitPieces, product.kind, size],
   );
+  const selectedVariant = useMemo(
+    () => findVariantForSelection(product, currentSelection),
+    [currentSelection, product],
+  );
+  const canAdd = product.commerceAvailable && Boolean(selectedVariant);
 
   function chooseColor(nextColorId: ProductColorId) {
     onColorChange(nextColorId);
@@ -110,22 +127,8 @@ export function ProductPurchasePanel({
       return;
     }
 
-    const selection =
-      product.kind === 'kit'
-        ? createKitSelection(
-            kitPieces.map((piece, index) =>
-              createKitPieceSelection(
-                pieceNumbers[index],
-                piece.applicationId,
-                piece.colorId,
-                piece.size,
-              ),
-            ),
-          )
-        : createSimpleSelection(activeColorId, size);
-
     const current = localCartRepository.read();
-    const item = createCartItem(product, selection, quantity);
+    const item = createCartItem(product, currentSelection, quantity);
     localCartRepository.write(addCartItem(current, item));
     setMessage('Produto adicionado ao carrinho.');
   }
@@ -280,6 +283,7 @@ export function ProductPurchasePanel({
           className="buttonPrimary"
           type="button"
           onClick={addToCart}
+          disabled={!canAdd}
           data-testid="add-to-cart"
         >
           Adicionar ao carrinho
@@ -290,8 +294,9 @@ export function ProductPurchasePanel({
       </div>
       {message && <p className={styles.message}>{message}</p>}
       <p className={styles.note}>
-        A seleção registra intenção de compra. Disponibilidade, pagamento e produção serão
-        conferidos no atendimento.
+        {product.commerceAvailable
+          ? 'Disponibilidade verificada ao finalizar o pedido.'
+          : 'Compra temporariamente indisponível.'}
       </p>
     </div>
   );

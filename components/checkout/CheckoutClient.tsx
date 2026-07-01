@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useMemo, useState, useSyncExternalStore } from 'react';
-import { calculateCartTotals } from '@/domain/cart/cart';
 import {
   CART_CHANGED_EVENT,
   COUPON_CHANGED_EVENT,
@@ -10,7 +9,7 @@ import {
   readStoredCoupon,
 } from '@/domain/cart/cartRepository';
 import { describeSelection } from '@/domain/cart/selection';
-import { buildOrderId, type AddressData, type CustomerData } from '@/domain/orders/order';
+import type { AddressData, CustomerData } from '@/domain/orders/order';
 import {
   validateAddress,
   validateCustomer,
@@ -21,20 +20,29 @@ import {
   type ShippingMethodId,
   type ShippingQuote,
 } from '@/domain/shipping/shipping';
-import { hasNoErrors } from '@/lib/validation';
-import { buildWhatsAppUrl } from '@/lib/whatsapp';
+import { STORE_CONFIG } from '@/lib/config';
 import { formatMoney } from '@/lib/money';
-import type { CartItem } from '@/types/commerce';
+import { hasNoErrors } from '@/lib/validation';
+import type { CartItem, CartItemSelection } from '@/types/commerce';
 import styles from './CheckoutClient.module.css';
 
-const paymentNote = 'Pagamento a combinar no atendimento. Pix manual pode ser informado pela loja.';
+type CreatedOrder = {
+  orderCode: string;
+  status: string;
+  subtotalCents: number;
+  discountCents: number;
+  shippingCents: number | null;
+  totalCents: number | null;
+  orderUrl: string;
+  paymentUrl: string | null;
+};
+
+const IDEMPOTENCY_STORAGE_KEY = 'art.checkout.idempotency.v1';
 
 function subscribeToCart(onStoreChange: () => void): () => void {
   if (typeof window === 'undefined') return () => undefined;
-
   window.addEventListener(CART_CHANGED_EVENT, onStoreChange);
   window.addEventListener('storage', onStoreChange);
-
   return () => {
     window.removeEventListener(CART_CHANGED_EVENT, onStoreChange);
     window.removeEventListener('storage', onStoreChange);
@@ -43,10 +51,8 @@ function subscribeToCart(onStoreChange: () => void): () => void {
 
 function subscribeToCoupon(onStoreChange: () => void): () => void {
   if (typeof window === 'undefined') return () => undefined;
-
   window.addEventListener(COUPON_CHANGED_EVENT, onStoreChange);
   window.addEventListener('storage', onStoreChange);
-
   return () => {
     window.removeEventListener(COUPON_CHANGED_EVENT, onStoreChange);
     window.removeEventListener('storage', onStoreChange);
@@ -55,10 +61,6 @@ function subscribeToCoupon(onStoreChange: () => void): () => void {
 
 function getCartSnapshot(): string {
   return JSON.stringify(localCartRepository.read());
-}
-
-function getServerCartSnapshot(): string {
-  return '[]';
 }
 
 function parseCartSnapshot(snapshot: string): CartItem[] {
@@ -70,12 +72,44 @@ function parseCartSnapshot(snapshot: string): CartItem[] {
   }
 }
 
+function checkoutSelection(selection: CartItemSelection) {
+  if (selection.type === 'simple') {
+    return { type: 'simple' as const, colorId: selection.colorId, size: selection.size };
+  }
+  return {
+    type: 'kit' as const,
+    pieces: selection.pieces.map((piece) => ({
+      pieceNumber: piece.pieceNumber,
+      applicationId: piece.applicationId,
+      colorId: piece.colorId,
+      size: piece.size,
+    })),
+  };
+}
+
+function shippingMethod(methodId: ShippingMethodId) {
+  if (methodId === 'retirada-art') return 'pickup' as const;
+  if (methodId === 'campo-grande-ms') return 'local_delivery' as const;
+  return 'national_quote' as const;
+}
+
+function idempotencyKeyFor(fingerprint: string): string {
+  try {
+    const stored = JSON.parse(sessionStorage.getItem(IDEMPOTENCY_STORAGE_KEY) ?? '{}') as {
+      fingerprint?: string;
+      key?: string;
+    };
+    if (stored.fingerprint === fingerprint && stored.key) return stored.key;
+  } catch {
+    // A malformed browser cache is replaced below.
+  }
+  const key = crypto.randomUUID();
+  sessionStorage.setItem(IDEMPOTENCY_STORAGE_KEY, JSON.stringify({ fingerprint, key }));
+  return key;
+}
+
 export function CheckoutClient() {
-  const cartSnapshot = useSyncExternalStore(
-    subscribeToCart,
-    getCartSnapshot,
-    getServerCartSnapshot,
-  );
+  const cartSnapshot = useSyncExternalStore(subscribeToCart, getCartSnapshot, () => '[]');
   const couponCode = useSyncExternalStore(subscribeToCoupon, readStoredCoupon, () => '');
   const items = useMemo(() => parseCartSnapshot(cartSnapshot), [cartSnapshot]);
   const [customer, setCustomer] = useState<CustomerData>({ name: '', phone: '', email: '' });
@@ -83,12 +117,14 @@ export function CheckoutClient() {
   const [shipping, setShipping] = useState<ShippingQuote>(
     shippingQuoteProvider.quote({ methodId: 'retirada-art' }),
   );
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
-  const [prepared, setPrepared] = useState(false);
-
-  const totals = useMemo(
-    () => calculateCartTotals(items, couponCode, shipping),
-    [couponCode, items, shipping],
+  const [pending, setPending] = useState(false);
+  const [serverError, setServerError] = useState('');
+  const [createdOrder, setCreatedOrder] = useState<CreatedOrder>();
+  const estimatedSubtotal = items.reduce(
+    (sum, item) => sum + item.unitPriceCents * item.quantity,
+    0,
   );
   const shippingOptions = shippingQuoteProvider.list();
 
@@ -103,51 +139,127 @@ export function CheckoutClient() {
   }
 
   function chooseShipping(methodId: ShippingMethodId) {
-    const quote = shippingQuoteProvider.quote({ methodId });
-    setShipping(quote);
+    setShipping(shippingQuoteProvider.quote({ methodId }));
     setErrors({});
   }
 
-  function openWhatsApp() {
+  async function submitOrder() {
     const nextErrors = {
       ...validateCustomer(customer),
       ...validateAddress(address, shipping),
+      ...(privacyAccepted ? {} : { privacy: 'Aceite os termos para criar o pedido.' }),
     };
-
     setErrors(nextErrors);
+    setServerError('');
+    if (!items.length || !hasNoErrors(nextErrors)) return;
 
-    if (!items.length || !hasNoErrors(nextErrors)) {
-      return;
-    }
-
-    const order = {
-      id: buildOrderId(),
-      createdAt: new Date().toISOString(),
+    const method = shippingMethod(shipping.id);
+    const payload = {
       customer,
-      address,
-      shipping,
-      paymentNote,
-      items,
-      couponCode: couponCode.trim().toUpperCase(),
-      subtotalCents: totals.subtotalCents,
-      discountCents: totals.discountCents,
-      shippingCents: totals.shippingCents,
-      totalCents: totals.totalCents,
+      shipping:
+        method === 'pickup'
+          ? { method }
+          : {
+              method,
+              address: {
+                postalCode: address.cep ?? '',
+                street: address.street ?? '',
+                number: address.number ?? '',
+                complement: address.complement || undefined,
+                neighborhood: address.district ?? '',
+                city: address.city ?? '',
+                state: address.state ?? '',
+              },
+            },
+      couponCode: couponCode.trim().toUpperCase() || undefined,
+      privacyTermsVersion: '2026-06-30',
+      privacyAccepted: true,
+      items: items.map((item) => ({
+        variantId: item.variantId,
+        quantity: item.quantity,
+        selection: checkoutSelection(item.selection),
+        imageSnapshot: item.image.src,
+      })),
     };
+    const fingerprint = JSON.stringify(payload);
+    const idempotencyKey = idempotencyKeyFor(fingerprint);
 
-    window.open(buildWhatsAppUrl(order), '_blank', 'noopener,noreferrer');
-    setPrepared(true);
+    setPending(true);
+    try {
+      const response = await fetch('/api/checkout/create-order', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'idempotency-key': idempotencyKey },
+        body: fingerprint,
+      });
+      const body = (await response.json()) as CreatedOrder & { error?: string };
+      if (!response.ok || !body.orderCode) throw new Error(body.error ?? 'Pedido não criado.');
+      setCreatedOrder(body);
+      localCartRepository.clear();
+      sessionStorage.removeItem(IDEMPOTENCY_STORAGE_KEY);
+    } catch (error) {
+      setServerError(error instanceof Error ? error.message : 'Não foi possível criar o pedido.');
+    } finally {
+      setPending(false);
+    }
+  }
+
+  if (createdOrder) {
+    return (
+      <section className={styles.page} data-testid="order-created">
+        <div className={styles.header}>
+          <p className="sectionEyebrow">Pedido criado</p>
+          <h1 className="sectionTitle">{createdOrder.orderCode}</h1>
+          <p className="sectionLead">Guarde o código e o link de acompanhamento do pedido.</p>
+        </div>
+        <div className={styles.confirmation}>
+          <div className={styles.rows}>
+            <div>
+              <span>Subtotal</span>
+              <b>{formatMoney(createdOrder.subtotalCents)}</b>
+            </div>
+            <div>
+              <span>Desconto</span>
+              <b>− {formatMoney(createdOrder.discountCents)}</b>
+            </div>
+            <div>
+              <span>Entrega</span>
+              <b>
+                {createdOrder.shippingCents === null
+                  ? 'A cotar'
+                  : formatMoney(createdOrder.shippingCents)}
+              </b>
+            </div>
+            <div className={styles.total}>
+              <span>Total</span>
+              <b>
+                {createdOrder.totalCents === null
+                  ? 'Após cotação'
+                  : formatMoney(createdOrder.totalCents)}
+              </b>
+            </div>
+          </div>
+          <Link className="buttonPrimary" href={createdOrder.orderUrl}>
+            Acompanhar pedido
+          </Link>
+          <a
+            className="buttonSecondary"
+            href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Falar com a ART
+          </a>
+        </div>
+      </section>
+    );
   }
 
   return (
     <section className={styles.page}>
       <div className={styles.header}>
-        <p className="sectionEyebrow">Checkout assistido</p>
-        <h1 className="sectionTitle">Preparar pedido</h1>
-        <p className="sectionLead">
-          Nenhum pagamento ou envio é confirmado aqui. O botão apenas prepara a mensagem para você
-          enviar no WhatsApp.
-        </p>
+        <p className="sectionEyebrow">Checkout ART</p>
+        <h1 className="sectionTitle">Criar pedido</h1>
+        <p className="sectionLead">Informe seus dados e escolha a forma de entrega.</p>
       </div>
 
       {!items.length ? (
@@ -183,6 +295,7 @@ export function CheckoutClient() {
               <label className="formField">
                 <span>E-mail opcional</span>
                 <input
+                  type="email"
                   value={customer.email}
                   onChange={(event) => updateCustomer('email', event.target.value)}
                   autoComplete="email"
@@ -204,13 +317,10 @@ export function CheckoutClient() {
                       <strong>{option.name}</strong>
                       <small>{option.detail}</small>
                     </span>
-                    <b>
-                      {option.priceCents === null ? 'A confirmar' : formatMoney(option.priceCents)}
-                    </b>
+                    <b>{option.priceCents === null ? 'A cotar' : formatMoney(option.priceCents)}</b>
                   </button>
                 ))}
               </div>
-
               {shipping.requiresAddress ? (
                 <div className={styles.addressGrid}>
                   <label className="formField">
@@ -218,6 +328,7 @@ export function CheckoutClient() {
                     <input
                       value={address.cep ?? ''}
                       onChange={(event) => updateAddress('cep', event.target.value)}
+                      autoComplete="postal-code"
                     />
                     {errors.cep && <small className="fieldError">{errors.cep}</small>}
                   </label>
@@ -225,6 +336,7 @@ export function CheckoutClient() {
                     <span>Estado</span>
                     <input
                       value={address.state ?? ''}
+                      maxLength={2}
                       onChange={(event) => updateAddress('state', event.target.value.toUpperCase())}
                     />
                     {errors.state && <small className="fieldError">{errors.state}</small>}
@@ -234,6 +346,7 @@ export function CheckoutClient() {
                     <input
                       value={address.street ?? ''}
                       onChange={(event) => updateAddress('street', event.target.value)}
+                      autoComplete="address-line1"
                     />
                     {errors.street && <small className="fieldError">{errors.street}</small>}
                   </label>
@@ -266,17 +379,38 @@ export function CheckoutClient() {
                     <input
                       value={address.complement ?? ''}
                       onChange={(event) => updateAddress('complement', event.target.value)}
+                      autoComplete="address-line2"
                     />
                   </label>
                 </div>
               ) : (
-                <p className="noticeBox">Retirada combinada diretamente com a ART pelo WhatsApp.</p>
+                <p className="noticeBox">
+                  Retirada sem taxa. Horário e local são combinados com a ART.
+                </p>
               )}
             </section>
 
             <section className={styles.panel}>
-              <h2>Pagamento</h2>
-              <p className="noticeBox">{paymentNote}</p>
+              <h2>Consentimento</h2>
+              <label className={styles.consent}>
+                <input
+                  type="checkbox"
+                  checked={privacyAccepted}
+                  onChange={(event) => setPrivacyAccepted(event.target.checked)}
+                />
+                <span>
+                  Li e aceito os{' '}
+                  <Link href="/termos" target="_blank">
+                    Termos
+                  </Link>{' '}
+                  e a{' '}
+                  <Link href="/privacidade" target="_blank">
+                    Política de Privacidade
+                  </Link>
+                  .
+                </span>
+              </label>
+              {errors.privacy && <small className="fieldError">{errors.privacy}</small>}
             </section>
           </div>
 
@@ -299,38 +433,41 @@ export function CheckoutClient() {
             </div>
             <div className={styles.rows}>
               <div>
-                <span>Subtotal</span>
-                <b>{formatMoney(totals.subtotalCents)}</b>
+                <span>Subtotal no carrinho</span>
+                <b>{formatMoney(estimatedSubtotal)}</b>
               </div>
               <div>
                 <span>Cupom</span>
-                <b>{couponCode.trim() ? couponCode.trim().toUpperCase() : 'Nenhum'}</b>
-              </div>
-              <div>
-                <span>Desconto</span>
-                <b>- {formatMoney(totals.discountCents)}</b>
+                <b>
+                  {couponCode.trim() ? `${couponCode.trim().toUpperCase()} — a validar` : 'Nenhum'}
+                </b>
               </div>
               <div>
                 <span>Frete</span>
-                <b>
-                  {totals.shippingCents === null
-                    ? 'A confirmar'
-                    : formatMoney(totals.shippingCents)}
-                </b>
+                <b>{shipping.priceCents === null ? 'A cotar' : formatMoney(shipping.priceCents)}</b>
               </div>
               <div className={styles.total}>
-                <span>Total estimado</span>
-                <b>{totals.totalCents === null ? 'A confirmar' : formatMoney(totals.totalCents)}</b>
+                <span>Total final</span>
+                <b>Exibido após confirmar</b>
               </div>
             </div>
-            <button className="buttonPrimary" type="button" onClick={openWhatsApp}>
-              Abrir pedido no WhatsApp
+            <button
+              className="buttonPrimary"
+              type="button"
+              disabled={pending}
+              onClick={submitOrder}
+            >
+              {pending ? 'Criando pedido…' : 'Confirmar e criar pedido'}
             </button>
-            {prepared && (
-              <p className="noticeBox" data-testid="prepared-message">
-                A mensagem foi preparada. Envie-a no WhatsApp para concluir a solicitação.
+            {serverError && (
+              <p className={styles.serverError} role="alert">
+                {serverError}
               </p>
             )}
+            <p className="noticeBox">
+              Pagamentos online permanecem desativados. O pedido pode ser acompanhado e tratado com
+              a ART.
+            </p>
           </aside>
         </div>
       )}

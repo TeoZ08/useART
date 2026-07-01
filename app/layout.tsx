@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     default: `${STORE_CONFIG.brandName} | ${STORE_CONFIG.slogan}`,
     template: `%s | ${STORE_CONFIG.brandName}`,
   },
-  description: 'Loja própria ART com catálogo oficial, carrinho e pedido assistido pelo WhatsApp.',
+  description: 'Peças autorais ART para o movimento de todos os dias.',
   icons: {
     icon: STORE_CONFIG.logo.dark,
   },

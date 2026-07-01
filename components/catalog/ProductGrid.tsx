@@ -44,10 +44,8 @@ export function ProductGrid({ products }: ProductGridProps) {
       <div className={styles.top}>
         <div>
           <p className="sectionEyebrow">Catálogo oficial</p>
-          <h2 className="sectionTitle">Catálogo completo</h2>
-          <p className="sectionLead">
-            Sete ofertas confirmadas, compra assistida e sem frete ou pagamento simulado.
-          </p>
+          <h2 className="sectionTitle">Catálogo</h2>
+          <p className="sectionLead">Escolha sua peça, cor e tamanho.</p>
           <div className={styles.tabs} aria-label="Filtrar catálogo">
             {filters.map((item) => (
               <button
@@ -102,7 +100,11 @@ export function ProductGrid({ products }: ProductGridProps) {
                   </h3>
                   <strong>{formatMoney(product.priceCents)}</strong>
                 </div>
-                <small>{product.operation.label}</small>
+                <small>
+                  {product.operation.mode === 'sob-encomenda'
+                    ? 'Sob encomenda'
+                    : product.operation.label}
+                </small>
                 <div className={styles.bottom}>
                   <div className={styles.swatches} aria-label="Cores disponíveis">
                     {product.colors.map((color) => (

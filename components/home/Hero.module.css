@@ -18,10 +18,10 @@
 
 .productStage {
   position: absolute;
-  right: clamp(-160px, -6vw, -48px);
-  bottom: 20px;
-  width: min(68vw, 1100px);
-  height: min(88svh, 780px);
+  right: max(var(--gutter), calc((100vw - var(--content-max)) / 2));
+  bottom: 24px;
+  width: min(52vw, 820px);
+  height: min(82svh, 730px);
   z-index: 1;
   overflow: visible;
 }
@@ -54,9 +54,9 @@
 
 .content h1 {
   margin: 0;
-  max-width: min(59vw, 790px);
+  max-width: min(52vw, 760px);
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(84px, 11.4vw, 182px);
+  font-size: clamp(76px, 8vw, 128px);
   font-weight: 600;
   line-height: 0.78;
   text-transform: uppercase;
@@ -65,7 +65,7 @@
 
 .content h1 span {
   display: block;
-  margin-left: clamp(24px, 6vw, 108px);
+  white-space: nowrap;
 }
 
 .lead {
@@ -131,15 +131,15 @@
 
 @media (min-width: 881px) and (max-width: 1180px) {
   .productStage {
-    right: -5vw;
+    right: var(--gutter);
     bottom: 18px;
-    width: 58vw;
+    width: 50vw;
     height: min(72svh, 610px);
   }
 
   .content h1 {
-    max-width: 62vw;
-    font-size: clamp(78px, 10.5vw, 124px);
+    max-width: 49vw;
+    font-size: clamp(72px, 7.5vw, 92px);
   }
 
   .lead {
@@ -191,12 +191,12 @@
 
   .content h1 {
     max-width: 100%;
-    font-size: clamp(66px, 21vw, 94px);
+    font-size: clamp(58px, 16.5vw, 70px);
     line-height: 0.78;
   }
 
   .content h1 span {
-    margin-left: 22px;
+    margin-left: 0;
   }
 
   .lead {
@@ -244,10 +244,10 @@
   }
 
   .productStage {
-    top: clamp(440px, 58svh, 500px);
+    top: clamp(430px, 56svh, 488px);
     right: 50%;
     bottom: auto;
-    width: min(142vw, 570px);
+    width: min(118vw, 500px);
     height: clamp(300px, 43svh, 360px);
     transform: translateX(50%);
   }

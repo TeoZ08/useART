@@ -8,6 +8,7 @@ import {
 import { createSimpleSelection } from '@/domain/cart/selection';
 import { getProductBySlug } from '@/domain/products/products';
 import { shippingQuoteProvider } from '@/domain/shipping/shipping';
+import { withTestVariant } from '@/tests/fixtures/catalog';
 
 describe('cart domain', () => {
   it('calculates subtotal and merges equal selections', () => {
@@ -15,8 +16,9 @@ describe('cart domain', () => {
     expect(product).toBeDefined();
 
     const selection = createSimpleSelection('preto', 'M');
-    const item = createCartItem(product!, selection, 1);
-    const nextItem = createCartItem(product!, selection, 2);
+    const remoteProduct = withTestVariant(product!, selection);
+    const item = createCartItem(remoteProduct, selection, 1);
+    const nextItem = createCartItem(remoteProduct, selection, 2);
     const cart = addCartItem(addCartItem([], item), nextItem);
 
     expect(cart).toHaveLength(1);
@@ -28,7 +30,8 @@ describe('cart domain', () => {
     const product = getProductBySlug('camiseta-solid-masculina-assinatura-lateral');
     expect(product).toBeDefined();
 
-    const item = createCartItem(product!, createSimpleSelection('preto', 'G'), 2);
+    const selection = createSimpleSelection('preto', 'G');
+    const item = createCartItem(withTestVariant(product!, selection), selection, 2);
     const shipping = shippingQuoteProvider.quote({ methodId: 'campo-grande-ms' });
     const totals = calculateCartTotals([item], 'PRIMEIRACOMPRA', shipping);
 

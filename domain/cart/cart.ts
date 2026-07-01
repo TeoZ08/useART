@@ -5,6 +5,7 @@ import type {
   CartItem,
   CartItemSelection,
   CartTotals,
+  CatalogVariant,
   CatalogProduct,
   ProductMedia,
 } from '@/types/commerce';
@@ -27,15 +28,42 @@ export function createCartItem(
   selection: CartItemSelection,
   quantity = 1,
 ): CartItem {
+  const variant = findVariantForSelection(product, selection);
+  if (!variant) throw new Error('A seleção não corresponde a uma variante disponível.');
   return {
     id: buildCartItemId(product.slug, selection),
+    variantId: variant.id,
     productSlug: product.slug,
     productName: product.name,
-    unitPriceCents: product.priceCents,
+    unitPriceCents: variant.priceCents,
     quantity: Math.max(1, quantity),
     image: imageForSelection(product, selection),
     selection,
   };
+}
+
+export function findVariantForSelection(
+  product: CatalogProduct,
+  selection: CartItemSelection,
+): CatalogVariant | undefined {
+  if (selection.type === 'kit') {
+    return product.variants.find(
+      (variant) =>
+        !variant.colorId &&
+        !variant.size &&
+        !variant.applicationId &&
+        variant.availabilityMode !== 'unavailable',
+    );
+  }
+
+  return product.variants.find(
+    (variant) =>
+      variant.colorId === selection.colorId &&
+      variant.size === selection.size &&
+      !variant.applicationId &&
+      variant.availabilityMode !== 'unavailable' &&
+      (variant.availabilityMode !== 'limited' || (variant.stockQuantity ?? 0) > 0),
+  );
 }
 
 function imageForSelection(product: CatalogProduct, selection: CartItemSelection): ProductMedia {

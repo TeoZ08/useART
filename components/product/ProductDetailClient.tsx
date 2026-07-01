@@ -14,6 +14,19 @@ interface ProductDetailClientProps {
   relatedProducts: CatalogProduct[];
 }
 
+const EDITORIAL_DESCRIPTIONS: Readonly<Record<string, string>> = {
+  'moletom-art': 'Moletom ART em tecido três cabos, com identidade gráfica direta da marca.',
+  'camiseta-hibrida-logo-lateral': 'Camiseta Híbrida com logo lateral da ART e proteção UV 30.',
+  'camiseta-hibrida-logo-central': 'Camiseta Híbrida com logo central da ART e proteção UV 30.',
+  'camiseta-hibrida-assinatura-lateral':
+    'Camiseta Híbrida com assinatura lateral da ART e proteção UV 30.',
+  'kit-selecao-3-camisetas':
+    'Três camisetas para configurar individualmente por aplicação, cor e tamanho.',
+  'camiseta-solid-masculina-logo-central': 'Camiseta Solid Masculina com logo central da ART.',
+  'camiseta-solid-masculina-assinatura-lateral':
+    'Camiseta Solid Masculina com assinatura lateral da ART.',
+};
+
 export function ProductDetailClient({ product, relatedProducts }: ProductDetailClientProps) {
   const firstColorId =
     product.colors.find((color) => color.media?.cutoutStatus === 'available')?.id ??
@@ -28,6 +41,10 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
     gallery.find((media) => productMediaKey(media) === selectedGalleryMediaKey) ??
     selectedColorMedia;
   const selectedColor = product.colors.find((color) => color.id === selectedColorId);
+  const editorialDescription = EDITORIAL_DESCRIPTIONS[product.slug] ?? product.description;
+  const editorialFacts = product.confirmedFacts.filter(
+    (fact) => !fact.toLocaleLowerCase('pt-BR').startsWith('preço confirmado'),
+  );
   const zoomDialogRef = useRef<HTMLDialogElement>(null);
   const mediaButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -77,9 +94,6 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
               Cor selecionada: <strong>{selectedColor.name}</strong>
             </p>
           )}
-          {activeMedia.pendingReason && (
-            <p className={styles.pendingMedia}>{activeMedia.pendingReason}</p>
-          )}
           {gallery.length > 1 && (
             <div className={styles.thumbnails} aria-label="Miniaturas do produto">
               {gallery.map((media) => (
@@ -106,24 +120,19 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
           </p>
           <h1>{product.name}</h1>
           <strong className={styles.price}>{formatMoney(product.priceCents)}</strong>
-          <p className={styles.description}>{product.description}</p>
+          <p className={styles.description}>{editorialDescription}</p>
           <div className={styles.facts}>
             <div>
-              <h2>Confirmado</h2>
+              <h2>Detalhes</h2>
               <ul>
-                {product.confirmedFacts.map((fact) => (
+                {editorialFacts.map((fact) => (
                   <li key={fact}>{fact}</li>
                 ))}
-                <li>{product.operation.label}</li>
-                {product.operation.leadTime && <li>{product.operation.leadTime}</li>}
-              </ul>
-            </div>
-            <div>
-              <h2>Pendente</h2>
-              <ul>
-                {product.pendingFacts.map((fact) => (
-                  <li key={fact}>{fact}</li>
-                ))}
+                <li>
+                  {product.operation.mode === 'sob-encomenda'
+                    ? 'Produção sob encomenda.'
+                    : product.operation.label}
+                </li>
               </ul>
             </div>
           </div>
@@ -134,17 +143,12 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
           />
           <div className={styles.productNotes}>
             <section>
-              <h2>Guia de medidas</h2>
-              <p>
-                A grade disponível está no seletor. O guia de medidas revisado pela ART ainda está
-                pendente.
-              </p>
+              <h2>Entrega local</h2>
+              <p>Retirada gratuita ou entrega em Campo Grande/MS por R$ 10.</p>
             </section>
             <section>
-              <h2>Composição e cuidados</h2>
-              <p>
-                Informações detalhadas de composição e cuidados serão confirmadas antes da venda.
-              </p>
+              <h2>Outras localidades</h2>
+              <p>O frete nacional é cotado a partir do endereço informado no checkout.</p>
             </section>
           </div>
         </div>
