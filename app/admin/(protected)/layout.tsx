@@ -1,15 +1,14 @@
 import { redirect } from 'next/navigation';
 import { AdminShell } from '@/components/admin/AdminShell';
-import { AdminAuthorizationError, requireAdmin } from '@/lib/auth/admin';
+import { requireAdmin } from '@/lib/auth/admin';
 
 export const dynamic = 'force-dynamic';
 
 async function getAdminOrRedirect() {
   try {
     return await requireAdmin();
-  } catch (error) {
-    if (error instanceof AdminAuthorizationError) redirect('/admin/login');
-    throw error;
+  } catch {
+    redirect('/admin/login');
   }
 }
 
