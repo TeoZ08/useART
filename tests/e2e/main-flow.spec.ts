@@ -74,7 +74,7 @@ test('catalog, product, Kit and cart use the remote commerce flow', async ({ pag
   await expect(page.getByTestId('purchase-panel')).toBeVisible();
   if (fallbackVisible) {
     await expect(page.getByTestId('add-to-cart')).toBeDisabled();
-    await expect(page.getByText(/compra indisponível enquanto o catálogo remoto/i)).toBeVisible();
+    await expect(page.getByText('Compra temporariamente indisponível.')).toBeVisible();
     return;
   }
   await page.getByLabel('Selecionar cor Preto').click();
