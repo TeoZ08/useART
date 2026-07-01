@@ -28,7 +28,7 @@ test('home preserves the editorial experience and loads the interactive 3D hero'
   await expect(
     page.getByRole('heading', { name: 'Conforto em movimento', exact: true }),
   ).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Explorar coleção' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Ver coleção' })).toBeVisible();
   await expect(page.getByTestId('hero-shirt-3d')).toHaveAttribute('data-state', 'ready', {
     timeout: 20_000,
   });
