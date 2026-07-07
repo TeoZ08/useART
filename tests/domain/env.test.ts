@@ -41,4 +41,42 @@ describe('server environment gates', () => {
     resetEnvCacheForTests();
     expect(() => getServerEnv()).toThrow(/provider fake é proibido/i);
   });
+
+  it('preserves an absolute HTTPS webhook URL including its query string', () => {
+    const webhookUrl =
+      'https://preview.example.vercel.app/api/webhooks/mercadopago?x-vercel-protection-bypass=test-only-bypass';
+    process.env.MERCADO_PAGO_WEBHOOK_URL = webhookUrl;
+    resetEnvCacheForTests();
+
+    expect(getServerEnv().MERCADO_PAGO_WEBHOOK_URL).toBe(webhookUrl);
+  });
+
+  it('allows HTTP only for localhost webhook URLs', () => {
+    process.env.MERCADO_PAGO_WEBHOOK_URL = 'http://localhost:3000/api/webhooks/mercadopago';
+    resetEnvCacheForTests();
+    expect(getServerEnv().MERCADO_PAGO_WEBHOOK_URL).toBe(
+      'http://localhost:3000/api/webhooks/mercadopago',
+    );
+
+    process.env.MERCADO_PAGO_WEBHOOK_URL =
+      'http://preview.example/api/webhooks/mercadopago?token=test-only-secret';
+    resetEnvCacheForTests();
+    expect(() => getServerEnv()).toThrow(/deve usar HTTPS fora de localhost/i);
+  });
+
+  it('rejects relative or invalid webhook URLs without exposing their input in the error', () => {
+    process.env.MERCADO_PAGO_WEBHOOK_URL =
+      '/api/webhooks/mercadopago?x-vercel-protection-bypass=test-only-sensitive-value';
+    resetEnvCacheForTests();
+
+    let message = '';
+    try {
+      getServerEnv();
+    } catch (error) {
+      message = error instanceof Error ? error.message : String(error);
+    }
+
+    expect(message).toMatch(/URL absoluta válida/i);
+    expect(message).not.toContain('test-only-sensitive-value');
+  });
 });

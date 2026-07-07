@@ -1,5 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
+import { resetEnvCacheForTests } from '@/lib/env';
+import { getMercadoPagoNotificationUrl } from '@/services/payments/create-preference';
 import { FakePaymentProvider } from '@/services/payments/fake-provider';
+
+const originalEnv = { ...process.env };
+
+afterEach(() => {
+  process.env = { ...originalEnv };
+  resetEnvCacheForTests();
+});
 
 describe('payment provider contract', () => {
   it('keeps order identity, amount and idempotency at the server boundary', async () => {
@@ -21,6 +30,26 @@ describe('payment provider contract', () => {
         preferenceId: 'fake-payment-attempt-001',
         sandbox: true,
       }),
+    );
+  });
+
+  it('uses the configured webhook URL without losing protection query parameters', () => {
+    const webhookUrl =
+      'https://preview.example.vercel.app/api/webhooks/mercadopago?x-vercel-protection-bypass=test-only-bypass&source=preference';
+    process.env.MERCADO_PAGO_WEBHOOK_URL = webhookUrl;
+    resetEnvCacheForTests();
+
+    expect(getMercadoPagoNotificationUrl(new URL('https://preview.example.vercel.app'))).toBe(
+      webhookUrl,
+    );
+  });
+
+  it('falls back to the site webhook endpoint when no override is configured', () => {
+    delete process.env.MERCADO_PAGO_WEBHOOK_URL;
+    resetEnvCacheForTests();
+
+    expect(getMercadoPagoNotificationUrl(new URL('https://preview.example.vercel.app'))).toBe(
+      'https://preview.example.vercel.app/api/webhooks/mercadopago',
     );
   });
 });

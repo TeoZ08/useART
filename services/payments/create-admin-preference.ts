@@ -3,6 +3,7 @@ import 'server-only';
 import { randomUUID } from 'node:crypto';
 import { getServerEnv, getSiteUrl } from '@/lib/env';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getMercadoPagoNotificationUrl } from '@/services/payments/create-preference';
 import { createPaymentProvider } from '@/services/payments/provider-factory';
 
 export async function createAdminPaymentPreference(orderId: string) {
@@ -48,7 +49,7 @@ export async function createAdminPaymentPreference(orderId: string) {
       successUrl: new URL('/pagamento/sucesso', siteUrl).toString(),
       pendingUrl: new URL('/pagamento/pendente', siteUrl).toString(),
       failureUrl: new URL('/pagamento/falha', siteUrl).toString(),
-      notificationUrl: new URL('/api/webhooks/mercadopago', siteUrl).toString(),
+      notificationUrl: getMercadoPagoNotificationUrl(siteUrl),
     });
     const { error: updateError } = await db
       .from('payment_attempts')
@@ -61,14 +62,14 @@ export async function createAdminPaymentPreference(orderId: string) {
       .eq('idempotency_key', idempotencyKey);
     if (updateError) throw updateError;
     return preference;
-  } catch (cause) {
+  } catch {
     await db
       .from('payment_attempts')
       .update({
         status: 'failed',
-        raw_status: cause instanceof Error ? cause.message.slice(0, 500) : 'unknown',
+        raw_status: 'preference_creation_failed',
       })
       .eq('idempotency_key', idempotencyKey);
-    throw cause;
+    throw new Error('Não foi possível criar a preferência de pagamento.');
   }
 }

@@ -17,6 +17,7 @@ export async function processMercadoPagoWebhook(headers: WebhookHeaders, eventTy
     secret: env.MERCADO_PAGO_WEBHOOK_SECRET,
     toleranceSeconds: 300,
   });
+  if (!headers.requestId) throw new Error('Webhook sem x-request-id.');
   if (!headers.dataId) throw new Error('Webhook sem data.id.');
 
   const admin = createAdminClient();

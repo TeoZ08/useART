@@ -7,6 +7,35 @@ const optionalSecret = z.preprocess(
   (value) => (value === '' ? undefined : value),
   z.string().min(1).optional(),
 );
+const optionalWebhookUrl = z.preprocess(
+  (value) => (value === '' ? undefined : value),
+  z
+    .string()
+    .min(1)
+    .superRefine((value, context) => {
+      let url: URL;
+
+      try {
+        url = new URL(value);
+      } catch {
+        context.addIssue({
+          code: 'custom',
+          message: 'MERCADO_PAGO_WEBHOOK_URL deve ser uma URL absoluta válida.',
+        });
+        return;
+      }
+
+      const isLocalhost =
+        url.hostname === 'localhost' || url.hostname === '127.0.0.1' || url.hostname === '[::1]';
+      if (url.protocol !== 'https:' && !(isLocalhost && url.protocol === 'http:')) {
+        context.addIssue({
+          code: 'custom',
+          message: 'MERCADO_PAGO_WEBHOOK_URL deve usar HTTPS fora de localhost.',
+        });
+      }
+    })
+    .optional(),
+);
 const booleanFlag = z
   .enum(['true', 'false'])
   .default('false')
@@ -22,6 +51,7 @@ const serverEnvSchema = z
     SUPABASE_PROJECT_REF: optionalSecret,
     MERCADO_PAGO_ACCESS_TOKEN: optionalSecret,
     MERCADO_PAGO_WEBHOOK_SECRET: optionalSecret,
+    MERCADO_PAGO_WEBHOOK_URL: optionalWebhookUrl,
     MERCADO_PAGO_ENVIRONMENT: z.enum(['test', 'live']).default('test'),
     PAYMENT_PROVIDER: z.enum(['mercadopago', 'fake']).default('mercadopago'),
     STORE_MODE: z.enum(['local', 'staging', 'live']).default('local'),

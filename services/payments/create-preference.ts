@@ -5,6 +5,13 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { getPublicOrder } from '@/services/orders/public-order';
 import { createPaymentProvider } from '@/services/payments/provider-factory';
 
+export function getMercadoPagoNotificationUrl(siteUrl: URL): string {
+  return (
+    getServerEnv().MERCADO_PAGO_WEBHOOK_URL ??
+    new URL('/api/webhooks/mercadopago', siteUrl).toString()
+  );
+}
+
 export async function createPaymentPreference(publicToken: string, idempotencyKey: string) {
   const env = getServerEnv();
   if (!env.PAYMENTS_ENABLED) throw new Error('Pagamentos estão desabilitados.');
@@ -60,7 +67,7 @@ export async function createPaymentPreference(publicToken: string, idempotencyKe
       successUrl: new URL('/pagamento/sucesso', siteUrl).toString(),
       pendingUrl: new URL('/pagamento/pendente', siteUrl).toString(),
       failureUrl: new URL('/pagamento/falha', siteUrl).toString(),
-      notificationUrl: new URL('/api/webhooks/mercadopago', siteUrl).toString(),
+      notificationUrl: getMercadoPagoNotificationUrl(siteUrl),
     });
 
     const { error: updateError } = await admin
@@ -80,14 +87,14 @@ export async function createPaymentPreference(publicToken: string, idempotencyKe
       checkout_url: preference.checkoutUrl,
       sandbox: preference.sandbox,
     };
-  } catch (error) {
+  } catch {
     await admin
       .from('payment_attempts')
       .update({
         status: 'failed',
-        raw_status: error instanceof Error ? error.message.slice(0, 500) : 'unknown',
+        raw_status: 'preference_creation_failed',
       })
       .eq('idempotency_key', idempotencyKey);
-    throw error;
+    throw new Error('Não foi possível criar a preferência de pagamento.');
   }
 }
