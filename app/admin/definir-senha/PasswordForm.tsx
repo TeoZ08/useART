@@ -16,19 +16,27 @@ export function PasswordForm({ flow }: { flow: PasswordFlow }) {
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    const supabase = createClient();
     let active = true;
+    let unsubscribe: () => void = () => undefined;
 
-    void supabase.auth.getSession().then(({ data }) => {
-      if (active) setSessionState(data.session ? 'ready' : 'invalid');
-    });
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (active) setSessionState(session ? 'ready' : 'invalid');
-    });
+    async function connectSession() {
+      try {
+        const supabase = createClient();
+        const { data: subscriptionData } = supabase.auth.onAuthStateChange((_event, session) => {
+          if (active) setSessionState(session ? 'ready' : 'invalid');
+        });
+        unsubscribe = () => subscriptionData.subscription.unsubscribe();
+        const { data } = await supabase.auth.getSession();
+        if (active) setSessionState(data.session ? 'ready' : 'invalid');
+      } catch {
+        if (active) setSessionState('invalid');
+      }
+    }
+    void connectSession();
 
     return () => {
       active = false;
-      data.subscription.unsubscribe();
+      unsubscribe();
     };
   }, []);
 
@@ -42,9 +50,11 @@ export function PasswordForm({ flow }: { flow: PasswordFlow }) {
 
     setPending(true);
     setError('');
-    const supabase = createClient();
-    const { error: updateError } = await supabase.auth.updateUser({ password });
-    if (updateError) {
+    try {
+      const supabase = createClient();
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) throw updateError;
+    } catch {
       setError('Não foi possível definir a senha. Solicite um novo link e tente novamente.');
       setPending(false);
       return;
