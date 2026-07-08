@@ -102,6 +102,11 @@ test('checkout page, public tracking and admin protection are reachable', async 
     page.getByText('Acesso somente para usuários convidados. Não há cadastro público.'),
   ).toBeVisible();
   await expect(page.getByRole('link', { name: /criar conta|cadastro|signup/i })).toHaveCount(0);
+
+  await page.goto('/admin/definir-senha?flow=recovery');
+  await expect(page.getByRole('heading', { name: 'Link inválido' })).toBeVisible();
+  await expect(page.getByText(/link de acesso.*inválido|link.*expirou/i)).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Voltar ao login' })).toBeVisible();
 });
 
 test('published staging creates and tracks a server-priced local order', async ({ page }) => {

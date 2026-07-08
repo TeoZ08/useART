@@ -3,6 +3,8 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.url(),
+  NEXT_PUBLIC_SITE_URL: z.url().optional(),
+  VERCEL_URL: z.string().min(1).optional(),
   SUPABASE_SECRET_KEY: z.string().min(1),
   ADMIN_BOOTSTRAP_EMAIL: z.email(),
 });
@@ -17,7 +19,12 @@ async function main() {
   if (listError) throw listError;
   let user = users.users.find((candidate) => candidate.email?.toLowerCase() === email);
   if (!user) {
-    const { data, error } = await client.auth.admin.inviteUserByEmail(email);
+    const siteUrl = env.NEXT_PUBLIC_SITE_URL ?? (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : '');
+    if (!siteUrl) {
+      throw new Error('NEXT_PUBLIC_SITE_URL ou VERCEL_URL é obrigatória para enviar convite.');
+    }
+    const redirectTo = new URL('/admin/definir-senha?flow=invite', siteUrl).toString();
+    const { data, error } = await client.auth.admin.inviteUserByEmail(email, { redirectTo });
     if (error) throw error;
     user = data.user;
   }

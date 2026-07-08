@@ -159,8 +159,17 @@
   font-weight: 800;
   cursor: pointer;
 }
+.loginCard .secondaryAction {
+  border: 1px solid #171714;
+  background: transparent;
+  color: #171714;
+}
 .error {
   color: #9e241a;
+  font-size: 0.8rem;
+}
+.notice {
+  color: #365c3b;
   font-size: 0.8rem;
 }
 .tableWrap {

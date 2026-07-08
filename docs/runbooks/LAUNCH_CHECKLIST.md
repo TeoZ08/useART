@@ -5,6 +5,8 @@
 - [ ] sete produtos e Kit conferidos no catálogo remoto
 - [ ] retirada, Campo Grande e cotação nacional testados
 - [ ] owner aceitou convite, ativou MFA e revisou permissões
+- [ ] convite e recovery foram testados na origem atual e chegam a `/admin/definir-senha`
+- [ ] Redirect URLs do Supabase staging não apontam para deployments antigos
 - [ ] upload/ordenação/remoção segura de imagens testados
 - [ ] webhook test validado e tentativa duplicada rejeitada
 - [ ] backup e restauração testados

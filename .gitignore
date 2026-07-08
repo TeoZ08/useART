@@ -59,6 +59,7 @@ test-results/
 # Temporary files
 *.tmp
 *.temp
+.tmp-*
 
 # 3D source files and hero render intermediates
 *.blend

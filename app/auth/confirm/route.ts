@@ -1,6 +1,7 @@
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { getAuthConfirmationDestination } from '@/lib/auth/confirmation-destination';
 import { createClient } from '@/lib/supabase/server';
 
 const querySchema = z.object({
@@ -8,10 +9,6 @@ const querySchema = z.object({
   type: z.enum(['email', 'invite', 'magiclink', 'recovery', 'email_change']),
   next: z.string().max(200).default('/admin'),
 });
-
-function safeInternalPath(path: string) {
-  return path.startsWith('/') && !path.startsWith('//') ? path : '/admin';
-}
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -29,5 +26,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL('/admin/login?error=expired_link', requestUrl.origin));
   }
 
-  return NextResponse.redirect(new URL(safeInternalPath(parsed.data.next), requestUrl.origin));
+  return NextResponse.redirect(
+    new URL(getAuthConfirmationDestination(parsed.data.type, parsed.data.next), requestUrl.origin),
+  );
 }

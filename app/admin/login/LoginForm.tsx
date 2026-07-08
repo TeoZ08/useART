@@ -4,11 +4,12 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import styles from '../admin.module.css';
 
-export function LoginForm() {
+export function LoginForm({ initialError = '' }: { initialError?: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [pending, setPending] = useState(false);
+  const [notice, setNotice] = useState('');
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -27,6 +28,28 @@ export function LoginForm() {
         ? '/admin/mfa'
         : '/admin',
     );
+  }
+
+  async function sendRecovery() {
+    setError('');
+    setNotice('');
+    if (!email.trim() || !email.includes('@')) {
+      setError('Informe o e-mail administrativo para receber o link.');
+      return;
+    }
+
+    setPending(true);
+    const supabase = createClient();
+    const redirectTo = new URL('/admin/definir-senha?flow=recovery', window.location.origin);
+    const { error: recoveryError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: redirectTo.toString(),
+    });
+    setPending(false);
+    if (recoveryError) {
+      setError('Não foi possível enviar o link agora. Tente novamente mais tarde.');
+      return;
+    }
+    setNotice('Se o e-mail estiver autorizado, um link de recovery será enviado.');
   }
 
   return (
@@ -54,13 +77,26 @@ export function LoginForm() {
           required
         />
       </label>
-      {error ? (
+      {error || initialError ? (
         <p className={styles.error} role="alert">
-          {error}
+          {error || initialError}
+        </p>
+      ) : null}
+      {notice ? (
+        <p className={styles.notice} role="status">
+          {notice}
         </p>
       ) : null}
       <button type="submit" disabled={pending}>
         {pending ? 'Entrando…' : 'Entrar'}
+      </button>
+      <button
+        className={styles.secondaryAction}
+        type="button"
+        onClick={sendRecovery}
+        disabled={pending}
+      >
+        Esqueci minha senha
       </button>
     </form>
   );
