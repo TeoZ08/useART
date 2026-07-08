@@ -37,6 +37,24 @@ export async function createPaymentPreference(publicToken: string, idempotencyKe
     throw new Error('Pagamentos indisponíveis na loja.');
   }
 
+  const { data: reusable, error: reusableError } = await admin
+    .from('payment_attempts')
+    .select('preference_id, checkout_url, sandbox, amount_cents')
+    .eq('order_id', order.id)
+    .eq('status', 'preference_created')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (reusableError) throw new Error('Não foi possível verificar tentativas de pagamento.');
+  if (
+    reusable?.preference_id &&
+    reusable.checkout_url &&
+    reusable.amount_cents === order.total_cents &&
+    reusable.sandbox === (env.MERCADO_PAGO_ENVIRONMENT === 'test')
+  ) {
+    return reusable;
+  }
+
   const { data: existing } = await admin
     .from('payment_attempts')
     .select('preference_id, checkout_url, sandbox')
