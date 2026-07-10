@@ -103,6 +103,10 @@ test('checkout page, public tracking and admin protection are reachable', async 
   ).toBeVisible();
   await expect(page.getByRole('link', { name: /criar conta|cadastro|signup/i })).toHaveCount(0);
 
+  await page.goto('/conta');
+  await expect(page.getByRole('heading', { name: /Seus pedidos, quando quiser/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Receber link de acesso/i })).toBeVisible();
+
   await page.goto('/admin/definir-senha?flow=recovery');
   await expect(page.getByRole('heading', { name: 'Link inválido' })).toBeVisible();
   await expect(page.getByText(/link de acesso.*inválido|link.*expirou/i)).toBeVisible();

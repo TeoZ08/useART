@@ -48,6 +48,14 @@ describe('payment preference webhook URL', () => {
       expires_at: null,
       status: 'awaiting_payment',
     });
+    const payableOrder = {
+      id: '018f3bb8-e73d-7b10-a0d9-4c06ac4ef001',
+      order_code: 'ART-TEST-001',
+      total_cents: 5_500,
+      expires_at: null,
+      status: 'awaiting_payment',
+      customer_email_normalized: 'customer@example.com',
+    };
 
     const failedAttemptUpdates: unknown[] = [];
     let selectCall = 0;
@@ -83,6 +91,13 @@ describe('payment preference webhook URL', () => {
     };
     const admin = {
       from: vi.fn((table: string) => {
+        if (table === 'orders') {
+          return {
+            select: vi.fn(() => ({
+              eq: vi.fn(() => ({ maybeSingle: vi.fn().mockResolvedValue({ data: payableOrder }) })),
+            })),
+          };
+        }
         if (table === 'store_settings') {
           return {
             select: vi.fn(() => ({
@@ -145,6 +160,7 @@ describe('payment preference webhook URL', () => {
       status: 'awaiting_payment',
     };
     doubles.getPublicOrder.mockResolvedValue(order);
+    const payableOrder = { ...order, customer_email_normalized: 'customer@example.com' };
     const reusable = {
       preference_id: 'test-preference',
       checkout_url: 'https://sandbox.mercadopago.com.br/checkout/test',
@@ -167,18 +183,26 @@ describe('payment preference webhook URL', () => {
     };
     doubles.createAdminClient.mockReturnValue({
       from: vi.fn((table: string) =>
-        table === 'store_settings'
+        table === 'orders'
           ? {
               select: vi.fn(() => ({
                 eq: vi.fn(() => ({
-                  single: vi.fn().mockResolvedValue({
-                    data: { payments_enabled: true, store_mode: 'open' },
-                    error: null,
-                  }),
+                  maybeSingle: vi.fn().mockResolvedValue({ data: payableOrder }),
                 })),
               })),
             }
-          : paymentAttempts,
+          : table === 'store_settings'
+            ? {
+                select: vi.fn(() => ({
+                  eq: vi.fn(() => ({
+                    single: vi.fn().mockResolvedValue({
+                      data: { payments_enabled: true, store_mode: 'open' },
+                      error: null,
+                    }),
+                  })),
+                })),
+              }
+            : paymentAttempts,
       ),
     });
     const createPreference = vi.fn();

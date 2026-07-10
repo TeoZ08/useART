@@ -24,6 +24,7 @@ import { STORE_CONFIG } from '@/lib/config';
 import { formatMoney } from '@/lib/money';
 import { hasNoErrors } from '@/lib/validation';
 import type { CartItem, CartItemSelection } from '@/types/commerce';
+import { PayOrderButton } from '@/components/orders/PayOrderButton';
 import styles from './CheckoutClient.module.css';
 
 type CreatedOrder = {
@@ -35,6 +36,7 @@ type CreatedOrder = {
   totalCents: number | null;
   orderUrl: string;
   paymentUrl: string | null;
+  publicToken: string;
 };
 
 const IDEMPOTENCY_STORAGE_KEY = 'art.checkout.idempotency.v1';
@@ -194,6 +196,7 @@ export function CheckoutClient() {
       const body = (await response.json()) as CreatedOrder & { error?: string };
       if (!response.ok || !body.orderCode) throw new Error(body.error ?? 'Pedido não criado.');
       setCreatedOrder(body);
+      sessionStorage.setItem('art.last-order-url', body.orderUrl);
       localCartRepository.clear();
       sessionStorage.removeItem(IDEMPOTENCY_STORAGE_KEY);
     } catch (error) {
@@ -241,6 +244,13 @@ export function CheckoutClient() {
           <Link className="buttonPrimary" href={createdOrder.orderUrl}>
             Acompanhar pedido
           </Link>
+          {createdOrder.paymentUrl ? (
+            <PayOrderButton publicToken={createdOrder.publicToken} />
+          ) : null}
+          <p className={styles.paymentHint}>
+            Pague com segurança no Mercado Pago. Depois, acompanhe o status por este link ou na sua
+            conta ART usando o e-mail informado no checkout.
+          </p>
           <a
             className="buttonSecondary"
             href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`}
@@ -260,6 +270,10 @@ export function CheckoutClient() {
         <p className="sectionEyebrow">Checkout ART</p>
         <h1 className="sectionTitle">Criar pedido</h1>
         <p className="sectionLead">Informe seus dados e escolha a forma de entrega.</p>
+        <p className={styles.checkoutNotice}>
+          Você não precisa criar conta para comprar. O pagamento é processado pelo Mercado Pago;
+          cartão e Pix aparecem no checkout conforme disponibilidade da sua conta.
+        </p>
       </div>
 
       {!items.length ? (
@@ -300,6 +314,9 @@ export function CheckoutClient() {
                   onChange={(event) => updateCustomer('email', event.target.value)}
                   autoComplete="email"
                 />
+                <small className={styles.emailHint}>
+                  Informe para acessar este pedido depois pela sua conta ART, se quiser.
+                </small>
               </label>
             </section>
 

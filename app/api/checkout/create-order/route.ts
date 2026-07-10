@@ -32,8 +32,9 @@ export async function POST(request: Request) {
         discountCents: order.discountCents,
         shippingCents: order.shippingCents,
         totalCents: order.totalCents,
+        publicToken: order.publicToken,
         orderUrl: `/pedido/${order.publicToken}`,
-        paymentUrl: order.totalCents === null ? null : `/pagar/${order.publicToken}`,
+        paymentUrl: order.totalCents === null ? null : `/pedido/${order.publicToken}`,
       },
       { status: 201 },
     );

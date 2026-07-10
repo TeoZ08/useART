@@ -9,6 +9,21 @@
   margin-bottom: var(--space-12);
 }
 
+.checkoutNotice,
+.paymentHint {
+  margin: var(--space-4) 0 0;
+  color: var(--color-ink-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.emailHint {
+  color: var(--color-ink-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(340px, 0.54fr);

@@ -1,7 +1,12 @@
-import Link from 'next/link';
+import { PaymentReturnActions } from '@/components/orders/PaymentReturnActions';
 import styles from '@/components/orders/OrderStatus.module.css';
 
-export default function PaymentFailurePage() {
+export default async function PaymentFailurePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ payment_id?: string }>;
+}) {
+  const { payment_id: paymentId } = await searchParams;
   return (
     <section className={styles.shell}>
       <p className={styles.eyebrow}>Pagamento não concluído</p>
@@ -10,11 +15,7 @@ export default function PaymentFailurePage() {
         Nenhuma cobrança foi confirmada. Volte ao link do pedido para iniciar uma nova tentativa ou
         fale com a ART.
       </p>
-      <div className={styles.actions}>
-        <Link className={styles.link} href="/">
-          Voltar à loja
-        </Link>
-      </div>
+      <PaymentReturnActions retry paymentId={paymentId} />
     </section>
   );
 }

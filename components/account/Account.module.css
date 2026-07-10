@@ -1,0 +1,175 @@
+.shell {
+  width: min(100% - 2rem, 940px);
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 7rem) 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--color-accent, #8f3d20);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title,
+.authCard h1 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  font-weight: 600;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 1rem 0 0;
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+}
+
+.authCard {
+  width: min(100%, 540px);
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+  border-top: 2px solid var(--color-ink);
+  padding-top: 1.5rem;
+}
+
+.authCard p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.authCard label {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.authCard input {
+  min-height: 3rem;
+  border: 1px solid var(--color-line);
+  background: #fff;
+  padding: 0.75rem;
+  font: inherit;
+}
+
+.primaryButton,
+.secondaryButton,
+.authCard button {
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-ink);
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primaryButton,
+.authCard button {
+  color: #fff;
+  background: var(--color-ink);
+}
+
+.secondaryButton {
+  color: var(--color-ink);
+  background: transparent;
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.authCard button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.notice,
+.error {
+  font-size: 0.875rem;
+}
+
+.notice {
+  color: #365c3b;
+}
+.error {
+  color: #9e241a;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.orders {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.order {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid var(--color-line);
+  background: #fff;
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.orderTop,
+.orderMeta,
+.orderActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.orderCode {
+  font-weight: 800;
+}
+.status {
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.orderMeta {
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}
+.orderItems {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 520px) {
+  .shell {
+    width: min(100% - 1.25rem, 940px);
+  }
+  .primaryButton,
+  .secondaryButton,
+  .authCard button {
+    width: 100%;
+  }
+  .orderActions {
+    display: grid;
+  }
+}

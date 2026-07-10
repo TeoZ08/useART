@@ -85,6 +85,7 @@ export function SiteHeader() {
           <Link href="/#colecao">Coleção</Link>
           <Link href="/#movimento">Movimento</Link>
           <Link href="/contato">Contato</Link>
+          <Link href="/conta">Conta</Link>
         </nav>
         <div className={styles.actions}>
           <button
@@ -134,6 +135,9 @@ export function SiteHeader() {
             </Link>
             <Link href="/contato" onClick={closeMenu}>
               Contato
+            </Link>
+            <Link href="/conta" onClick={closeMenu}>
+              Conta
             </Link>
             <Link href="/carrinho" onClick={closeMenu}>
               Carrinho ({cartCount})

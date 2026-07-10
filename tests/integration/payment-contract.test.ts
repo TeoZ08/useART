@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { resetEnvCacheForTests } from '@/lib/env';
 import { getMercadoPagoNotificationUrl } from '@/services/payments/create-preference';
 import { FakePaymentProvider } from '@/services/payments/fake-provider';
+import { mercadoPagoPaymentMethods } from '@/services/payments/mercadopago-provider';
 
 const originalEnv = { ...process.env };
 
@@ -51,5 +52,10 @@ describe('payment provider contract', () => {
     expect(getMercadoPagoNotificationUrl(new URL('https://preview.example.vercel.app'))).toBe(
       'https://preview.example.vercel.app/api/webhooks/mercadopago',
     );
+  });
+
+  it('does not exclude Pix or cards from Checkout Pro', () => {
+    expect(mercadoPagoPaymentMethods.excluded_payment_types).not.toContain('pix');
+    expect(mercadoPagoPaymentMethods.excluded_payment_types).not.toContain('credit_card');
   });
 });

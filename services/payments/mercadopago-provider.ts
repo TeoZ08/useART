@@ -8,6 +8,10 @@ import type {
   ProviderPayment,
 } from '@/domain/payments/provider';
 
+// Checkout Pro decides availability by seller account and payer. Keeping this explicit prevents
+// the integration from accidentally excluding Pix while preserving cards and account balance.
+export const mercadoPagoPaymentMethods = { excluded_payment_types: [] };
+
 export class MercadoPagoProvider implements PaymentProvider {
   private readonly payment: Payment;
   private readonly preference: Preference;
@@ -42,6 +46,7 @@ export class MercadoPagoProvider implements PaymentProvider {
           failure: input.failureUrl,
         },
         auto_return: 'approved',
+        payment_methods: mercadoPagoPaymentMethods,
         expires: Boolean(input.expiresAt),
         expiration_date_to: input.expiresAt,
         statement_descriptor: 'ART',
