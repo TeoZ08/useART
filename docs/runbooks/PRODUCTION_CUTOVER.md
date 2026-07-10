@@ -20,7 +20,7 @@ Somente após autorização humana explícita. Use merge normal, sem force push 
 
 ### C. Aguardar deploy da `main`
 
-Confirme SHA, status `Ready`, checks e ausência de erro de build. Não promova um artefato diferente do auditado.
+Confirme SHA, status `Ready`, checks e ausência de erro de build. Não promova um artefato diferente do auditado. Inclua smoke de conta opcional, pedido sem login e retorno de pagamento.
 
 ### D. Executar smoke público
 
@@ -32,7 +32,7 @@ Cadastre somente credenciais live server-only em Production e `MERCADO_PAGO_ENVI
 
 ### F. Configurar webhook live
 
-Use `https://useart.vercel.app/api/webhooks/mercadopago`, sem `x-vercel-protection-bypass`. Configure Pagamentos no painel Mercado Pago e confirme assinatura, `x-request-id`, `data.id` e consulta do pagamento na API.
+Use `https://useart.vercel.app/api/webhooks/mercadopago`, sem `x-vercel-protection-bypass`. Configure Pagamentos no painel Mercado Pago e confirme assinatura, `x-request-id`, `data.id` e consulta do pagamento na API. A reconciliação de retorno é apenas fallback; o webhook precisa continuar registrando eventos.
 
 ### G. Ativar gate da aplicação
 

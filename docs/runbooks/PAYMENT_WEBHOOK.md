@@ -15,3 +15,8 @@ A URL não substitui a autenticação do evento. O webhook continua exigindo:
 - processamento idempotente por evento e tentativa.
 
 Em incidente, consulte `payment_webhook_events`, `payment_attempts` e `audit_logs`; não altere um pedido para pago manualmente sem evidência do provider. Reprocesse apenas depois de preservar o evento e confirmar assinatura, external reference e total.
+
+O retorno de Checkout Pro pode chamar `/api/pagamentos/reconciliar` com o `payment_id` retornado pelo
+Mercado Pago. Esse endpoint é limitado por origem e rate limit, consulta o provider no servidor e
+aplica exatamente as mesmas validações de referência externa e valor. Use-o como fallback observável,
+não como justificativa para desativar ou ignorar o webhook.

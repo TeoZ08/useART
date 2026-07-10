@@ -1,6 +1,6 @@
 # Auditoria final — Commerce Production V1
 
-Data: 8 de julho de 2026
+Data: 10 de julho de 2026
 
 ## Estado auditado
 
@@ -9,7 +9,7 @@ Data: 8 de julho de 2026
 - frontend público e hero 3D preservados;
 - Supabase staging ativo;
 - owner com acesso administrativo e TOTP confirmado pelo responsável;
-- Mercado Pago de teste configurado somente no Preview;
+- Mercado Pago de teste configurado somente no Preview e pagamentos de staging habilitados pelo owner;
 - Production não alterada;
 - Render mantido apenas como legado/rollback.
 
@@ -26,32 +26,34 @@ Data: 8 de julho de 2026
 
 ## Sandbox Mercado Pago
 
-Status: **parcialmente aprovado — bloqueado por login da conta Comprador de teste**.
+Status: **APRO executado manualmente; persistência do webhook ainda não comprovada no staging consultado**.
 
 | Verificação                                 | Estado                                                                |
 | ------------------------------------------- | --------------------------------------------------------------------- |
 | preferência usa `sandbox_init_point`        | aprovado: resposta `sandbox=true` e host `sandbox.mercadopago.com.br` |
-| pagamento aprovado                          | bloqueado antes do checkout pela ausência do login Comprador de teste |
-| pagamento rejeitado/cancelado               | bloqueado pelo mesmo gate externo                                     |
-| assinatura e campos obrigatórios do webhook | contrato automatizado aprovado; entrega real não ocorreu              |
-| valor e `external_reference` conferidos     | valor aprovado; referência E2E depende do pagamento                   |
+| pagamento aprovado                          | executado manualmente pelo responsável                                |
+| pagamento rejeitado/cancelado               | pendente de execução final                                            |
+| assinatura e campos obrigatórios do webhook | contrato automatizado aprovado; staging não registrou evento real     |
+| valor e `external_reference` conferidos     | preferência valida valor; confirmação do provider pendente            |
 | idempotência                                | mesma chave publicada e nova chave automatizada aprovadas             |
 | acompanhamento público                      | aprovado para o pedido sandbox criado                                 |
 | painel administrativo                       | owner/MFA confirmado; pedido sandbox não conferido no painel          |
 | logs sem segredo                            | aprovado nos eventos auditados                                        |
 
-O pedido `ART-202607-000005`, com retirada e total de R$ 45,00, gerou uma única tentativa e preferência de teste. Duas chamadas com a mesma chave retornaram a mesma URL. A correção adicional também reutiliza a preferência ativa quando o navegador retorna com outra chave; uma tentativa rejeitada ou cancelada continua liberando nova preferência.
+O banco de staging consultado em 10 de julho contém duas preferências sandbox, ambas ainda em
+`preference_created`, sem `provider_payment_id`; `payment_webhook_events` está vazio. Portanto, o
+APRO manual não deve ser considerado encerrado até identificar a preferência usada e confirmar a
+entrega do webhook ou a reconciliação por retorno. Duas chamadas com a mesma chave retornam a mesma
+preferência. A correção adicional também reutiliza a preferência ativa quando o navegador retorna
+com outra chave; uma tentativa rejeitada ou cancelada continua liberando nova preferência.
 
-Ao abrir o Checkout Pro, o sandbox respondeu “Hubo un error accediendo a esta pagina”. O fluxo oficial exige que o navegador esteja autenticado previamente com a conta Comprador de teste da aplicação. Não foi usada conta pessoal, credencial live ou cartão real.
+Nesta rodada, a loja ganhou conta opcional por magic link, pedidos filtrados no servidor pelo e-mail
+confirmado e rota privada de detalhes. Checkout continua sem cadastro obrigatório. Pix e cartão não
+são excluídos da preferência; a disponibilidade final precisa ser confirmada no painel Mercado Pago.
 
-### Intervenção humana necessária
-
-1. Em Mercado Pago Developers, abra **Suas integrações > aplicação useART > Contas de teste > Comprador**.
-2. Em uma janela anônima, faça login com o usuário e a senha dessa conta. Se solicitado, use o código de verificação de 6 dígitos mostrado na mesma tela.
-3. Abra o Preview protegido, crie um pedido de retirada e clique em **Pagar com Mercado Pago**.
-4. Use cartão de teste oficial e titular `APRO` para o cenário aprovado; nunca use cartão real.
-5. Crie outro pedido e use titular `OTHE` para o cenário rejeitado.
-6. Em ambos, confirme pedido, tentativa, webhook, acompanhamento e painel antes de mudar qualquer gate live.
+O bloqueio histórico de login da conta Comprador de teste foi resolvido pelo responsável, que executou
+o APRO manualmente. A próxima intervenção humana é identificar a preferência/pagamento desse teste
+no painel Mercado Pago e disparar uma rejeição controlada somente depois de este Preview publicar.
 
 Referência: [compras de teste do Checkout Pro](https://www.mercadopago.com.br/developers/pt/docs/checkout-pro/integration-test/test-purchases).
 
@@ -66,4 +68,6 @@ Referência: [compras de teste do Checkout Pro](https://www.mercadopago.com.br/d
 
 ## Decisão provisória
 
-**NÃO MERGEAR AINDA**. Concluir aprovado + rejeitado com a conta Comprador de teste, confirmar webhook e visualizar os pedidos no admin. Depois, configurar a base segura de Production mantendo pagamentos desativados e solicitar nova decisão humana.
+**NÃO MERGEAR AINDA**. Publicar este Preview, identificar a preferência do APRO manual, confirmar
+webhook/reconciliação e executar uma rejeição controlada. Depois, configurar a base segura de
+Production mantendo pagamentos desativados e solicitar nova decisão humana.
