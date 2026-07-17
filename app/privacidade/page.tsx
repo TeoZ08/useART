@@ -3,24 +3,27 @@ import { LegalPage } from '@/components/layout/LegalPage';
 
 export const metadata: Metadata = {
   title: 'Privacidade',
-  description: 'Página inicial de privacidade da ART.',
+  description: 'Como a ART trata dados pessoais no catálogo e nos pedidos.',
 };
 
 export default function PrivacyPage() {
   return (
-    <LegalPage eyebrow="Política inicial" title="Privacidade">
+    <LegalPage eyebrow="Política em revisão" title="Privacidade">
       <section>
         <h2>Dados coletados</h2>
         <p>
-          Na Fase 1, o checkout coleta apenas dados necessários para preparar atendimento pelo
-          WhatsApp: nome, contato e, quando houver entrega, endereço.
+          O checkout coleta nome, WhatsApp, e-mail opcional e, quando houver entrega, endereço. O
+          pedido também registra itens, valores, consentimento e histórico operacional para
+          atendimento, entrega e prevenção de fraude.
         </p>
       </section>
       <section>
-        <h2>Pendência</h2>
+        <h2>Compartilhamento e direitos</h2>
         <p>
-          A política definitiva precisa definir retenção, base legal, operador/controlador,
-          compartilhamentos e canal de solicitação do titular.
+          Supabase e Vercel processam os dados necessários para operar a loja. O Mercado Pago será
+          usado somente quando pagamentos forem habilitados. Solicitações de acesso, correção ou
+          eliminação podem ser feitas pelos canais da ART, observadas as obrigações legais de
+          retenção. Esta política ainda requer revisão jurídica antes do lançamento live.
         </p>
       </section>
     </LegalPage>

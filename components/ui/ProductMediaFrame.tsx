@@ -15,13 +15,6 @@ export function ProductMediaFrame({
   priority = false,
   compact = false,
 }: ProductMediaFrameProps) {
-  const statusLabel =
-    media.status === 'pending'
-      ? 'Imagem pendente'
-      : media.status === 'partial'
-        ? 'Imagem parcial'
-        : null;
-
   return (
     <div
       className={`${compact ? styles.compactFrame : styles.frame} ${
@@ -46,11 +39,6 @@ export function ProductMediaFrame({
           <b>ART</b>
           <span>{productName}</span>
         </div>
-      )}
-      {statusLabel && (
-        <span className={styles.badge} title={media.pendingReason}>
-          {statusLabel}
-        </span>
       )}
     </div>
   );

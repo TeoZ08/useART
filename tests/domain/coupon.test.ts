@@ -9,7 +9,7 @@ describe('coupon domain', () => {
 
     expect(result.status).toBe('applied');
     expect(result.discountCents).toBe(1149);
-    expect(result.message).toContain('servidor');
+    expect(result.message).toBe('Cupom aplicado: 10% de desconto.');
   });
 
   it('does not invent silent restrictions for invalid coupons', () => {

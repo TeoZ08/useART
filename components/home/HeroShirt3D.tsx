@@ -49,7 +49,7 @@ export function HeroShirt3D() {
 
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const connection = (navigator as Navigator & { connection?: NetworkInformation }).connection;
-    if (connection?.saveData) return;
+    if (connection?.saveData || reducedMotionQuery.matches) return;
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -272,7 +272,7 @@ export function HeroShirt3D() {
   }, []);
 
   return (
-    <div ref={containerRef} className={styles.media} data-state={state}>
+    <div ref={containerRef} className={styles.media} data-state={state} data-testid="hero-shirt-3d">
       <Image
         className={styles.poster}
         src={POSTER_SRC}
@@ -280,8 +280,14 @@ export function HeroShirt3D() {
         fill
         priority
         sizes="(max-width: 880px) 100vw, 68vw"
+        data-testid="hero-shirt-3d-poster"
       />
-      <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
+      <canvas
+        ref={canvasRef}
+        className={styles.canvas}
+        aria-hidden="true"
+        data-testid="hero-shirt-3d-canvas"
+      />
       <div className={styles.controls}>
         <button
           ref={viewButtonRef}

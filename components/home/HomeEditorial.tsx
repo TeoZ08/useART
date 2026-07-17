@@ -1,8 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
 import { formatMoney } from '@/lib/money';
-import { STORE_CONFIG } from '@/lib/config';
 import type { CatalogProduct, ProductColorId, ProductMedia } from '@/types/commerce';
 import styles from './HomeEditorial.module.css';
 
@@ -37,7 +35,7 @@ export function HomeEditorial({ products }: HomeEditorialProps) {
     <>
       <aside className={styles.infoBar} aria-label="Informações da operação">
         <p>PRIMEIRACOMPRA - 10%</p>
-        <p>Produção predominantemente sob encomenda</p>
+        <p>Sob encomenda</p>
         <p>Campo Grande/MS - entrega por R$ 10</p>
       </aside>
 
@@ -48,8 +46,7 @@ export function HomeEditorial({ products }: HomeEditorialProps) {
             Peças para acompanhar o ritmo
           </h2>
           <p className="sectionLead">
-            Uma seleção inicial da linha Híbrida e Solid. Cor, tamanho e disponibilidade são
-            confirmados com a ART antes da produção.
+            Três peças autorais, prontas para diferentes ritmos e combinações.
           </p>
         </div>
         <div className={styles.featuredGrid}>
@@ -84,36 +81,26 @@ export function HomeEditorial({ products }: HomeEditorialProps) {
         </div>
       </section>
 
-      <section className={styles.functionSection} aria-labelledby="function-title">
-        <div className={styles.functionProduct} aria-hidden="true">
-          <Image
-            src="/assets/products/cutouts/hybrid-logo-lateral-marrom.png"
-            width={2048}
-            height={2048}
-            alt=""
-          />
-        </div>
+      <section id="movimento" className={styles.functionSection} aria-labelledby="function-title">
         <div className={styles.functionContent}>
-          <p className="sectionEyebrow">Produto e função</p>
+          <p className="sectionEyebrow">Material e função</p>
           <h2 id="function-title" className="sectionTitle">
             Feita para o movimento real.
           </h2>
+        </div>
+        <div className={styles.functionFacts}>
           <dl className={styles.functionList}>
             <div>
-              <dt>Híbrida</dt>
-              <dd>Proteção UV 30 confirmada para a linha.</dd>
+              <dt>UV 30</dt>
+              <dd>Proteção confirmada para a linha Híbrida.</dd>
             </div>
             <div>
-              <dt>Conforto</dt>
-              <dd>Peças urbanas para acompanhar rotinas em movimento.</dd>
+              <dt>Sob encomenda</dt>
+              <dd>Produção alinhada à escolha de cada peça.</dd>
             </div>
             <div>
-              <dt>Produção</dt>
-              <dd>Operação predominantemente sob encomenda.</dd>
-            </div>
-            <div>
-              <dt>Moletom ART</dt>
-              <dd>Tecido três cabos confirmado. Peso ainda pendente.</dd>
+              <dt>Moletom três cabos</dt>
+              <dd>Estrutura confirmada para o moletom ART.</dd>
             </div>
           </dl>
         </div>
@@ -128,12 +115,9 @@ export function HomeEditorial({ products }: HomeEditorialProps) {
         <div className={styles.kitContent}>
           <p className="sectionEyebrow">Kit Seleção</p>
           <h2 id="kit-title" className="sectionTitle">
-            Três peças, três escolhas.
+            Três peças. Três escolhas.
           </h2>
-          <p>
-            Configure aplicação, cor e tamanho de cada camiseta de forma independente. A composição
-            final do Kit ainda está em produção e não será simulada com uma foto que não existe.
-          </p>
+          <p>Escolha aplicação, cor e tamanho em cada uma das três camisetas.</p>
           <div className={styles.kitMeta}>
             <span>3 camisetas configuráveis</span>
             <span>{formatMoney(kit.priceCents)}</span>
@@ -147,40 +131,7 @@ export function HomeEditorial({ products }: HomeEditorialProps) {
       <section className={styles.manifesto} aria-labelledby="manifesto-title">
         <p className="sectionEyebrow">ART / Campo Grande, MS</p>
         <h2 id="manifesto-title">ART é roupa para acompanhar o movimento.</h2>
-        <p>
-          Peças urbanas, funcionais e produzidas majoritariamente sob encomenda em Campo Grande.
-        </p>
-      </section>
-
-      <section className={styles.delivery} aria-labelledby="delivery-title">
-        <div>
-          <p className="sectionEyebrow">Compra assistida</p>
-          <h2 id="delivery-title" className="sectionTitle">
-            Compra direta, confirmação humana.
-          </h2>
-        </div>
-        <div className={styles.deliveryList}>
-          <p>
-            <strong>Pedido</strong>
-            Escolha suas peças e prepare a mensagem pelo WhatsApp.
-          </p>
-          <p>
-            <strong>Retirada</strong>
-            Retirada ART sem taxa, combinada no atendimento.
-          </p>
-          <p>
-            <strong>Entrega</strong>
-            Campo Grande/MS por R$ 10. Outras localidades com frete a confirmar.
-          </p>
-        </div>
-        <a
-          className="textLink"
-          href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Falar com a ART
-        </a>
+        <p>Criada em Campo Grande para vestir o ritmo de todos os dias.</p>
       </section>
     </>
   );

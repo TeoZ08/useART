@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ProductDetailClient } from '@/components/product/ProductDetailClient';
-import { getProductBySlug, getProductSlugs } from '@/domain/products/products';
+import { CatalogFallbackNotice } from '@/components/catalog/CatalogFallbackNotice';
+import { getProductSlugs } from '@/domain/products/products';
+import { getCatalogSnapshot, getProductSnapshot } from '@/services/catalog/catalog-service';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -13,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const { product } = await getProductSnapshot(slug);
 
   if (!product) {
     return {};
@@ -27,21 +29,23 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const [result, catalog] = await Promise.all([getProductSnapshot(slug), getCatalogSnapshot()]);
+  const product = result.product;
 
   if (!product) {
     notFound();
   }
 
   return (
-    <ProductDetailClient
-      key={product.slug}
-      product={product}
-      relatedProducts={getProductSlugs()
-        .filter((candidateSlug) => candidateSlug !== product.slug)
-        .slice(0, 3)
-        .map((candidateSlug) => getProductBySlug(candidateSlug))
-        .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate))}
-    />
+    <>
+      <CatalogFallbackNotice message={result.warning ?? catalog.warning} />
+      <ProductDetailClient
+        key={product.slug}
+        product={product}
+        relatedProducts={catalog.products
+          .filter((candidate) => candidate.slug !== product.slug)
+          .slice(0, 3)}
+      />
+    </>
   );
 }

@@ -14,16 +14,14 @@ export function Hero() {
         <HeroShirt3D />
       </div>
       <div className={styles.content}>
-        <p className={styles.eyebrow}>{STORE_CONFIG.brandName} / Streetwear funcional</p>
+        <p className={styles.eyebrow}>{STORE_CONFIG.brandName} / Campo Grande</p>
         <h1 id="hero-title">
           Conforto <span>em movimento</span>
         </h1>
-        <p className={styles.lead}>
-          Peças urbanas para acompanhar o seu ritmo, produzidas predominantemente sob encomenda.
-        </p>
+        <p className={styles.lead}>Peças autorais para o movimento de todos os dias.</p>
         <div className={styles.actions}>
           <Link href="#colecao" className="buttonPrimary">
-            Explorar coleção
+            Ver coleção
           </Link>
           <a
             href={`https://wa.me/${STORE_CONFIG.whatsappNumber}`}

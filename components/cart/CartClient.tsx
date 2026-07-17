@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useSyncExternalStore } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import { calculateCartTotals, removeCartItem, updateCartItemQuantity } from '@/domain/cart/cart';
 import {
   CART_CHANGED_EVENT,
@@ -65,6 +65,7 @@ export function CartClient() {
   );
   const couponCode = useSyncExternalStore(subscribeToCoupon, readStoredCoupon, () => '');
   const items = useMemo(() => parseCartSnapshot(cartSnapshot), [cartSnapshot]);
+  const [couponDraft, setCouponDraft] = useState(couponCode);
 
   const coupon = useMemo(
     () => applyCoupon(calculateSubtotalClient(items), couponCode),
@@ -76,8 +77,8 @@ export function CartClient() {
     localCartRepository.write(nextItems);
   }
 
-  function updateCoupon(nextCoupon: string) {
-    writeStoredCoupon(nextCoupon);
+  function applyCouponCode() {
+    writeStoredCoupon(couponDraft);
   }
 
   return (
@@ -86,8 +87,7 @@ export function CartClient() {
         <p className="sectionEyebrow">Carrinho</p>
         <h1 className="sectionTitle">Revise seu pedido</h1>
         <p className="sectionLead">
-          O carrinho fica salvo apenas neste navegador e é usado para preparar a mensagem de
-          atendimento.
+          Confira as peças e quantidades antes de escolher a forma de entrega.
         </p>
       </div>
 
@@ -161,11 +161,14 @@ export function CartClient() {
             <label className="formField">
               <span>Cupom</span>
               <input
-                value={couponCode}
-                onChange={(event) => updateCoupon(event.target.value)}
+                value={couponDraft}
+                onChange={(event) => setCouponDraft(event.target.value)}
                 placeholder="PRIMEIRACOMPRA"
               />
             </label>
+            <button className="buttonSecondary" type="button" onClick={applyCouponCode}>
+              Aplicar cupom
+            </button>
             <p
               className={coupon.status === 'invalid' ? styles.couponInvalid : styles.couponMessage}
             >
@@ -185,7 +188,7 @@ export function CartClient() {
                 <b>Escolhido no checkout</b>
               </div>
               <div className={styles.total}>
-                <span>Total parcial</span>
+                <span>Estimativa no carrinho</span>
                 <b>{formatMoney(totals.subtotalCents - totals.discountCents)}</b>
               </div>
             </div>
