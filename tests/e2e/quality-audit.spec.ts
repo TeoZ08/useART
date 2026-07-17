@@ -26,7 +26,9 @@ for (const product of productsWithColorMedia) {
         'aria-pressed',
         'true',
       );
-      await expect(page.getByText('Cor selecionada:').getByRole('strong')).toHaveText(color.name);
+      await expect(page.getByTestId('selected-product-color').getByRole('strong')).toHaveText(
+        color.name,
+      );
       await expectImageSource(
         page.getByRole('button', { name: `Ampliar ${media.alt}` }).locator('img'),
         media.src!,
@@ -55,7 +57,9 @@ test('thumbnail selection keeps color, main media, and cart image synchronized',
     'aria-pressed',
     'true',
   );
-  await expect(page.getByText('Cor selecionada:').getByRole('strong')).toHaveText(brown.name);
+  await expect(page.getByTestId('selected-product-color').getByRole('strong')).toHaveText(
+    brown.name,
+  );
   await expectImageSource(
     page.getByRole('button', { name: `Ampliar ${brown.media!.alt}` }).locator('img'),
     brown.media!.src!,
@@ -71,7 +75,7 @@ test('product colors without media do not reuse another variant image', async ({
   await page.goto('/produto/camiseta-solid-masculina-logo-central/');
 
   await page.getByLabel('Selecionar cor Marrom').click();
-  await expect(page.getByText('Cor selecionada:').getByRole('strong')).toHaveText('Marrom');
+  await expect(page.getByTestId('selected-product-color').getByRole('strong')).toHaveText('Marrom');
   await expect(
     page.getByRole('button', {
       name: 'Ampliar Apresentação de Camiseta Solid Masculina - logo central na cor Marrom',

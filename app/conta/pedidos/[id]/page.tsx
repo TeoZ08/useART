@@ -53,7 +53,9 @@ export default async function AccountOrderPage({ params }: { params: Promise<{ i
         {order.order_items.map((item, index) => (
           <div className={styles.detailItem} key={`${item.product_name_snapshot}-${index}`}>
             <div>
-              <strong>{item.quantity}x {item.product_name_snapshot}</strong>
+              <strong>
+                {item.quantity}x {item.product_name_snapshot}
+              </strong>
               <ul>
                 {describeSelection(item.selection as CartItemSelection).map((selection) => (
                   <li key={selection}>{selection}</li>
@@ -64,10 +66,24 @@ export default async function AccountOrderPage({ params }: { params: Promise<{ i
           </div>
         ))}
         <div className={styles.detailTotals}>
-          <span>Subtotal <strong>{formatMoney(order.subtotal_cents)}</strong></span>
-          <span>Desconto <strong>− {formatMoney(order.discount_cents)}</strong></span>
-          <span>Frete <strong>{order.shipping_cents === null ? 'A cotar' : formatMoney(order.shipping_cents)}</strong></span>
-          <span>Total <strong>{order.total_cents === null ? 'Após cotação' : formatMoney(order.total_cents)}</strong></span>
+          <span>
+            Subtotal <strong>{formatMoney(order.subtotal_cents)}</strong>
+          </span>
+          <span>
+            Desconto <strong>− {formatMoney(order.discount_cents)}</strong>
+          </span>
+          <span>
+            Frete{' '}
+            <strong>
+              {order.shipping_cents === null ? 'A cotar' : formatMoney(order.shipping_cents)}
+            </strong>
+          </span>
+          <span>
+            Total{' '}
+            <strong>
+              {order.total_cents === null ? 'Após cotação' : formatMoney(order.total_cents)}
+            </strong>
+          </span>
         </div>
       </section>
     </section>

@@ -90,7 +90,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             <span>Ampliar imagem</span>
           </button>
           {selectedColor && (
-            <p className={styles.selectedVariant}>
+            <p className={styles.selectedVariant} data-testid="selected-product-color">
               Cor selecionada: <strong>{selectedColor.name}</strong>
             </p>
           )}
