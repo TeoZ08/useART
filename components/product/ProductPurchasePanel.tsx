@@ -222,7 +222,10 @@ export function ProductPurchasePanel({
       ) : (
         <>
           <div className={styles.optionBlock}>
-            <p>Cor</p>
+            <p>
+              Cor selecionada:{' '}
+              <strong>{colorOptions.find((color) => color.id === activeColorId)?.name}</strong>
+            </p>
             <div className={styles.swatches}>
               {colorOptions.map((color) => (
                 <button

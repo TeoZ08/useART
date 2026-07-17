@@ -5,6 +5,11 @@ import { getServerEnv } from '@/lib/env';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { formatMoney } from '@/lib/money';
 import {
+  orderStatusLabel,
+  paymentStatusLabel,
+  shippingMethodLabel,
+} from '@/lib/orders/presentation';
+import {
   cancelOrder,
   generatePaymentLink,
   quoteNationalShipping,
@@ -56,7 +61,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         <p className={styles.eyebrow}>Pedido</p>
         <h1>{order.order_code}</h1>
         <p>
-          <span className={styles.status}>{order.status}</span> • pagamento {order.payment_status}
+          <span className={styles.status}>{orderStatusLabel(order.status)}</span> • pagamento{' '}
+          {paymentStatusLabel(order.payment_status)}
         </p>
       </header>
       <div className={styles.toolbar}>
@@ -68,6 +74,11 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         >
           Abrir WhatsApp
         </a>
+        {canCancel ? (
+          <a className={styles.buttonSecondary} href="#cancelar-pedido">
+            Cancelar pedido
+          </a>
+        ) : null}
       </div>
       <section className={styles.panel}>
         <h2>Cliente e entrega</h2>
@@ -86,7 +97,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           </div>
           <div>
             <dt>Entrega</dt>
-            <dd>{order.shipping_method}</dd>
+            <dd>{shippingMethodLabel(order.shipping_method)}</dd>
           </div>
           <div>
             <dt>Endereço</dt>
@@ -158,7 +169,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
       </section>
 
       {order.status === 'quote_requested' ? (
-        <section className={styles.panel}>
+        <section className={styles.panel} id="cancelar-pedido">
           <h2>Cotar frete nacional</h2>
           <form action={quoteNationalShipping} className={styles.formGrid}>
             <input type="hidden" name="orderId" value={order.id} />
@@ -275,7 +286,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     </td>
                     <td>{payment.preference_id ?? '—'}</td>
                     <td>{payment.provider_payment_id ?? '—'}</td>
-                    <td>{payment.status}</td>
+                    <td>{paymentStatusLabel(payment.status)}</td>
                     <td>{formatMoney(payment.amount_cents)}</td>
                     <td>
                       {payment.checkout_url ? (
@@ -300,7 +311,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         <ol className={styles.timeline}>
           {historyResult.data?.map((entry) => (
             <li key={entry.id}>
-              <strong>{entry.to_status}</strong>
+              <strong>{orderStatusLabel(entry.to_status)}</strong>
               <span>
                 {new Intl.DateTimeFormat('pt-BR', {
                   dateStyle: 'short',

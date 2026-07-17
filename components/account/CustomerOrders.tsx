@@ -53,6 +53,11 @@ export function CustomerOrders({ orders }: { orders: CustomerOrder[] }) {
               </Link>
               {canPay ? <AccountPayOrderButton orderId={order.id} /> : null}
             </div>
+            {canPay ? (
+              <p className={styles.paymentHint}>
+                Retome o pagamento deste pedido sem criar uma nova solicitação.
+              </p>
+            ) : null}
           </article>
         );
       })}

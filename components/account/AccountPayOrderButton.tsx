@@ -29,7 +29,7 @@ export function AccountPayOrderButton({ orderId }: { orderId: string }) {
   return (
     <div>
       <button className={styles.primaryButton} type="button" disabled={pending} onClick={pay}>
-        {pending ? 'Abrindo pagamento…' : 'Pagar com Mercado Pago'}
+        {pending ? 'Abrindo pagamento…' : 'Continuar pagamento'}
       </button>
       {error ? <p className={styles.error}>{error}</p> : null}
     </div>

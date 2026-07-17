@@ -2,6 +2,11 @@ import Link from 'next/link';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { formatMoney } from '@/lib/money';
+import {
+  orderStatusLabel,
+  paymentStatusLabel,
+  shippingMethodLabel,
+} from '@/lib/orders/presentation';
 import styles from '../../admin.module.css';
 
 const filtersSchema = z.object({
@@ -75,7 +80,9 @@ export default async function OrdersPage({
               'cancelled',
               'refunded',
             ].map((value) => (
-              <option key={value}>{value}</option>
+              <option key={value} value={value}>
+                {orderStatusLabel(value)}
+              </option>
             ))}
           </select>
         </label>
@@ -92,7 +99,9 @@ export default async function OrdersPage({
               'refunded',
               'charged_back',
             ].map((value) => (
-              <option key={value}>{value}</option>
+              <option key={value} value={value}>
+                {paymentStatusLabel(value)}
+              </option>
             ))}
           </select>
         </label>
@@ -127,13 +136,16 @@ export default async function OrdersPage({
               <th>Total</th>
               <th>Pagamento</th>
               <th>Status</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             {(data ?? []).map((order) => (
               <tr key={order.id}>
                 <td>
-                  <Link href={`/admin/pedidos/${order.id}`}>{order.order_code}</Link>
+                  <Link className={styles.orderLink} href={`/admin/pedidos/${order.id}`}>
+                    {order.order_code}
+                  </Link>
                   <br />
                   <small>
                     {new Intl.DateTimeFormat('pt-BR', {
@@ -147,11 +159,16 @@ export default async function OrdersPage({
                   <br />
                   <small>{order.customer_phone_normalized}</small>
                 </td>
-                <td>{order.shipping_method}</td>
+                <td>{shippingMethodLabel(order.shipping_method)}</td>
                 <td>{order.total_cents === null ? 'A cotar' : formatMoney(order.total_cents)}</td>
-                <td>{order.payment_status}</td>
+                <td>{paymentStatusLabel(order.payment_status)}</td>
                 <td>
-                  <span className={styles.status}>{order.status}</span>
+                  <span className={styles.status}>{orderStatusLabel(order.status)}</span>
+                </td>
+                <td>
+                  <Link className={styles.tableAction} href={`/admin/pedidos/${order.id}`}>
+                    Abrir pedido
+                  </Link>
                 </td>
               </tr>
             ))}

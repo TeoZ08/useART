@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import {
   CART_CHANGED_EVENT,
@@ -23,6 +24,7 @@ import {
 import { STORE_CONFIG } from '@/lib/config';
 import { formatMoney } from '@/lib/money';
 import { hasNoErrors } from '@/lib/validation';
+import { applyCoupon } from '@/domain/coupon/coupon';
 import type { CartItem, CartItemSelection } from '@/types/commerce';
 import { PayOrderButton } from '@/components/orders/PayOrderButton';
 import styles from './CheckoutClient.module.css';
@@ -111,6 +113,7 @@ function idempotencyKeyFor(fingerprint: string): string {
 }
 
 export function CheckoutClient() {
+  const router = useRouter();
   const cartSnapshot = useSyncExternalStore(subscribeToCart, getCartSnapshot, () => '[]');
   const couponCode = useSyncExternalStore(subscribeToCoupon, readStoredCoupon, () => '');
   const items = useMemo(() => parseCartSnapshot(cartSnapshot), [cartSnapshot]);
@@ -128,6 +131,11 @@ export function CheckoutClient() {
     (sum, item) => sum + item.unitPriceCents * item.quantity,
     0,
   );
+  const estimatedCoupon = applyCoupon(estimatedSubtotal, couponCode);
+  const estimatedTotal =
+    shipping.priceCents === null
+      ? null
+      : Math.max(0, estimatedSubtotal - estimatedCoupon.discountCents + shipping.priceCents);
   const shippingOptions = shippingQuoteProvider.list();
 
   function updateCustomer(field: keyof CustomerData, value: string) {
@@ -199,6 +207,7 @@ export function CheckoutClient() {
       sessionStorage.setItem('art.last-order-url', body.orderUrl);
       localCartRepository.clear();
       sessionStorage.removeItem(IDEMPOTENCY_STORAGE_KEY);
+      router.replace(body.orderUrl);
     } catch (error) {
       setServerError(error instanceof Error ? error.message : 'Não foi possível criar o pedido.');
     } finally {
@@ -289,20 +298,24 @@ export function CheckoutClient() {
             <section className={styles.panel}>
               <h2>Contato</h2>
               <label className="formField">
-                <span>Nome</span>
+                <span>Nome obrigatório</span>
                 <input
                   value={customer.name}
                   onChange={(event) => updateCustomer('name', event.target.value)}
                   autoComplete="name"
+                  required
+                  aria-required="true"
                 />
                 {errors.name && <small className="fieldError">{errors.name}</small>}
               </label>
               <label className="formField">
-                <span>WhatsApp</span>
+                <span>WhatsApp obrigatório</span>
                 <input
                   value={customer.phone}
                   onChange={(event) => updateCustomer('phone', event.target.value)}
                   autoComplete="tel"
+                  required
+                  aria-required="true"
                 />
                 {errors.phone && <small className="fieldError">{errors.phone}</small>}
               </label>
@@ -341,53 +354,59 @@ export function CheckoutClient() {
               {shipping.requiresAddress ? (
                 <div className={styles.addressGrid}>
                   <label className="formField">
-                    <span>CEP</span>
+                    <span>CEP obrigatório</span>
                     <input
                       value={address.cep ?? ''}
                       onChange={(event) => updateAddress('cep', event.target.value)}
                       autoComplete="postal-code"
+                      required
                     />
                     {errors.cep && <small className="fieldError">{errors.cep}</small>}
                   </label>
                   <label className="formField">
-                    <span>Estado</span>
+                    <span>Estado obrigatório</span>
                     <input
                       value={address.state ?? ''}
                       maxLength={2}
                       onChange={(event) => updateAddress('state', event.target.value.toUpperCase())}
+                      required
                     />
                     {errors.state && <small className="fieldError">{errors.state}</small>}
                   </label>
                   <label className="formField">
-                    <span>Rua</span>
+                    <span>Rua obrigatória</span>
                     <input
                       value={address.street ?? ''}
                       onChange={(event) => updateAddress('street', event.target.value)}
                       autoComplete="address-line1"
+                      required
                     />
                     {errors.street && <small className="fieldError">{errors.street}</small>}
                   </label>
                   <label className="formField">
-                    <span>Número</span>
+                    <span>Número obrigatório</span>
                     <input
                       value={address.number ?? ''}
                       onChange={(event) => updateAddress('number', event.target.value)}
+                      required
                     />
                     {errors.number && <small className="fieldError">{errors.number}</small>}
                   </label>
                   <label className="formField">
-                    <span>Bairro</span>
+                    <span>Bairro obrigatório</span>
                     <input
                       value={address.district ?? ''}
                       onChange={(event) => updateAddress('district', event.target.value)}
+                      required
                     />
                     {errors.district && <small className="fieldError">{errors.district}</small>}
                   </label>
                   <label className="formField">
-                    <span>Cidade</span>
+                    <span>Cidade obrigatória</span>
                     <input
                       value={address.city ?? ''}
                       onChange={(event) => updateAddress('city', event.target.value)}
+                      required
                     />
                     {errors.city && <small className="fieldError">{errors.city}</small>}
                   </label>
@@ -464,8 +483,8 @@ export function CheckoutClient() {
                 <b>{shipping.priceCents === null ? 'A cotar' : formatMoney(shipping.priceCents)}</b>
               </div>
               <div className={styles.total}>
-                <span>Total final</span>
-                <b>Exibido após confirmar</b>
+                <span>Total estimado</span>
+                <b>{estimatedTotal === null ? 'Após cotação' : formatMoney(estimatedTotal)}</b>
               </div>
             </div>
             <button
@@ -482,8 +501,8 @@ export function CheckoutClient() {
               </p>
             )}
             <p className="noticeBox">
-              Pagamentos online permanecem desativados. O pedido pode ser acompanhado e tratado com
-              a ART.
+              Após criar o pedido, você será direcionado ao Mercado Pago para pagar com Pix ou
+              cartão, quando o pagamento estiver disponível.
             </p>
           </aside>
         </div>

@@ -4,7 +4,7 @@ import { normalizeEmail } from '@/lib/security/contact';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 const customerOrderColumns =
-  'id, order_code, status, payment_status, shipping_method, subtotal_cents, discount_cents, shipping_cents, total_cents, expires_at, created_at, paid_at, order_items(product_name_snapshot, sku_snapshot, unit_price_cents, quantity, selection, image_snapshot)' as const;
+  'id, order_code, status, payment_status, shipping_method, address, subtotal_cents, discount_cents, shipping_cents, total_cents, expires_at, created_at, paid_at, order_items(product_name_snapshot, sku_snapshot, unit_price_cents, quantity, selection, image_snapshot)' as const;
 
 export type CustomerOrder = {
   id: string;
@@ -12,6 +12,7 @@ export type CustomerOrder = {
   status: string;
   payment_status: string;
   shipping_method: string;
+  address: unknown | null;
   subtotal_cents: number;
   discount_cents: number;
   shipping_cents: number | null;

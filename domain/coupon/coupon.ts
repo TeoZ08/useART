@@ -46,7 +46,6 @@ export function applyCoupon(subtotalCents: number, code: string): CouponResult {
     status: 'applied',
     normalizedCode,
     discountCents,
-    message:
-      'Cupom PRIMEIRACOMPRA aplicado. A validação definitiva de uso deve ocorrer no servidor.',
+    message: 'Cupom aplicado: 10% de desconto.',
   };
 }

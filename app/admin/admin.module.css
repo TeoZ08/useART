@@ -199,6 +199,22 @@
   color: inherit;
   font-weight: 700;
 }
+
+.orderLink,
+.tableAction {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.orderLink:hover,
+.tableAction:hover {
+  text-decoration-thickness: 2px;
+}
+
+.tableAction {
+  white-space: nowrap;
+}
 .toolbar {
   display: flex;
   flex-wrap: wrap;

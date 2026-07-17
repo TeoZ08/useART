@@ -124,6 +124,7 @@ test('published staging creates and tracks a server-priced local order', async (
   await page.getByTestId('add-to-cart').click();
   await page.goto('/carrinho');
   await page.getByPlaceholder('PRIMEIRACOMPRA').fill('PRIMEIRACOMPRA');
+  await page.getByRole('button', { name: 'Aplicar cupom' }).click();
   await page.getByTestId('go-to-checkout').click();
 
   await page.getByLabel('Nome').fill('Smoke Preview');
