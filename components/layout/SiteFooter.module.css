@@ -4,6 +4,25 @@
   overflow: hidden;
 }
 
+.compact .inner {
+  grid-template-columns: minmax(180px, 0.75fr) 1fr minmax(220px, 0.8fr);
+  align-items: start;
+  padding-top: var(--space-8);
+}
+
+.compact .brand strong {
+  font-size: clamp(52px, 6vw, 88px);
+}
+
+.compact .logo {
+  width: 64px;
+  height: 64px;
+}
+
+.compact .copy {
+  margin-top: var(--space-4);
+}
+
 .wave {
   width: 100%;
   height: clamp(150px, 22.5vw, 360px);
@@ -138,5 +157,19 @@
     width: 760px;
     max-width: none;
     transform: translateX(calc((100vw - 760px) / 2));
+  }
+
+  .compact .inner {
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+  }
+
+  .compact .brand strong {
+    font-size: 60px;
+  }
+
+  .compact .logo {
+    width: 60px;
+    height: 60px;
   }
 }

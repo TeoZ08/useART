@@ -82,7 +82,7 @@ export function SiteHeader() {
           <span>{STORE_CONFIG.brandName}</span>
         </Link>
         <nav className={styles.nav} aria-label="Navegação principal">
-          <Link href="/#colecao">Coleção</Link>
+          <Link href="/#produtos">Coleção</Link>
           <Link href="/#movimento">Movimento</Link>
           <Link href="/contato">Contato</Link>
           <Link href="/conta">Conta</Link>
@@ -127,7 +127,7 @@ export function SiteHeader() {
             </button>
           </div>
           <nav className={styles.mobileNav} aria-label="Navegação mobile">
-            <Link href="/#colecao" onClick={closeMenu}>
+            <Link href="/#produtos" onClick={closeMenu}>
               Coleção
             </Link>
             <Link href="/#movimento" onClick={closeMenu}>

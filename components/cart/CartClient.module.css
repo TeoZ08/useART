@@ -9,6 +9,39 @@
   margin-bottom: var(--space-12);
 }
 
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.recommendations {
+  margin-top: var(--space-8);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-4);
+}
+
+.recommendations > p {
+  margin: 0 0 var(--space-3);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.recommendations div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.recommendations a {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+  font-size: 13px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.46fr);

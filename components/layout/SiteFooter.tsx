@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { STORE_CONFIG } from '@/lib/config';
 import styles from './SiteFooter.module.css';
 
-export function SiteFooter() {
+export function SiteFooter({ variant = 'editorial' }: { variant?: 'editorial' | 'compact' }) {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.wave} aria-hidden="true">
-        <Image src="/assets/brand/art-footer-motion-wave.svg" width={1600} height={360} alt="" />
-      </div>
+    <footer className={`${styles.footer} ${variant === 'compact' ? styles.compact : ''}`}>
+      {variant === 'editorial' ? (
+        <div className={styles.wave} aria-hidden="true">
+          <Image src="/assets/brand/art-footer-motion-wave.svg" width={1600} height={360} alt="" />
+        </div>
+      ) : null}
       <div className={styles.inner}>
         <div className={styles.brand}>
           <Image
@@ -21,7 +23,7 @@ export function SiteFooter() {
           <strong>{STORE_CONFIG.brandName}</strong>
         </div>
         <nav className={styles.menu} aria-label="Links de rodapé">
-          <Link href="/#colecao">Coleção</Link>
+          <Link href="/#produtos">Coleção</Link>
           <Link href="/entrega">Entrega</Link>
           <Link href="/trocas">Trocas</Link>
           <Link href="/privacidade">Privacidade</Link>

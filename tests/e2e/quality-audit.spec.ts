@@ -35,12 +35,15 @@ for (const product of productsWithColorMedia) {
       );
     }
 
-    const brown = product.colors.find((color) => color.id === 'marrom')!;
-    await page.getByLabel(`Selecionar cor ${brown.name}`).click();
+    const cartColor = product.colors.at(-1)!;
+    await page.getByLabel(`Selecionar cor ${cartColor.name}`).click();
     if (await page.getByTestId('add-to-cart').isDisabled()) return;
     await page.getByTestId('add-to-cart').click();
     await page.goto('/carrinho/');
-    await expect(page.getByAltText(brown.media!.alt)).toHaveAttribute('src', brown.media!.src!);
+    await expect(page.getByAltText(cartColor.media!.alt)).toHaveAttribute(
+      'src',
+      cartColor.media!.src!,
+    );
   });
 }
 

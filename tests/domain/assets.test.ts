@@ -62,12 +62,21 @@ describe('product assets', () => {
     }
   });
 
-  it('keeps placeholders for products without confirmed images', () => {
-    const pendingSlugs = [
-      'moletom-art',
-      'kit-selecao-3-camisetas',
-      'camiseta-solid-masculina-logo-central',
-    ];
+  it('uses official hoodie media and an approved composition for the Kit Seleção', () => {
+    const hoodie = getProductBySlug('moletom-art');
+    const kit = getProductBySlug('kit-selecao-3-camisetas');
+
+    expect(mediaSources(hoodie!)).toEqual([
+      '/assets/products/moletom/branco.webp',
+      '/assets/products/moletom/preto.webp',
+      '/assets/products/moletom/creme.webp',
+    ]);
+    expect(hoodie!.colors.map((color) => color.id)).toEqual(['branco-off-white', 'preto', 'creme']);
+    expect(mediaSources(kit!)).toEqual(['/assets/products/kit/selecao-3-camisetas.webp']);
+  });
+
+  it('keeps only products without supplied media in the neutral media state', () => {
+    const pendingSlugs = ['camiseta-solid-masculina-logo-central'];
 
     for (const slug of pendingSlugs) {
       const product = getProductBySlug(slug);

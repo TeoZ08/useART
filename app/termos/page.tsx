@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
 import { LegalPage } from '@/components/layout/LegalPage';
 
-export const metadata: Metadata = {
-  title: 'Termos',
-  description: 'Condições de uso e criação de pedidos na ART.',
-};
+export const metadata: Metadata = { title: 'Termos', description: 'Condições de uso da ART.' };
 
 export default function TermsPage() {
   return (
-    <LegalPage eyebrow="Termos em revisão" title="Termos de uso">
+    <LegalPage eyebrow="Condições de uso" title="Termos de uso">
       <section>
         <h2>Pedidos</h2>
         <p>
@@ -21,8 +18,7 @@ export default function TermsPage() {
         <h2>Disponibilidade</h2>
         <p>
           Estoque, prazo e disponibilidade são confirmados durante a operação do pedido. Erros
-          materiais podem ser corrigidos antes do pagamento, com comunicação ao cliente. Estes
-          termos ainda requerem revisão comercial e jurídica antes do lançamento live.
+          materiais podem ser corrigidos antes do pagamento, com comunicação ao cliente.
         </p>
       </section>
     </LegalPage>

@@ -240,6 +240,10 @@
 }
 
 @media (max-width: 640px) {
+  .page {
+    padding-bottom: 128px;
+  }
+
   .content h1 {
     font-size: clamp(40px, 12vw, 56px);
     line-height: 0.88;

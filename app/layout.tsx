@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Barlow_Condensed, Manrope } from 'next/font/google';
 import './globals.css';
-import { SiteFooter } from '@/components/layout/SiteFooter';
+import { SiteFooterRouter } from '@/components/layout/SiteFooterRouter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { STORE_CONFIG } from '@/lib/config';
 
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${display.variable} ${interfaceFont.variable}`}>
         <SiteHeader />
         <main>{children}</main>
-        <SiteFooter />
+        <SiteFooterRouter />
       </body>
     </html>
   );

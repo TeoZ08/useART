@@ -3,24 +3,17 @@ import { LegalPage } from '@/components/layout/LegalPage';
 
 export const metadata: Metadata = {
   title: 'Trocas',
-  description: 'Página inicial de trocas e devoluções da ART.',
+  description: 'Atendimento para trocas da ART.',
 };
 
 export default function ExchangesPage() {
   return (
-    <LegalPage eyebrow="Política inicial" title="Trocas">
+    <LegalPage eyebrow="Atendimento" title="Trocas">
       <section>
-        <h2>Atendimento</h2>
+        <h2>Como solicitar</h2>
         <p>
-          Situações de troca ou ajuste devem ser tratadas pelo WhatsApp enquanto a política formal
-          não estiver aprovada.
-        </p>
-      </section>
-      <section>
-        <h2>Pendência</h2>
-        <p>
-          A política definitiva precisa confirmar prazos, condições de produto, custos de envio,
-          exceções e fluxo de solicitação.
+          Para solicitar uma troca ou tirar dúvidas sobre um pedido, fale com a ART pelo canal de
+          atendimento informado na página de contato.
         </p>
       </section>
     </LegalPage>
