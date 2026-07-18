@@ -1,27 +1,21 @@
 import type { Metadata } from 'next';
 import { LegalPage } from '@/components/layout/LegalPage';
 
-export const metadata: Metadata = {
-  title: 'Entrega',
-  description: 'Condições iniciais de entrega da ART.',
-};
+export const metadata: Metadata = { title: 'Entrega', description: 'Opções de entrega da ART.' };
 
 export default function DeliveryPage() {
   return (
-    <LegalPage eyebrow="Entrega inicial" title="Entrega">
+    <LegalPage eyebrow="Operação" title="Entrega">
       <section>
-        <h2>Opções da Fase 1</h2>
+        <h2>Opções disponíveis</h2>
         <p>
-          A loja oferece retirada ART sem taxa, entrega em Campo Grande/MS por taxa fixa de R$ 10 e
-          frete a confirmar para outras localidades.
+          Retirada ART sem taxa e entrega em Campo Grande/MS por R$ 10 estão disponíveis no
+          checkout.
         </p>
       </section>
       <section>
-        <h2>Pendência</h2>
-        <p>
-          Prazos, transportadoras, cobertura, rastreio e regras detalhadas precisam ser definidos
-          antes de integração real de frete.
-        </p>
+        <h2>Outras localidades</h2>
+        <p>Para outras localidades, informe o endereço no checkout para consultar as opções.</p>
       </section>
     </LegalPage>
   );

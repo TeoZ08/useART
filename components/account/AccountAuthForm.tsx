@@ -39,9 +39,10 @@ export function AccountAuthForm({ initialError = '' }: { initialError?: string }
     <form className={styles.authCard} onSubmit={submit}>
       <p className={styles.eyebrow}>Conta ART</p>
       <h1>Seus pedidos, quando quiser.</h1>
+      <p>A conta é opcional. Use o mesmo e-mail informado no checkout para ver seus pedidos.</p>
       <p>
-        A conta é opcional. Use o mesmo e-mail informado no checkout para ver pedidos e pagamentos
-        pendentes.
+        O acesso é feito por link seguro enviado para o seu e-mail — não há senha tradicional. Se
+        ele não chegar, confira a caixa de spam e solicite outro link.
       </p>
       <label>
         <span>E-mail</span>

@@ -94,9 +94,23 @@ export function CartClient() {
       {items.length === 0 ? (
         <div className="emptyState">
           <p>Seu carrinho está vazio.</p>
-          <Link className="buttonPrimary" href="/#produtos">
-            Ver produtos
-          </Link>
+          <div className={styles.emptyActions}>
+            <Link className="buttonPrimary" href="/#produtos">
+              Ver a coleção
+            </Link>
+            <Link className="buttonSecondary" href="/contato">
+              Falar com a ART
+            </Link>
+          </div>
+          <div className={styles.recommendations} aria-label="Peças para conhecer">
+            <p>Conheça também</p>
+            <div>
+              <Link href="/produto/camiseta-hibrida-logo-lateral">Híbrida — logo lateral</Link>
+              <Link href="/produto/camiseta-hibrida-logo-central">Híbrida — logo central</Link>
+              <Link href="/produto/moletom-art">Moletom ART</Link>
+              <Link href="/produto/kit-selecao-3-camisetas">Kit Seleção</Link>
+            </div>
+          </div>
         </div>
       ) : (
         <div className={styles.grid}>
