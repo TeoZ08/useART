@@ -74,7 +74,9 @@ test('catalog, product, Kit and cart use the remote commerce flow', async ({ pag
   await expect(page.getByTestId('purchase-panel')).toBeVisible();
   if (fallbackVisible) {
     await expect(page.getByTestId('add-to-cart')).toBeDisabled();
-    await expect(page.getByText('Compra temporariamente indisponível.')).toBeVisible();
+    await expect(
+      page.getByText('Escolha cor e tamanho para conferir a disponibilidade.'),
+    ).toBeVisible();
     return;
   }
   await page.getByLabel('Selecionar cor Preto').click();
@@ -86,6 +88,30 @@ test('catalog, product, Kit and cart use the remote commerce flow', async ({ pag
   for (const pieceName of ['Peça 1', 'Peça 2', 'Peça 3']) {
     await expect(page.getByRole('group', { name: pieceName })).toBeVisible();
   }
+});
+
+test('catalog swatches update the selected card media without navigating', async ({ page }) => {
+  await page.goto('/catalogo');
+  const hoodieCard = page.getByRole('article').filter({ hasText: 'Moletom ART' });
+  const whiteSwatch = hoodieCard.getByRole('button', { name: /Moletom ART na cor Branco/i });
+
+  await expect(whiteSwatch).toHaveAttribute('aria-pressed', 'false');
+  await whiteSwatch.click();
+  await expect(whiteSwatch).toHaveAttribute('aria-pressed', 'true');
+  await expect(page).toHaveURL(/\/catalogo$/);
+});
+
+test('uses the editorial footer only on the home route and Portuguese 404 elsewhere', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('footer img[src*="art-footer-motion-wave"]')).toBeVisible();
+
+  await page.goto('/contato');
+  await expect(page.locator('footer img[src*="art-footer-motion-wave"]')).toHaveCount(0);
+
+  await page.goto('/rota-inexistente');
+  await expect(page.getByRole('heading', { name: 'Página não encontrada' })).toBeVisible();
 });
 
 test('checkout page, public tracking and admin protection are reachable', async ({ page }) => {

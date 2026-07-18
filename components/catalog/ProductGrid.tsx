@@ -3,8 +3,9 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
+import { mediaForProductColor } from '@/domain/products/media';
 import { formatMoney } from '@/lib/money';
-import type { CatalogProduct } from '@/types/commerce';
+import type { CatalogProduct, ProductColorId } from '@/types/commerce';
 import styles from './ProductGrid.module.css';
 
 interface ProductGridProps {
@@ -12,6 +13,14 @@ interface ProductGridProps {
 }
 
 const filters = ['Todos', 'Camiseta', 'Moletom', 'Kit'] as const;
+
+function defaultColorId(product: CatalogProduct) {
+  return (
+    product.colors.find((color) => color.id === 'preto')?.id ??
+    product.colors.find((color) => color.media?.cutoutStatus === 'available')?.id ??
+    product.colors[0]?.id
+  );
+}
 
 function mediaForCatalog(product: CatalogProduct) {
   return (
@@ -24,6 +33,9 @@ export function ProductGrid({ products }: ProductGridProps) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<(typeof filters)[number]>('Todos');
   const [sort, setSort] = useState('featured');
+  const [selectedColorByProduct, setSelectedColorByProduct] = useState<
+    Record<string, ProductColorId | undefined>
+  >({});
 
   const visibleProducts = useMemo(() => {
     return products
@@ -81,46 +93,71 @@ export function ProductGrid({ products }: ProductGridProps) {
 
       {visibleProducts.length ? (
         <div className={styles.grid}>
-          {visibleProducts.map((product) => (
-            <article className={styles.card} key={product.slug}>
-              <Link href={`/produto/${product.slug}`} aria-label={`Ver ${product.name}`}>
-                <ProductMediaFrame
-                  media={mediaForCatalog(product)}
-                  productName={product.name}
-                  compact
+          {visibleProducts.map((product) => {
+            const selectedColorId = selectedColorByProduct[product.slug] ?? defaultColorId(product);
+            const selectedMedia = selectedColorId
+              ? mediaForProductColor(product, selectedColorId)
+              : mediaForCatalog(product);
+
+            return (
+              <article className={styles.card} key={product.slug}>
+                <Link
+                  href={`/produto/${product.slug}`}
+                  className={styles.cardLink}
+                  aria-label={`Abrir ${product.name}`}
                 />
-              </Link>
-              <div className={styles.info}>
-                <p>
-                  {product.line} / {product.category}
-                </p>
-                <div className={styles.titleRow}>
-                  <h3>
-                    <Link href={`/produto/${product.slug}`}>{product.name}</Link>
-                  </h3>
-                  <strong>{formatMoney(product.priceCents)}</strong>
-                </div>
-                <small>
-                  {product.operation.mode === 'sob-encomenda'
-                    ? 'Sob encomenda'
-                    : product.operation.label}
-                </small>
-                <div className={styles.bottom}>
-                  <div className={styles.swatches} aria-label="Cores disponíveis">
-                    {product.colors.map((color) => (
-                      <span
-                        key={color.id}
-                        style={{ background: color.hex }}
-                        title={color.name}
-                        aria-label={color.name}
-                      />
-                    ))}
+                <ProductMediaFrame media={selectedMedia} productName={product.name} compact />
+                <div className={styles.info}>
+                  <p>
+                    {product.line} / {product.category}
+                  </p>
+                  <div className={styles.titleRow}>
+                    <h3>{product.name}</h3>
+                    <strong>{formatMoney(product.priceCents)}</strong>
                   </div>
-                  <Link href={`/produto/${product.slug}`}>Ver produto</Link>
+                  <small>
+                    {product.operation.mode === 'sob-encomenda'
+                      ? 'Sob encomenda'
+                      : product.operation.label}
+                  </small>
+                  <div className={styles.bottom}>
+                    <div className={styles.swatches} aria-label="Cores disponíveis">
+                      {product.colors.map((color) => (
+                        <button
+                          key={color.id}
+                          type="button"
+                          className={selectedColorId === color.id ? styles.selectedSwatch : ''}
+                          style={{ background: color.hex }}
+                          aria-label={`Ver ${product.name} na cor ${color.name}`}
+                          aria-pressed={selectedColorId === color.id}
+                          onMouseEnter={() =>
+                            setSelectedColorByProduct((current) => ({
+                              ...current,
+                              [product.slug]: color.id,
+                            }))
+                          }
+                          onFocus={() =>
+                            setSelectedColorByProduct((current) => ({
+                              ...current,
+                              [product.slug]: color.id,
+                            }))
+                          }
+                          onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setSelectedColorByProduct((current) => ({
+                              ...current,
+                              [product.slug]: color.id,
+                            }));
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       ) : (
         <div className="emptyState">Nenhum produto encontrado.</div>
