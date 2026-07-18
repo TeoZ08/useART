@@ -24,6 +24,7 @@ interface ProductPurchasePanelProps {
   product: CatalogProduct;
   selectedColorId: ProductColorId;
   onColorChange: (colorId: ProductColorId) => void;
+  priceLabel: string;
 }
 
 interface KitPieceState {
@@ -44,6 +45,7 @@ const kitColorFiles = {
   'branco-off-white': 'branco',
   preto: 'preto',
   marrom: 'marrom',
+  creme: 'branco',
   'a-confirmar': 'branco',
 } as const;
 
@@ -53,7 +55,7 @@ function mediaForKitPiece(
   colorName: string,
 ): ProductMedia {
   const folder = kitApplicationFolders[applicationId];
-  const color = kitColorFiles[colorId];
+  const color = kitColorFiles[colorId] ?? 'branco';
   const cutoutAvailable = colorId === 'preto' || colorId === 'marrom';
 
   return {
@@ -71,6 +73,7 @@ export function ProductPurchasePanel({
   product,
   selectedColorId,
   onColorChange,
+  priceLabel,
 }: ProductPurchasePanelProps) {
   const firstColor = product.colors[0];
   const firstSize = product.sizes[0];
@@ -299,8 +302,21 @@ export function ProductPurchasePanel({
       <p className={styles.note}>
         {product.commerceAvailable
           ? 'Disponibilidade verificada ao finalizar o pedido.'
-          : 'Compra temporariamente indisponível.'}
+          : 'Escolha cor e tamanho para conferir a disponibilidade.'}
       </p>
+      <div className={styles.mobileBuyBar} aria-label="Resumo da compra">
+        <span>
+          <strong>{priceLabel}</strong>
+          <small>
+            {product.kind === 'kit'
+              ? 'Kit com três peças'
+              : colorOptions.find((color) => color.id === activeColorId)?.name}
+          </small>
+        </span>
+        <button className="buttonPrimary" type="button" onClick={addToCart} disabled={!canAdd}>
+          Adicionar ao carrinho
+        </button>
+      </div>
     </div>
   );
 }

@@ -140,6 +140,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             product={product}
             selectedColorId={selectedColorId ?? product.colors[0]!.id}
             onColorChange={handleColorChange}
+            priceLabel={formatMoney(product.priceCents)}
           />
           <div className={styles.productNotes}>
             <section>

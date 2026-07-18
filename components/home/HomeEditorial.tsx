@@ -1,15 +1,13 @@
 import Link from 'next/link';
-import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
+import type { ReactNode } from 'react';
 import { formatMoney } from '@/lib/money';
-import type { CatalogProduct, ProductColorId, ProductMedia } from '@/types/commerce';
+import { ProductMediaFrame } from '@/components/ui/ProductMediaFrame';
+import type { CatalogProduct } from '@/types/commerce';
 import styles from './HomeEditorial.module.css';
 
 interface HomeEditorialProps {
   products: CatalogProduct[];
-}
-
-function mediaForColor(product: CatalogProduct, colorId: ProductColorId): ProductMedia {
-  return product.colors.find((color) => color.id === colorId)?.media ?? product.media;
+  catalog: ReactNode;
 }
 
 function getProduct(products: CatalogProduct[], slug: string): CatalogProduct {
@@ -20,66 +18,17 @@ function getProduct(products: CatalogProduct[], slug: string): CatalogProduct {
   return product;
 }
 
-export function HomeEditorial({ products }: HomeEditorialProps) {
-  const lateral = getProduct(products, 'camiseta-hibrida-logo-lateral');
-  const central = getProduct(products, 'camiseta-hibrida-logo-central');
-  const assinatura = getProduct(products, 'camiseta-solid-masculina-assinatura-lateral');
+export function HomeEditorial({ products, catalog }: HomeEditorialProps) {
   const kit = getProduct(products, 'kit-selecao-3-camisetas');
-  const featured = [
-    { product: lateral, colorId: 'preto' as const, index: '01' },
-    { product: central, colorId: 'marrom' as const, index: '02' },
-    { product: assinatura, colorId: 'preto' as const, index: '03' },
-  ];
 
   return (
     <>
       <aside className={styles.infoBar} aria-label="Informações da operação">
-        <p>PRIMEIRACOMPRA - 10%</p>
         <p>Sob encomenda</p>
-        <p>Campo Grande/MS - entrega por R$ 10</p>
+        <p>Retirada ART</p>
+        <p>Campo Grande/MS — entrega local por R$ 10</p>
+        <p>PRIMEIRACOMPRA — 10%</p>
       </aside>
-
-      <section id="colecao" className={styles.selection} aria-labelledby="selection-title">
-        <div className={styles.sectionHeader}>
-          <p className="sectionEyebrow">Seleção 01</p>
-          <h2 id="selection-title" className="sectionTitle">
-            Peças para acompanhar o ritmo
-          </h2>
-          <p className="sectionLead">
-            Três peças autorais, prontas para diferentes ritmos e combinações.
-          </p>
-        </div>
-        <div className={styles.featuredGrid}>
-          {featured.map(({ product, colorId, index }, itemIndex) => {
-            const media = mediaForColor(product, colorId);
-
-            return (
-              <article
-                className={`${styles.featuredItem} ${
-                  itemIndex === 1 ? styles.featuredItemOffset : ''
-                }`}
-                key={product.slug}
-              >
-                <Link href={`/produto/${product.slug}`} className={styles.featuredMedia}>
-                  <span className={styles.featuredIndex} aria-hidden="true">
-                    {index}
-                  </span>
-                  <ProductMediaFrame media={media} productName={product.name} />
-                </Link>
-                <div className={styles.featuredDetails}>
-                  <div>
-                    <p>{product.line}</p>
-                    <h3>
-                      <Link href={`/produto/${product.slug}`}>{product.name}</Link>
-                    </h3>
-                  </div>
-                  <strong>{formatMoney(product.priceCents)}</strong>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
 
       <section id="movimento" className={styles.functionSection} aria-labelledby="function-title">
         <div className={styles.functionContent}>
@@ -106,11 +55,11 @@ export function HomeEditorial({ products }: HomeEditorialProps) {
         </div>
       </section>
 
+      {catalog}
+
       <section className={styles.kitSection} aria-labelledby="kit-title">
         <div className={styles.kitType} aria-hidden="true">
-          <span>01</span>
-          <span>02</span>
-          <span>03</span>
+          <ProductMediaFrame media={kit.media} productName={kit.name} />
         </div>
         <div className={styles.kitContent}>
           <p className="sectionEyebrow">Kit Seleção</p>

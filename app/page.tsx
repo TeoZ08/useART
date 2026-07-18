@@ -12,8 +12,10 @@ export default async function HomePage() {
     <>
       <Hero />
       <CatalogFallbackNotice message={catalog.warning} />
-      <HomeEditorial products={catalog.products} />
-      <ProductGrid products={catalog.products} />
+      <HomeEditorial
+        products={catalog.products}
+        catalog={<ProductGrid products={catalog.products} />}
+      />
     </>
   );
 }

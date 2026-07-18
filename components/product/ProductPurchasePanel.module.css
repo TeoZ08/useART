@@ -222,6 +222,10 @@
   font-weight: 700;
 }
 
+.mobileBuyBar {
+  display: none;
+}
+
 @media (max-width: 760px) {
   .kitPiece {
     grid-template-columns: 92px 1fr;
@@ -271,5 +275,49 @@
   .actions .buttonPrimary,
   .actions .buttonSecondary {
     width: 100%;
+  }
+
+  .actions .buttonPrimary {
+    display: none;
+  }
+
+  .mobileBuyBar {
+    position: sticky;
+    z-index: 4;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-3);
+    border: 1px solid var(--color-ink);
+    background: var(--color-paper);
+    padding: var(--space-2);
+  }
+
+  .mobileBuyBar span {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .mobileBuyBar strong {
+    font-size: 14px;
+  }
+
+  .mobileBuyBar small {
+    overflow: hidden;
+    color: var(--color-ink-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .mobileBuyBar button {
+    min-height: 48px;
+    padding: 0 12px;
+    font-size: 10px;
   }
 }
