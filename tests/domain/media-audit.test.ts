@@ -22,7 +22,7 @@ describe('product media audit', () => {
     expect(getProducts()).toHaveLength(7);
   });
 
-  it('resolves every color to its own declared media or an explicit pending state', () => {
+  it('resolves every color to declared media, a confirmed shared composition, or an explicit pending state', () => {
     for (const product of getProducts()) {
       for (const color of product.colors) {
         const resolved = mediaForProductColor(product, color.id);
@@ -32,6 +32,12 @@ describe('product media audit', () => {
         if (color.media?.src) {
           expect(resolved.src, `${product.slug}:${color.id}`).toBe(color.media.src);
           expect(existsSync(assetPath(resolved.src!)), resolved.src).toBe(true);
+          continue;
+        }
+
+        if (product.media.status === 'available' && product.media.src) {
+          expect(resolved.status, `${product.slug}:${color.id}`).toBe('available');
+          expect(resolved.src, `${product.slug}:${color.id}`).toBe(product.media.src);
           continue;
         }
 

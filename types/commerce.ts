@@ -1,6 +1,6 @@
 export type ProductSize = 'PP' | 'P' | 'M' | 'G' | 'GG' | 'XG';
 
-export type ProductColorId = 'branco-off-white' | 'preto' | 'marrom' | 'a-confirmar';
+export type ProductColorId = 'branco-off-white' | 'preto' | 'marrom' | 'creme' | 'a-confirmar';
 
 export type ProductApplicationId = 'logo-lateral' | 'logo-central' | 'assinatura-lateral';
 

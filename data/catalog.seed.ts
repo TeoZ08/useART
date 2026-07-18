@@ -1,15 +1,9 @@
-import {
-  KIT_APPLICATIONS,
-  PENDING_COLOR,
-  PRODUCT_COLORS,
-  PRODUCT_SIZES,
-} from '@/domain/products/catalog';
+import { KIT_APPLICATIONS, PRODUCT_COLORS, PRODUCT_SIZES } from '@/domain/products/catalog';
 import type { CatalogProduct, ProductColor } from '@/types/commerce';
 
 const onDemand = {
   mode: 'sob-encomenda',
   label: 'Operação predominantemente sob encomenda',
-  leadTime: 'Prazo provisório para produto sem pronta entrega: até 10 dias úteis.',
 } as const;
 
 const pendingMedia = (alt: string, pendingReason: string) => ({
@@ -72,6 +66,48 @@ const hybridAssinaturaColors = colorMedia(
   'hybrid-assinatura',
   'Camiseta Híbrida ART com assinatura lateral',
 );
+
+const moletomColors: readonly ProductColor[] = [
+  {
+    id: 'branco-off-white',
+    name: 'Branco',
+    hex: '#f4f4f1',
+    media: {
+      ...availableMedia(
+        '/assets/products/moletom/branco.webp',
+        'Moletom ART branco, vista frontal',
+        'available',
+      ),
+      colorId: 'branco-off-white',
+    },
+  },
+  {
+    id: 'preto',
+    name: 'Preto',
+    hex: '#050505',
+    media: {
+      ...availableMedia(
+        '/assets/products/moletom/preto.webp',
+        'Moletom ART preto, vista frontal',
+        'available',
+      ),
+      colorId: 'preto',
+    },
+  },
+  {
+    id: 'creme',
+    name: 'Creme',
+    hex: '#e8e1d0',
+    media: {
+      ...availableMedia(
+        '/assets/products/moletom/creme.webp',
+        'Moletom ART creme, vista frontal',
+        'available',
+      ),
+      colorId: 'creme',
+    },
+  },
+];
 const solidAssinaturaColors = colorMedia(
   'solid-assinatura',
   'Camiseta Solid Masculina ART com assinatura lateral',
@@ -85,18 +121,17 @@ const catalogSeedData = [
     category: 'Moletom',
     kind: 'simple',
     priceCents: 10990,
-    description:
-      'Moletom ART em tecido três cabos. Produto mantido como oferta oficial, com imagem e peso ainda pendentes.',
-    colors: [PENDING_COLOR],
+    description: 'Moletom ART em tecido três cabos, com assinatura da marca no peito.',
+    colors: moletomColors,
     sizes: PRODUCT_SIZES,
-    media: pendingMedia('Placeholder do Moletom ART', 'Imagem do Moletom ART ainda não fornecida.'),
-    gallery: [],
+    media: firstColorMedia(moletomColors),
+    gallery: moletomColors.map((color) => color.media!),
     confirmedFacts: ['Tecido três cabos.', 'Preço confirmado: R$ 109,90.'],
-    pendingFacts: ['Imagem oficial.', 'Peso.', 'Cores confirmadas.', 'Composição detalhada.'],
+    pendingFacts: ['Peso.', 'Composição detalhada.', 'Guia de medidas.'],
     operation: onDemand,
     seo: {
       title: 'Moletom ART | Conforto em movimento',
-      description: 'Moletom ART sob encomenda, com atendimento direto pelo WhatsApp da marca.',
+      description: 'Moletom ART três cabos, disponível sob encomenda.',
     },
   },
   {
@@ -174,17 +209,20 @@ const catalogSeedData = [
     colors: PRODUCT_COLORS,
     sizes: PRODUCT_SIZES,
     applications: KIT_APPLICATIONS,
-    media: pendingMedia(
-      'Placeholder do Kit Seleção',
-      'Imagem e composição do Kit Seleção ainda pendentes.',
+    media: availableMedia(
+      '/assets/products/kit/selecao-3-camisetas.webp',
+      'Kit Seleção ART com três camisetas em composição editorial',
+      'available',
     ),
-    gallery: [],
-    confirmedFacts: ['Três camisetas no kit.', 'Preço confirmado: R$ 114,90.'],
-    pendingFacts: [
-      'Imagem do kit.',
-      'Composição final de cada camiseta.',
-      'Regras de disponibilidade.',
+    gallery: [
+      availableMedia(
+        '/assets/products/kit/selecao-3-camisetas.webp',
+        'Kit Seleção ART com três camisetas em composição editorial',
+        'available',
+      ),
     ],
+    confirmedFacts: ['Três camisetas no kit.', 'Preço confirmado: R$ 114,90.'],
+    pendingFacts: ['Regras de disponibilidade.'],
     operation: onDemand,
     seo: {
       title: 'Kit Seleção ART com 3 camisetas',
